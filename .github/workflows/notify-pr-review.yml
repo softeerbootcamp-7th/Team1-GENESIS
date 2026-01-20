@@ -1,0 +1,16 @@
+name: notify pr review
+
+on:
+  pull_request:
+    types: [review_requested]
+
+jobs:
+  notify:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Notify PR Review
+        uses: codingbaraGo/notify-pr-review@v1.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          slackIds: ${{ vars.SLACK_IDS }}
+          slackBotToken: ${{ secrets.SLACK_BOT_TOKEN }}

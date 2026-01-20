@@ -1,0 +1,21 @@
+name: request pr review
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 2 * * 1-5'	# 평일 오전 10시30분 마다 수행
+    - cron: '0 5 * * 0-6'	# 매일 오후 2시마다 수행
+    - cron: '0 9 * * 0-6'	# 매일 오후 6시마다 수행
+    - cron: '0 12 * * 1-5'	# 평일 오후 9시마다 수행
+
+jobs:
+  cron:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Request PR Review
+        uses: codingbaraGo/remind-pr-review@v1.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          slackIds: ${{ vars.SLACK_IDS }}
+          slackBotToken: ${{ secrets.SLACK_BOT_TOKEN }}
+          repoUrl: 'https://github.com/softeerbootcamp-7th/Team1-GENESIS'
