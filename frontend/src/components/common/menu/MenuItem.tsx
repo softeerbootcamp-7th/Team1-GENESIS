@@ -1,21 +1,29 @@
+import clsx from 'clsx';
+
 interface MenuItemProps {
-  logo?: React.ReactNode
-  label: string
-  onClick: () => void
+  logo: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  active?: boolean;
 }
 
-const MenuItem = ({ logo, label, onClick }: MenuItemProps) => {
+const MenuItem = ({ logo, label, onClick, active }: MenuItemProps) => {
   return (
     <div
-      className="w-8 flex flex-col items-center gap-0.5 cursor-pointer"
       onClick={onClick}
+      className={clsx(
+        'flex w-8 cursor-pointer flex-col items-center gap-0.5',
+        active
+          ? 'text-label-neutral'
+          : 'text-label-alternative'
+      )}
     >
-      <div className="w-7 h-7 flex items-center justify-center border border-amber-600 rounded-md">
+      <div className={clsx('flex h-7 w-7 px-1 items-center justify-center', active ? 'bg-fill-strong rounded-sm' : ''  )}>
         {logo}
       </div>
-      <div className="text-center text-xs">{label}</div>
+      <div className="text-center caption1-medium">{label}</div>
     </div>
-  )
-}
+  );
+};
 
-export default MenuItem
+export default MenuItem;
