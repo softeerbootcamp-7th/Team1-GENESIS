@@ -4,6 +4,12 @@ import MenuItem from '@/components/common/menu/MenuItem';
 
 import { Icons } from '@/assets';
 
+const menuItems = [
+  { to: '/home', Icon: Icons.Home, label: '홈' },
+  { to: '/travel', Icon: Icons.Travel, label: '여행' },
+  { to: '/analytics', Icon: Icons.Analytics, label: '분석' },
+] as const;
+
 const Menu = () => {
   const navigate = useNavigate();
   const pathname = useRouterState({
@@ -16,29 +22,18 @@ const Menu = () => {
         className="h-8 w-8 cursor-pointer"
         onClick={() => navigate({ to: '/home' })}
       />
-
       <div className="flex flex-col gap-6">
-        <MenuItem
-          logo={<Icons.Home className="h-5 w-5" />}
-          label="홈"
-          active={pathname === '/home'}
-          onClick={() => navigate({ to: '/home' })}
-        />
-        <MenuItem
-          logo={<Icons.Travel className="h-5 w-5" />}
-          label="여행"
-          active={pathname === '/travel'}
-          onClick={() => navigate({ to: '/travel' })}
-        />
-        <MenuItem
-          logo={<Icons.Analytics className="h-5 w-5" />}
-          label="분석"
-          active={pathname === '/analytics'}
-          onClick={() => navigate({ to: '/analytics' })}
-        />
+        {menuItems.map(({ to, Icon, label }) => (
+          <MenuItem
+            key={to}
+            logo={<Icon className="h-5 w-5" />}
+            label={label}
+            active={pathname === to}
+            onClick={() => navigate({ to })}
+          />
+        ))}
       </div>
     </div>
   );
 };
-
 export default Menu;
