@@ -11,7 +11,7 @@ const Menu = () => {
   });
 
   return (
-    <div className="flex h-screen w-16 flex-col items-center gap-9 border-r border-line-normal-normal bg-background-normal px-4 py-3">
+    <div className="border-line-normal-normal bg-background-normal flex h-screen w-16 flex-col items-center gap-9 border-r px-4 py-3">
       <Icons.Logo
         className="h-8 w-8 cursor-pointer"
         onClick={() => navigate({ to: '/home' })}
