@@ -1,10 +1,10 @@
-import { createFileRoute,Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import Menu from '@/components/common/menu/Menu'
+import Menu from '@/components/common/menu/Menu';
 
 export const Route = createFileRoute('/_app')({
   component: AppLayout,
-})
+});
 
 function AppLayout() {
   return (
@@ -14,5 +14,5 @@ function AppLayout() {
         <Outlet />
       </main>
     </div>
-  )
+  );
 }
