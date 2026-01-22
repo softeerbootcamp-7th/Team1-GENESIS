@@ -9,7 +9,8 @@ interface MenuItemProps {
 
 const MenuItem = ({ logo, label, onClick, active }: MenuItemProps) => {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       className={clsx(
         'flex w-8 cursor-pointer flex-col items-center gap-0.5',
@@ -25,7 +26,7 @@ const MenuItem = ({ logo, label, onClick, active }: MenuItemProps) => {
         {logo}
       </div>
       <div className="caption1-medium text-center">{label}</div>
-    </div>
+    </button>
   );
 };
 
