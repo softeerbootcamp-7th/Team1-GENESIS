@@ -4,7 +4,7 @@ interface MenuItemProps {
   logo: React.ReactNode;
   label: string;
   onClick: () => void;
-  active?: boolean;
+  active: boolean;
 }
 
 const MenuItem = ({ logo, label, onClick, active }: MenuItemProps) => {
