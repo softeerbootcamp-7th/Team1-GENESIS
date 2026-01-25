@@ -1,0 +1,12 @@
+services:
+  mysql-db:
+    image: mysql:8.4.8
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: genesis
+      MYSQL_DATABASE: unipocket
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
