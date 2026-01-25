@@ -52,6 +52,14 @@ spotless {
 		endWithNewline()
 	}
 
+	format 'miscYAML', {
+		target '**/*.yaml', '**/*.yml'
+
+		prettier()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+
 	java {
 		googleJavaFormat('1.19.1').aosp().reflowLongStrings().skipJavadocFormatting()
 
