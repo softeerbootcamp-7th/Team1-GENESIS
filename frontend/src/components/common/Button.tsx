@@ -4,15 +4,16 @@ interface ButtonProps {
   variant?: 'outlined' | 'solid' | 'danger';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
-  label: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactNode;
 }
 
 const Button = ({
   variant = 'outlined',
   size = 'sm',
   disabled = false,
-  label,
+  onClick,
+  children,
 }: ButtonProps) => {
   const buttonClass = clsx(
     'w-fit flex items-center justify-center box-border transition-colors',
@@ -49,8 +50,8 @@ const Button = ({
   );
 
   return (
-    <button className={buttonClass} disabled={disabled}>
-      {label}
+    <button className={buttonClass} disabled={disabled} onClick={onClick}>
+      {children}
     </button>
   );
 };

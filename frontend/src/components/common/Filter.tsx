@@ -6,17 +6,18 @@ interface FilterProps {
   size?: 'xs' | 'sm' | 'md';
   disabled?: boolean;
   active?: boolean;
-  label: string;
   isOpen?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactNode;
 }
 
 const Filter = ({
   size = 'sm',
   disabled = false,
   active = false,
-  label,
   isOpen = false,
+  onClick,
+  children,
 }: FilterProps) => {
   const FilterClass = clsx(
     'w-fit max-w-37.5 flex items-center justify-center gap-0.5 box-border transition-colors',
@@ -50,8 +51,8 @@ const Filter = ({
   );
 
   return (
-    <button className={FilterClass} disabled={disabled}>
-      <span className="max-w-25 overflow-hidden px-0.5">{label}</span>
+    <button className={FilterClass} disabled={disabled} onClick={onClick}>
+      <span className="max-w-25 overflow-hidden px-0.5">{children}</span>
       {active ? (
         <Icons.Close className="h-3.5 w-3.5" />
       ) : (
