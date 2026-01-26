@@ -409,3 +409,10 @@
   line-height: normal; /* Image spec: auto */
   font-weight: 500;
 }
+
+/* --- Category (11px) --- */
+@utility category-regular {
+  font-size: 11px;
+  line-height: 1.27;
+  font-weight: 600;
+}
