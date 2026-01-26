@@ -25,9 +25,7 @@ const Button = ({
       variant === 'outlined' &&
       'border border-line-normal-neutral text-label-neutral hover:bg-fill-alternative cursor-pointer',
 
-    disabled &&
-      variant === 'outlined' &&
-      'border border-line-normal-neutral bg-fill-alternative',
+    disabled && variant === 'outlined' && 'border border-line-normal-neutral ',
 
     /* --- solid --- */
     !disabled &&
