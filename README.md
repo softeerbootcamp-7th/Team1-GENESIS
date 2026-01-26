@@ -41,25 +41,25 @@
 
 <!-- Backend -->
 <td align="center" width="200">
-<a href="https://github.com/AnarchyDeve">
-    <img src="https://github.com/AnarchyDeve.png" alt="김동균" width="120"  />
-    <br />
-    <sub><b>김동균</b></sub>
-</a>
+    <a href="https://github.com/AnarchyDeve">
+        <img src="https://github.com/AnarchyDeve.png" alt="김동균" width="120"  />
+        <br />
+        <sub><b>김동균</b></sub>
+    </a>
 </td>
 <td align="center" width="200">
-<a href="https://github.com/codingbaraGo">
-    <img src="https://github.com/codingbaraGo.png" alt="김현창" width="120"  />
-    <br />
-    <sub><b>김현창</b></sub>
-</a>
+    <a href="https://github.com/codingbaraGo">
+        <img src="https://github.com/codingbaraGo.png" alt="김현창" width="120"  />
+        <br />
+        <sub><b>김현창</b></sub>
+    </a>
 </td>
 <td align="center" width="200">
-<a href="https://github.com/kcw2205">
-    <img src="https://github.com/kcw2205.png" alt="김찬우" width="120"  />
-    <br />
-    <sub><b>김찬우</b></sub>
-</a>
+    <a href="https://github.com/kcw2205">
+        <img src="https://github.com/kcw2205.png" alt="김찬우" width="120"  />
+        <br />
+        <sub><b>김찬우</b></sub>
+    </a>
 </td>
 
 </tr>
@@ -67,7 +67,7 @@
   </tbody>
 </table>
 
-## <br/>
+<br/>
 
 ## 🔧 Stacks
 
