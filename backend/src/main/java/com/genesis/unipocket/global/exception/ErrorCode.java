@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
-	// 500
 	INTERNAL_SERVER_ERROR(
 			HttpStatus.INTERNAL_SERVER_ERROR, "500_INTERNAL_SERVER_ERROR", "서버 내부 에러가 발생했습니다."),
 
