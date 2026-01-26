@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 interface ButtonProps {
-  variant?: 'outlined' | 'solid';
+  variant?: 'outlined' | 'solid' | 'danger';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   label: string;
@@ -35,6 +35,13 @@ const Button = ({
       'bg-primary-normal text-inverse-label hover:bg-primary-strong cursor-pointer',
 
     disabled && variant === 'solid' && 'bg-fill-disable',
+
+    /* --- danger --- */
+    !disabled &&
+      variant === 'danger' &&
+      'bg-status-negative text-inverse-label hover:bg-status-negative-strong cursor-pointer',
+
+    disabled && variant === 'danger' && 'bg-status-negative/10',
 
     /* --- size --- */
     size === 'xs' && 'px-[5px] py-1 h-[26px] label2-medium rounded-modal-6',
