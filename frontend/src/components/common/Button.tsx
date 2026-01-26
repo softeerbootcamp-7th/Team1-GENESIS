@@ -5,6 +5,7 @@ interface ButtonProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   label: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button = ({
@@ -14,26 +15,32 @@ const Button = ({
   label,
 }: ButtonProps) => {
   const buttonClass = clsx(
-    'w-fit flex items-center justify-center rounded-modal-8 label2-medium transition-colors box-border',
-    {
-      /* --- variant: outlined --- */
-      'border border-line-normal-neutral text-label-neutral hover:bg-fill-alternative cursor-pointer':
-        variant === 'outlined' && !disabled,
-      'border border-line-normal-neutral bg-fill-alternative text-label-disable cursor-not-allowed':
-        variant === 'outlined' && disabled,
+    'w-fit flex items-center justify-center box-border transition-colors',
 
-      /* --- variant: solid --- */
-      'bg-primary-normal text-white hover:bg-primary-strong cursor-pointer':
-        variant === 'solid' && !disabled,
-      'bg-fill-disable text-label-disable cursor-not-allowed':
-        variant === 'solid' && disabled,
+    /* --- disabled --- */
+    disabled && 'cursor-not-allowed text-label-disable',
 
-      /* --- size --- */
-      'px-2 py-1 text-xs h-[26px]': size === 'xs',
-      'py-1.75 px-3.5 text-sm h-8': size === 'sm',
-      'py-2.5 px-4 text-base h-10': size === 'md',
-      'py-3 px-5 text-lg h-12': size === 'lg',
-    },
+    /* --- outlined --- */
+    !disabled &&
+      variant === 'outlined' &&
+      'border border-line-normal-neutral text-label-neutral hover:bg-fill-alternative cursor-pointer',
+
+    disabled &&
+      variant === 'outlined' &&
+      'border border-line-normal-neutral bg-fill-alternative',
+
+    /* --- solid --- */
+    !disabled &&
+      variant === 'solid' &&
+      'bg-primary-normal text-inverse-label hover:bg-primary-strong cursor-pointer',
+
+    disabled && variant === 'solid' && 'bg-fill-disable',
+
+    /* --- size --- */
+    size === 'xs' && 'px-[5px] py-1 h-[26px] label2-medium rounded-modal-6',
+    size === 'sm' && 'px-[14px] py-[7px] h-8 label2-medium rounded-modal-8',
+    size === 'md' && 'px-5 py-[9px] h-10 body2-normal-medium rounded-modal-10',
+    size === 'lg' && 'px-7 py-3 h-12 body1-normal-bold rounded-modal-12',
   );
 
   return (
