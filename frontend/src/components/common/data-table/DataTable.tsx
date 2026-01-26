@@ -45,7 +45,7 @@ const DataTable = () => {
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
