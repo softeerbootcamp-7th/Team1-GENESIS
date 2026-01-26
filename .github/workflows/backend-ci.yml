@@ -42,7 +42,7 @@ jobs:
 
       # 4) Spotless Check
       - name: Run Spotless check
-        run: ./gradlew --no-daemon spotlessCheck
+        run: ./backend/gradlew --no-daemon spotlessCheck
 
       # 5) 빌드(JAR 파일 생성)
       - name: Build jar
