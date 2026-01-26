@@ -411,7 +411,7 @@
 }
 
 /* --- Category (11px) --- */
-@utility category-regular {
+@utility category-semibold {
   font-size: 11px;
   line-height: 1.27;
   font-weight: 600;
