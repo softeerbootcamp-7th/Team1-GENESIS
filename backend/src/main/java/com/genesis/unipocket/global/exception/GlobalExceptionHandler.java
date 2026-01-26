@@ -1,18 +1,14 @@
 package com.genesis.unipocket.global.exception;
 
 import com.genesis.unipocket.global.common.dto.CustomErrorResponse;
-import lombok.NonNull;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
@@ -34,9 +30,10 @@ public class GlobalExceptionHandler {
 	 * 비즈니스 로직 실행 중 발생하는 커스텀 예외 처리
 	 */
 	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<CustomErrorResponse> handleServiceException(BusinessException e) {
+	public ResponseEntity<CustomErrorResponse> handleServiceException(
+			HttpServletRequest req, BusinessException e) {
 
-		logException(e.getCode(), e);
+		logException(e.getCode(), req, e);
 		return createErrorResponse(e.getCode());
 	}
 
@@ -44,9 +41,9 @@ public class GlobalExceptionHandler {
 	 * &#064;Valid  검증 실패 시 발생 (400)
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+	public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException e) {
 
-		logException(ErrorCode.INVALID_INPUT_VALUE, e);
 		return createErrorResponse(ErrorCode.INVALID_INPUT_VALUE);
 	}
 
@@ -54,9 +51,9 @@ public class GlobalExceptionHandler {
 	 * 지원하지 않는 HTTP 메소드 호출 시 발생 (405)
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public ResponseEntity<CustomErrorResponse> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+	public ResponseEntity<CustomErrorResponse> handleHttpRequestMethodNotSupported(
+			HttpRequestMethodNotSupportedException e) {
 
-		logException(ErrorCode.METHOD_NOT_ALLOWED, e);
 		return createErrorResponse(ErrorCode.METHOD_NOT_ALLOWED);
 	}
 
@@ -64,9 +61,9 @@ public class GlobalExceptionHandler {
 	 * 없는 리소스(URL) 요청 시 발생 (404)
 	 */
 	@ExceptionHandler(NoResourceFoundException.class)
-	public ResponseEntity<CustomErrorResponse> handleNoResourceFoundException(NoResourceFoundException e) {
+	public ResponseEntity<CustomErrorResponse> handleNoResourceFoundException(
+			NoResourceFoundException e) {
 
-		logException(ErrorCode.RESOURCE_NOT_FOUND, e);
 		return createErrorResponse(ErrorCode.RESOURCE_NOT_FOUND);
 	}
 
@@ -74,9 +71,9 @@ public class GlobalExceptionHandler {
 	 * 지원하지 않는 미디어 타입(Content-Type) 요청 시 발생 (415)
 	 */
 	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-	public ResponseEntity<CustomErrorResponse> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException e) {
+	public ResponseEntity<CustomErrorResponse> handleHttpMediaTypeNotSupported(
+			HttpMediaTypeNotSupportedException e) {
 
-		logException(ErrorCode.UNSUPPORTED_MEDIA_TYPE, e);
 		return createErrorResponse(ErrorCode.UNSUPPORTED_MEDIA_TYPE);
 	}
 
@@ -84,26 +81,32 @@ public class GlobalExceptionHandler {
 	 * 그 외 정의되지 않은 모든 시스템 예외 처리 (500)
 	 */
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<CustomErrorResponse> handleException(Exception e) {
+	public ResponseEntity<CustomErrorResponse> handleException(
+			HttpServletRequest req, Exception e) {
 
-		logException(ErrorCode.INTERNAL_SERVER_ERROR, e);
+		logException(ErrorCode.INTERNAL_SERVER_ERROR, req, e);
 		return createErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
 	}
 
-	private void logException(ErrorCode errorCode, Exception e) {
-		if (errorCode.getStatus().is5xxServerError()) {
-			log.error(
-					"Server Error: [{} - {}]",
-					errorCode.getCode(),
-					errorCode.getMessage(),
-					e);
-		} else {
-			log.warn(
-					"Client Error: [{} - {}] {}",
-					errorCode.getCode(),
-					errorCode.getMessage(),
-					e.getMessage());
+	private void logException(ErrorCode errorCode, HttpServletRequest req, Exception e) {
+		if (!errorCode.getStatus().is5xxServerError()) {
+			return;
 		}
+
+		String clientIp = req.getRemoteAddr();
+		String queryString = req.getQueryString() != null ? "?" + req.getQueryString() : "";
+		String userAgent = req.getHeader("User-Agent");
+
+		log.error(
+				"[EXCEPTION] {} {}{} | IP: {} | UA: {} | Code: {} | Message: {}",
+				req.getMethod(),
+				req.getRequestURI(),
+				queryString,
+				clientIp,
+				userAgent,
+				errorCode.getCode(),
+				errorCode.getMessage(),
+				e);
 	}
 
 	private ResponseEntity<CustomErrorResponse> createErrorResponse(ErrorCode errorCode) {
