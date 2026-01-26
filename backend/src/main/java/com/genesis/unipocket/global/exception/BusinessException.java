@@ -11,11 +11,11 @@ import lombok.Getter;
  * @since 2026-01-25
  */
 @Getter
-public class GlobalException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
 	private final ErrorCode code;
 
-	public GlobalException(ErrorCode code) {
+	public BusinessException(ErrorCode code) {
 		super(code.getMessage());
 		this.code = code;
 	}
