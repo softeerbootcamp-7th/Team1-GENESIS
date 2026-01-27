@@ -1,3 +1,5 @@
+import { AnimatePresence, motion } from 'framer-motion';
+
 import Button from '../Button';
 import Icon from '../Icon';
 
@@ -20,7 +22,7 @@ interface ModalProps {
  *   <LocaleConfirmModal type="country" {...props} />
  * </Modal>
  */
-const Modal = ({ children, onClose, onConfirm, isOpen = true }: ModalProps) => {
+const Modal = ({ children, onClose, onConfirm, isOpen }: ModalProps) => {
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,29 +33,43 @@ const Modal = ({ children, onClose, onConfirm, isOpen = true }: ModalProps) => {
   };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-        onClick={handleBackdropClick}
-      >
-        {/* Modal Content */}
-        <div className="rounded-modal-16 bg-background-normal relative z-51 flex h-fit w-fit flex-col items-center justify-center px-4 pt-5">
-          <div className="flex w-full justify-end">
-            <Icon iconName="Close" onClick={onClose} />
-          </div>
-          {children}
-          <div className="flex h-20 w-full flex-row items-center justify-end gap-3">
-            <Button variant="outlined" size="lg" onClick={onClose}>
-              취소
-            </Button>
-            <Button variant="solid" size="lg" onClick={onConfirm}>
-              확인
-            </Button>
-          </div>
-        </div>
-      </div>
-    </>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+            onClick={handleBackdropClick}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Modal Content */}
+            <motion.div
+              className="rounded-modal-16 bg-background-normal relative z-51 flex h-fit w-fit flex-col items-center justify-center px-4 pt-5"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex w-full justify-end">
+                <Icon iconName="Close" onClick={onClose} />
+              </div>
+              {children}
+              <div className="flex h-20 w-full flex-row items-center justify-end gap-3">
+                <Button variant="outlined" size="lg" onClick={onClose}>
+                  취소
+                </Button>
+                <Button variant="solid" size="lg" onClick={onConfirm}>
+                  확인
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 
