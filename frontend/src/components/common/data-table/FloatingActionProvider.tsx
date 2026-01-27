@@ -3,7 +3,6 @@ import { Icons } from '@/assets';
 import { useDataTable } from './context';
 
 const Divider = () => <div className="bg-line-solid-normal/30 h-6 w-px" />;
-const Spacer = () => <div className="w-18.5" />;
 
 const FloatingActionProvider = () => {
   const { table, tableState, dispatch } = useDataTable();
@@ -12,12 +11,11 @@ const FloatingActionProvider = () => {
   if (tableState.floatingBarVariant === 'NONE') return null;
 
   return (
-    <div className="bg-inverse-background text-inverse-label body2-normal-bold fixed bottom-30 left-1/2 -translate-x-1/2 truncate rounded-xl p-3 px-3.5 shadow-2xl">
+    <div className="bg-inverse-background text-inverse-label body2-normal-bold fixed bottom-30 left-1/2 w-[450px] -translate-x-1/2 truncate rounded-xl p-3 px-3.5 shadow-2xl">
       {tableState.floatingBarVariant === 'MANAGEMENT' ? (
         // 1번 바: 카테고리/결제수단/여행/숨김
         <div className="flex items-center gap-4">
-          <span>{selectedRows.length}개 선택됨</span>
-          <Spacer />
+          <span className="mr-auto">{selectedRows.length}개 선택됨</span>
           <button
             onClick={() => {
               /* 카테고리 변경 로직 */
