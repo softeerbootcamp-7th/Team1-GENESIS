@@ -7,6 +7,7 @@ on:
       - 'backend/**'
   # 테스트를 위한 수동 실행 가능
   workflow_dispatch:
+
 defaults:
   run:
     working-directory: ./backend
@@ -38,6 +39,11 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           echo "${{ secrets.EC2_SSH_KEY }}" | ssh-add -
           ssh-keyscan -H -p ${{ secrets.EC2_PORT }} ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+           
+          echo "export DB_URL='${{ secrets.DB_URL }}'" > env.sh
+          echo "export DB_USER='${{ secrets.DB_USER }}'" >> env.sh
+          echo "export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'" >> env.sh
           
-          scp -P ${{secrets.EC2_PORT}} ./build/libs/app.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/app/app.jar
-          ssh -p ${{secrets.EC2_PORT}} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "chmod +x /home/ec2-user/app/deploy.sh && /home/ec2-user/app/deploy.sh"
+          scp -P ${{ secrets.EC2_PORT }} ./env.sh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/app/env.sh
+          scp -P ${{ secrets.EC2_PORT }} ./build/libs/app.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/app/app.jar
+          ssh -p ${{ secrets.EC2_PORT }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "chmod +x /home/ec2-user/app/deploy.sh && /home/ec2-user/app/deploy.sh"
