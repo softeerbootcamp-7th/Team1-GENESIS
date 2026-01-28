@@ -9,7 +9,7 @@ import { getLocalTime } from '@/lib/utils';
 import Button from './Button';
 
 const Header = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [time, setTime] = useState(getLocalTime());
 
   // @TODO: 추후 options API 연동
@@ -34,8 +34,8 @@ const Header = () => {
       <div className="flex items-center">
         {showDropdown && (
           <Dropdown
-            selected={selected}
-            onSelect={setSelected}
+            selected={selectedId}
+            onSelect={setSelectedId}
             options={options}
           />
         )}

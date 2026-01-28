@@ -9,25 +9,26 @@ interface Option {
 }
 
 interface DropDownProps {
-  selected: string | null;
-  onSelect: (value: string) => void;
+  selected: number | null;
+  onSelect: (id: number) => void;
   options?: Option[];
 }
-
-const DEFAULT_PLACEHOLDER = '미국 교환학생'; // @TODO: 추후 기본값 처리 방법 변경 (API 연동)
 
 const DropDown = ({ selected, onSelect, options }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOptionClick = (value: string) => {
-    onSelect(value);
+  const selectedName = options?.find((opt) => opt.id === selected)?.name;
+
+  const handleOptionClick = (id: number) => {
+    onSelect(id);
     setIsOpen(false);
   };
 
   return (
     <div className="relative inline-block w-fit">
       <Filter isOpen={isOpen} onClick={() => setIsOpen((v) => !v)}>
-        {selected || DEFAULT_PLACEHOLDER}
+        {/* @TODO: 추후 기본값 처리 방법 변경 (API 연동) */}
+        {selectedName || options?.[0].name} 
       </Filter>
 
       {isOpen && (
@@ -35,8 +36,9 @@ const DropDown = ({ selected, onSelect, options }: DropDownProps) => {
           {options?.map((option) => (
             <OptionItem
               key={option.id}
+              id={option.id}
               label={option.name}
-              isSelected={option.name === selected}
+              isSelected={option.id === selected}
               onSelect={handleOptionClick}
             />
           ))}

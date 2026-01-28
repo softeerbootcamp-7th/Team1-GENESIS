@@ -1,17 +1,18 @@
 import clsx from 'clsx';
 
 interface OptionItemProps {
+  id: number;
   label: string;
   isSelected: boolean;
-  onSelect: (value: string) => void;
+  onSelect: (id: number) => void;
 }
 
-const OptionItem = ({ label, isSelected, onSelect }: OptionItemProps) => {
+const OptionItem = ({ id, label, isSelected, onSelect }: OptionItemProps) => {
   return (
     <li>
       <button
         type="button"
-        onClick={() => onSelect(label)}
+        onClick={() => onSelect(id)}
         className={clsx(
           'label2-medium flex w-full items-center p-2 text-left transition-colors',
           isSelected
