@@ -1,5 +1,4 @@
-name: CI unit-test
-
+name: Backend CI
 on:
   pull_request:
     branches:
