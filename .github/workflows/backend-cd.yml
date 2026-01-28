@@ -1,0 +1,43 @@
+name: Backend CD
+
+on:
+  push:
+    branches: [ "develop" ]
+    paths:
+      - 'backend/**'
+  # 테스트를 위한 수동 실행 가능
+  workflow_dispatch:
+defaults:
+  run:
+    working-directory: ./backend
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: 'gradle'
+
+      # CI에서 이미 검증되었다고 가정 -x test로 스킵하여 배포 속도를 높임
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+
+      # jar를 EC2로 전송 및 배포 스크립트 실행
+      - name: Deploy to EC2
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          echo "${{ secrets.EC2_SSH_KEY }}" | ssh-add -
+          ssh-keyscan -H -p ${{ secrets.EC2_PORT }} ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          
+          scp -P ${{secrets.EC2_PORT}} ./build/libs/app.jar ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/app/app.jar
+          ssh -p ${{secrets.EC2_PORT}} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "chmod +x /home/ec2-user/app/deploy.sh && /home/ec2-user/app/deploy.sh"
