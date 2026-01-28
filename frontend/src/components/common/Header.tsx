@@ -8,18 +8,18 @@ import { getLocalTime } from '@/lib/utils';
 
 import Button from './Button';
 
-// @TODO: 추후 options API 연동
-const options = [
-  { id: '1', name: '미국 교환학생' },
-  { id: '2', name: '2025 캐나다' },
-  { id: '3', name: '독일 교환학생' },
-];
-
-const showDropdown = options.length >= 2;
-
 const Header = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [time, setTime] = useState(getLocalTime());
+
+  // @TODO: 추후 options API 연동
+  const options = [
+    { id: '1', name: '미국 교환학생' },
+    { id: '2', name: '2025 캐나다' },
+    { id: '3', name: '독일 교환학생' },
+  ];
+
+  const showDropdown = true;
 
   // 1분마다 한국 시간 갱신
   useEffect(() => {
