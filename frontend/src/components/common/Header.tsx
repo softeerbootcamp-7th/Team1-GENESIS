@@ -14,9 +14,9 @@ const Header = () => {
 
   // @TODO: 추후 options API 연동
   const options = [
-    { id: '1', name: '미국 교환학생' },
-    { id: '2', name: '2025 캐나다' },
-    { id: '3', name: '독일 교환학생' },
+    { id: 1, name: '미국 교환학생' },
+    { id: 2, name: '2025 캐나다' },
+    { id: 3, name: '독일 교환학생' },
   ];
 
   const showDropdown = true;

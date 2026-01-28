@@ -4,7 +4,7 @@ import Filter from '../Filter';
 import OptionItem from './OptionItem';
 
 interface Option {
-  id: string;
+  id: number;
   name: string;
 }
 
