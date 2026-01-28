@@ -16,7 +16,7 @@ const BUTTON_CONFIG: Record<
   delete: { text: '삭제', variant: 'danger' },
 };
 
-interface ModalProps {
+export interface ModalProps {
   children?: React.ReactNode;
   isOpen?: boolean;
   onClose?: () => void;

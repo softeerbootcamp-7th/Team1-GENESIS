@@ -1,6 +1,9 @@
+import type { ModalProps } from './Modal';
+import Modal from './Modal';
+
 type LocaleChangeSource = 'country' | 'currency';
 
-interface LocaleConfirmModalProps {
+interface LocaleConfirmModalProps extends Omit<ModalProps, 'children'> {
   type: LocaleChangeSource;
   imgUrl: string;
   countryName: string;
@@ -22,12 +25,13 @@ const LocaleConfirmModal = ({
   countryName,
   currency,
   currencyName,
+  ...modalProps
 }: LocaleConfirmModalProps) => {
   const isCountry = type === 'country';
   const displayName = isCountry ? countryName : currencyName;
 
   return (
-    <>
+    <Modal {...modalProps}>
       <div
         className={`text-label-neutral flex flex-col items-center justify-center gap-8 ${
           isCountry ? 'w-80 py-12.25' : 'w-95 py-25'
@@ -68,7 +72,7 @@ const LocaleConfirmModal = ({
           추후 설정에서 변경할 수 있습니다
         </span>
       )}
-    </>
+    </Modal>
   );
 };
 
