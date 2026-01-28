@@ -6,6 +6,8 @@ on:
       - develop
       - main
       - feat/**
+    paths:
+      - "backend/**"
   workflow_dispatch:
 jobs:
   unit-test:
