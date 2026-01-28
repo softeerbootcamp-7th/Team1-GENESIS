@@ -8,16 +8,18 @@ import { getLocalTime } from '@/lib/utils';
 
 import Button from './Button';
 
+// @TODO: 추후 options API 연동
+const options = [
+  { id: '1', name: '미국 교환학생' },
+  { id: '2', name: '2025 캐나다' },
+  { id: '3', name: '독일 교환학생' },
+];
+
+const showDropdown = options.length >= 2;
+
 const Header = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [time, setTime] = useState(getLocalTime());
-
-  // @TODO: 추후 options API 연동
-  const options = [
-    { id: '1', name: '미국 교환학생' },
-    { id: '2', name: '2025 캐나다' },
-    { id: '3', name: '독일 교환학생' },
-  ];
 
   // 1분마다 한국 시간 갱신
   useEffect(() => {
@@ -29,7 +31,15 @@ const Header = () => {
 
   return (
     <div className="border-line-solid-normal bg-background-alternative sticky top-0 z-10 flex justify-between border-b px-8 py-3">
-      <Dropdown selected={selected} onSelect={setSelected} options={options} />
+      <div className="flex items-center">
+        {showDropdown && (
+          <Dropdown
+            selected={selected}
+            onSelect={setSelected}
+            options={options}
+          />
+        )}
+      </div>
       <div className="flex items-center gap-5">
         <div className="flex items-center gap-2">
           <span className="label2-medium text-label-neutral">{time}</span>
