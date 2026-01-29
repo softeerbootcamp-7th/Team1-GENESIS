@@ -1,0 +1,9 @@
+@startuml
+
+class SampleFile <<UML>> {
+    Sample uml file
+    --
+    for generate svg
+}
+
+@enduml
