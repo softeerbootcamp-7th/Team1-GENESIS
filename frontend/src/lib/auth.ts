@@ -1,4 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
+import { redirect } from '@tanstack/react-router';
 
 import { customFetch } from '@/apis/client';
 
@@ -33,3 +34,42 @@ export const userQueryOptions = queryOptions({
   // (사용자가 다른 탭에서 로그아웃 했을 수도 있으니까)
   refetchOnWindowFocus: true,
 });
+
+// TODO: 개발용 임시 모킹 함수 (백엔드 연동 시 제거 또는 ensureQueryData로 대체)
+export const mockCheckAuth = async () => {
+  // API 대신 사용할 임시 유저 데이터
+  const mockUser = {
+    id: '1',
+    name: '홍길동',
+    email: 'honggildong@example.com',
+  };
+
+  // 실제 API 호출 느낌을 내기 위한 0.5초 대기 로직
+  return new Promise<typeof mockUser | null>((resolve) => {
+    setTimeout(() => {
+      resolve(mockUser); // 0.5초 뒤에 홍길동 데이터를 반환
+      // resolve(null); // 만약 로그인 안 된 상태를 테스트하고 싶다면 null을 넣으세요.
+    }, 500);
+  });
+};
+
+export const requireAuth = async (locationHref: string) => {
+  const user = await mockCheckAuth();
+  if (!user) {
+    throw redirect({
+      to: '/login',
+      search: { redirect: locationHref },
+    });
+  }
+  return user;
+};
+
+export const redirectIfAuthenticated = async () => {
+  const user = await mockCheckAuth();
+  if (user) {
+    throw redirect({
+      to: '/home',
+    });
+  }
+  return user;
+};

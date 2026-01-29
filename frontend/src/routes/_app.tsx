@@ -1,38 +1,16 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import Header from '@/components/common/Header';
 import Menu from '@/components/common/menu/Menu';
 import { Skeleton } from '@/components/ui/skeleton';
 
+import { requireAuth } from '@/lib/auth';
+
 export const Route = createFileRoute('/_app')({
   // 🔒 로그인 체크 로직
   beforeLoad: async ({ location }) => {
-    // 실제 API를 호출하는 코드
-    // const { queryClient } = context;
-    // const user = await queryClient.ensureQueryData(userQueryOptions);  // 여기서 발생하는 401 에러는 전역 에러 핸들러가 처리하거나 errorComponent가 잡습니다.
-
-    // API 대신 사용할 임시 유저 데이터
-    const mockUser = {
-      id: '1',
-      name: '홍길동',
-      email: 'honggildong@example.com',
-    };
-
-    // 실제 API 호출 느낌을 내기 위한 0.5초 대기 로직
-    const user = await new Promise<typeof mockUser | null>((resolve) => {
-      setTimeout(() => {
-        resolve(mockUser); // 0.5초 뒤에 홍길동 데이터를 반환
-        // resolve(null); // 만약 로그인 안 된 상태를 테스트하고 싶다면 null을 넣으세요.
-      }, 500);
-    });
-
-    // API 응답이 성공했지만 유저 정보가 없는 경우에만 수동 리다이렉트
-    if (!user) {
-      throw redirect({
-        to: '/login',
-        search: { redirect: location.href },
-      });
-    }
+    // API 응답이 성공했지만 유저 정보가 없는 경우에만 수동 리다이렉트 (lib/auth.ts로 위임)
+    const user = await requireAuth(location.href);
 
     return { user };
   },
