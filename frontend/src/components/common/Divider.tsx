@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 
 interface DividerProps {
   style: 'thin' | 'thick' | 'vertical';
+  className?: string;
 }
 
 const DIVIDER_STYLE = {
@@ -10,8 +11,8 @@ const DIVIDER_STYLE = {
   vertical: 'w-px h-8 bg-line-normal-normal',
 } as const;
 
-const Divider = ({ style }: DividerProps) => {
-  return <div className={clsx('shrink-0', DIVIDER_STYLE[style])} />;
+const Divider = ({ style, className }: DividerProps) => {
+  return <div className={clsx('shrink-0', DIVIDER_STYLE[style], className)} />;
 };
 
 export default Divider;
