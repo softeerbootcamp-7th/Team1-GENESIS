@@ -8,6 +8,7 @@ interface TextInputProps {
   placeholder: string;
   errorMessage?: string;
   isError?: boolean;
+  isDisabled?: boolean;
 }
 
 const TextInput = ({
@@ -15,11 +16,12 @@ const TextInput = ({
   placeholder,
   errorMessage,
   isError = false,
+  isDisabled = false,
 }: TextInputProps) => {
   const [value, setValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
-  const showClearButton = value.length > 0 && isFocused;
+  const showClearButton = value.length > 0 && isFocused && !isDisabled;
 
   return (
     <div className="flex w-85 flex-col gap-2">
@@ -29,8 +31,12 @@ const TextInput = ({
 
       <div className="relative">
         <input
+          disabled={isDisabled}
           className={clsx(
-            'body2-normal-regular text-label-normal w-full rounded-xl border border-solid p-3 pr-10 outline-none',
+            'body1-normal-regular w-full rounded-xl p-3 pr-10 outline-none',
+            isDisabled
+              ? 'bg-interaction-disable text-label-disable cursor-not-allowed'
+              : 'text-label-normal border border-solid',
             isError
               ? 'border-status-negative'
               : 'border-line-normal-neutral focus:border-primary-normal',
@@ -38,12 +44,12 @@ const TextInput = ({
           value={value}
           placeholder={placeholder}
           autoComplete="off"
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => !isDisabled && setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => !isDisabled && setValue(e.target.value)}
         />
 
-        {showClearButton && (
+        {!isDisabled && showClearButton && (
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
@@ -54,7 +60,7 @@ const TextInput = ({
           </button>
         )}
 
-        {isError && !showClearButton && (
+        {isError && !isDisabled && !showClearButton && (
           <Icons.AlertCircle className="absolute top-1/2 right-3 h-5.5 w-5.5 -translate-y-1/2" />
         )}
       </div>
