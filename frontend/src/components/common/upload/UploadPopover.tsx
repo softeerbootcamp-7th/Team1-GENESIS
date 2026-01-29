@@ -24,7 +24,7 @@ const UploadMenuItem = ({
   return (
     <button
       onClick={onClick}
-      className="flex w-full cursor-pointer flex-row items-center gap-5 rounded-xl py-4 pr-2 text-left transition-colors hover:bg-gray-50 active:bg-gray-100"
+      className="flex w-full cursor-pointer flex-row items-center gap-5 rounded-xl py-4 pr-5 pl-3 text-left transition-colors hover:bg-gray-50 active:bg-gray-100"
     >
       <div className="rounded-modal-10 bg-fill-normal p-2.75">
         <Icon className="h-6 w-6" />
@@ -51,7 +51,7 @@ const UploadPopover = () => {
       <PopoverContent
         align="end"
         sideOffset={12}
-        className="rounded-modal-20 border-line-normal-alternative shadow-popover flex w-fit flex-col items-center justify-center gap-2 border bg-white px-8 py-3.5"
+        className="rounded-modal-20 border-line-normal-alternative shadow-popover flex w-fit flex-col items-center justify-center gap-2 border bg-white px-5 py-3.5"
       >
         <UploadMenuItem
           Icon={Icons.Phone}
