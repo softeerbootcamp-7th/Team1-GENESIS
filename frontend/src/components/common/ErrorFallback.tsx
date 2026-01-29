@@ -1,4 +1,3 @@
-// src/components/common/ErrorFallback.tsx
 import { useRouter } from '@tanstack/react-router';
 
 interface ErrorFallbackProps {
