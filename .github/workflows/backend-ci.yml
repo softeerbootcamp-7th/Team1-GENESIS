@@ -4,9 +4,9 @@ on:
     branches:
       - develop
       - main
-      - feat/**
+      - story/**
     paths:
-      - "backend/**"
+      - "backend/src/**"
   workflow_dispatch:
 jobs:
   unit-test:
