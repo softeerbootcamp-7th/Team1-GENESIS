@@ -48,7 +48,5 @@
 }
 
 @utility shadow-popover {
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.1),
-    0 0 0 1000vh rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1000vh rgba(0, 0, 0, 0.4);
 }
