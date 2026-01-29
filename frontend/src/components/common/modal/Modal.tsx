@@ -27,7 +27,7 @@ export interface ModalProps {
 /**
  * Modal 컴포넌트 (Container/Wrapper)
  *
- * - Context API를 통해 내부 컨텐츠(children)의 유효성 검사 상태(isReady)를 관리합니다.
+ * - Context API를 통해 내부 컨텐츠(children)의 유효성 검사 상태(isActionReady)를 관리합니다.
  * - useModalContext는 선택적으로 사용: 버튼 블로킹이 필요한 경우에만 자식 컴포넌트에서 호출하세요.
  * - ActionType에 따라 버튼의 텍스트와 스타일이 자동으로 변경됩니다.
  * - ActionType: 'confirm': '확인' | 'next': '다음' | 'delete': '삭제' 로 매핑됩니다.
@@ -40,7 +40,7 @@ const Modal = ({
   actionType = 'confirm',
 }: ModalProps) => {
   // 모달의 확인 버튼 활성화 여부 (기본값 true: 단순 알림 모달 등을 위해)
-  const [isReady, setReady] = useState(true);
+  const [isActionReady, setActionReady] = useState(true);
 
   const { text: confirmText, variant: confirmVariant } =
     BUTTON_CONFIG[actionType];
@@ -54,7 +54,7 @@ const Modal = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <ModalContext.Provider value={{ setReady }}>
+        <ModalContext.Provider value={{ setActionReady }}>
           {/* Backdrop */}
           <motion.div
             className="bg-label-normal/52 fixed inset-0 z-50 flex items-center justify-center"
@@ -86,7 +86,7 @@ const Modal = ({
                   variant={confirmVariant}
                   size="lg"
                   onClick={onAction}
-                  disabled={!isReady}
+                  disabled={!isActionReady}
                 >
                   {confirmText}
                 </Button>

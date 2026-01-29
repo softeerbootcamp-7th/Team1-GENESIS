@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
-// 1. Context 정의 (자식 컴포넌트에서 setReady를 쓰기 위함)
+// 1. Context 정의 (자식 컴포넌트에서 setActionReady를 쓰기 위함)
 interface ModalContextType {
-  setReady: (isReady: boolean) => void;
+  setActionReady: (isActionReady: boolean) => void;
 }
 
 export const ModalContext = createContext<ModalContextType | null>(null);
