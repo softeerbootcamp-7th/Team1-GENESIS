@@ -21,7 +21,7 @@ const Icon = ({ width = 24, height = 24, iconName, onClick }: IconProps) => {
 
   return (
     <div
-      className="text-label-alternative hover:bg-fill-normal cursor-pointer rounded-lg transition-opacity"
+      className={`text-label-alternative hover:bg-fill-normal cursor-pointer rounded-lg transition-opacity w-[${width}] h-[${height}] flex items-center justify-center`}
       onClick={onClick}
     >
       <IconComponent width={width} height={height} />
