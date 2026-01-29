@@ -1,4 +1,3 @@
-// src/queryClient.ts
 import {
   type DefaultError,
   MutationCache,
