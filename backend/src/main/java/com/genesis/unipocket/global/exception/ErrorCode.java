@@ -32,7 +32,25 @@ public enum ErrorCode {
 			HttpStatus.METHOD_NOT_ALLOWED, "405_METHOD_NOT_ALLOWED", "지원하지 않는 HTTP 메소드입니다."),
 
 	UNSUPPORTED_MEDIA_TYPE(
-			HttpStatus.UNSUPPORTED_MEDIA_TYPE, "415_UNSUPPORTED_MEDIA_TYPE", "지원하지 않는 미디어 타입입니다.");
+			HttpStatus.UNSUPPORTED_MEDIA_TYPE, "415_UNSUPPORTED_MEDIA_TYPE", "지원하지 않는 미디어 타입입니다."),
+
+	INVALID_OAUTH_PROVIDER(
+			HttpStatus.BAD_REQUEST, "400_INVALID_OAUTH_PROVIDER", "지원하지 않는 OAuth Provider입니다."),
+	OAUTH_PROVIDER_NOT_CONFIGURED(
+			HttpStatus.INTERNAL_SERVER_ERROR,
+			"500_OAUTH_PROVIDER_NOT_CONFIGURED",
+			"OAuth Provider 설정이 올바르지 않습니다."),
+	OAUTH_AUTHENTICATION_FAILED(
+			HttpStatus.UNAUTHORIZED, "401_OAUTH_AUTHENTICATION_FAILED", "OAuth 인증에 실패했습니다."),
+	OAUTH_TOKEN_REQUEST_FAILED(
+			HttpStatus.BAD_REQUEST, "400_OAUTH_TOKEN_REQUEST_FAILED", "OAuth 토큰 요청에 실패했습니다."),
+	OAUTH_USERINFO_REQUEST_FAILED(
+			HttpStatus.BAD_REQUEST,
+			"400_OAUTH_USERINFO_REQUEST_FAILED",
+			"OAuth 사용자 정보 조회에 실패했습니다."),
+	INVALID_OAUTH_STATE(
+			HttpStatus.BAD_REQUEST, "400_INVALID_OAUTH_STATE", "OAuth State 값이 유효하지 않습니다."),
+	OAUTH_STATE_EXPIRED(HttpStatus.BAD_REQUEST, "400_OAUTH_STATE_EXPIRED", "OAuth State가 만료되었습니다.");
 
 	private final HttpStatus status;
 	private final String code;
