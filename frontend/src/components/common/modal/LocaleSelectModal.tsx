@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { useMatches } from '@tanstack/react-router';
+
+import Control from '@/components/common/Control';
 
 import countryData from '@/datas/country_data.json';
 import { countryCode } from '@/datas/countryCode';
@@ -7,21 +10,27 @@ interface CountryItemProps {
   flagImg: string;
   country: string;
   currency: string;
-  onClick: () => void;
+  checked: boolean;
+  value: string;
+  onChange: (value: string) => void;
 }
 
 const CountryItem = ({
   flagImg,
   country,
   currency,
-  onClick,
+  checked,
+  value,
+  onChange,
 }: CountryItemProps) => {
   return (
-    <div
-      className="border-line-normal-normal flex w-full items-center justify-center gap-6 border-b py-5 pr-2.5 pl-2"
-      onClick={onClick}
-    >
-      <div className="bg-dimmer-strong h-5 w-5 rounded-full py-0.5"></div>
+    <div className="border-line-normal-normal flex w-full items-center justify-center gap-6 border-b py-5 pr-2.5 pl-2">
+      <Control
+        name="currency-select"
+        value={value}
+        checked={checked}
+        onChange={onChange}
+      />
       <div className="flex w-full justify-between">
         <div className="flex gap-4">
           <img src={flagImg} alt={`${country} flag`} />
@@ -42,6 +51,7 @@ interface LocaleSelectModalProps {
 const LocaleSelectModal = ({ mode }: LocaleSelectModalProps) => {
   const matches = useMatches();
   const isInitPath = matches.some((match) => match.routeId === '/_app/init');
+  const [selectedCode, setSelectedCode] = useState<string>('');
 
   const getTextContent = () => {
     if (mode === 'BASE') {
@@ -80,12 +90,12 @@ const LocaleSelectModal = ({ mode }: LocaleSelectModalProps) => {
             return (
               <CountryItem
                 key={code}
+                value={code}
                 flagImg={data.imageUrl}
                 country={data.countryName}
                 currency={`${data.currencySign} ${data.currencyName}`}
-                onClick={() => {
-                  console.log(code);
-                }}
+                checked={selectedCode === code}
+                onChange={setSelectedCode}
               />
             );
           })}
