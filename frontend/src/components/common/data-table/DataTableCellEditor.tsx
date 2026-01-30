@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDataTable } from './context';
 import type { ActiveCell } from './type';
 
-const CellEditor = () => {
+const DataTableCellEditor = () => {
   const { tableState } = useDataTable();
   const { activeCell } = tableState;
 
@@ -54,7 +54,7 @@ const EditorContent = <TValue,>({
         width: activeCell.rect.width,
         height: activeCell.rect.height,
       }}
-      className="border-primary z-50 border-2 bg-white shadow-lg"
+      className="rounded-modal-12 z-50 inline-flex bg-white px-2.5 py-3.5 shadow-[0px_0px_1px_0px_rgba(0,0,0,0.08)] shadow-[0px_1px_4px_0px_rgba(0,0,0,0.08)] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.12)]"
     >
       <input
         ref={inputRef}
@@ -68,4 +68,4 @@ const EditorContent = <TValue,>({
   );
 };
 
-export default CellEditor;
+export default DataTableCellEditor;

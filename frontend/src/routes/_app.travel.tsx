@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import CellEditor from '@/components/common/data-table/CellEditor';
 import { DataTable } from '@/components/common/data-table/DataTable';
+import DataTableCellEditor from '@/components/common/data-table/DataTableCellEditor';
 import DataTableProvider from '@/components/common/data-table/DataTableProvider';
 import SelectionActionProvider from '@/components/common/data-table/SelectionActionProvider';
 
@@ -27,7 +27,7 @@ function RouteComponent() {
           }
         />
         <SelectionActionProvider />
-        <CellEditor />
+        <DataTableCellEditor />
       </DataTableProvider>
     </div>
   );
