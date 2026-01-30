@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ProviderType {
-    GOOGLE(true),
-    KAKAO(true);
+	GOOGLE(true),
+	KAKAO(true);
 
-    private final boolean clientSecretRequired;
+	private final boolean clientSecretRequired;
 }
