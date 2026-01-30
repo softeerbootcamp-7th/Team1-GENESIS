@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Icons } from '@/assets';
 
 interface FilterProps {
-  size?: 'xs' | 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   active?: boolean;
   isOpen?: boolean;
@@ -20,7 +20,7 @@ const Filter = ({
   children,
 }: FilterProps) => {
   const FilterClass = clsx(
-    'w-fit max-w-37.5 flex items-center justify-center gap-0.5 box-border transition-colors',
+    'w-full max-w-37.5 flex items-center justify-between gap-0.5 box-border transition-colors',
     'border cursor-pointer',
 
     /* --- disabled --- */
@@ -48,6 +48,8 @@ const Filter = ({
       'pl-2 pr-[6px] py-[6px] h-8 label1-normal-medium rounded-modal-8',
     size === 'md' &&
       'pl-[11px] pr-[9px] py-[7px] h-9 body2-normal-medium rounded-modal-10',
+    size === 'lg' &&
+      'pl-[11px] pr-[9px] py-[7px] h-[50px] body2-normal-medium rounded-modal-10',
   );
 
   return (

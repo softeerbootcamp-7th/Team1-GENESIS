@@ -12,9 +12,15 @@ interface DropDownProps {
   selected: number | null;
   onSelect: (id: number) => void;
   options?: Option[];
+  size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-const DropDown = ({ selected, onSelect, options }: DropDownProps) => {
+const DropDown = ({
+  selected,
+  onSelect,
+  options,
+  size = 'sm',
+}: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const selectedName = options?.find((opt) => opt.id === selected)?.name;
@@ -25,8 +31,8 @@ const DropDown = ({ selected, onSelect, options }: DropDownProps) => {
   };
 
   return (
-    <div className="relative inline-block w-fit">
-      <Filter isOpen={isOpen} onClick={() => setIsOpen((v) => !v)}>
+    <div className="relative inline-block w-full">
+      <Filter isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} size={size}>
         {/* @TODO: 추후 기본값 처리 방법 변경 (API 연동) */}
         {selectedName || options?.[0].name}
       </Filter>

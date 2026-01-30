@@ -11,6 +11,8 @@ interface TextInputProps {
   errorMessage?: string;
   isError?: boolean;
   isDisabled?: boolean;
+  className?: string;
+  prefix?: React.ReactNode;
 }
 
 const TextInput = ({
@@ -21,22 +23,30 @@ const TextInput = ({
   errorMessage,
   isError = false,
   isDisabled = false,
+  className,
+  prefix,
 }: TextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const showClearButton = value.length > 0 && isFocused && !isDisabled;
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className={clsx('flex flex-col gap-2', className)}>
       {title && (
         <p className="label1-normal-bold text-label-neutral">{title}</p>
       )}
 
       <div className="relative">
+        {prefix && (
+          <div className="body1-normal-medium text-label-assistive pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 p-1">
+            {prefix}
+          </div>
+        )}
         <input
           disabled={isDisabled}
           className={clsx(
             'body2-normal-regular placeholder:body1-normal-regular h-12 w-full rounded-xl p-3 pr-10 outline-none',
+            prefix ? 'pl-10.5' : 'pl-3',
             isDisabled
               ? 'bg-interaction-disable text-label-disable cursor-not-allowed'
               : 'text-label-normal border border-solid focus:border-2',
@@ -69,7 +79,9 @@ const TextInput = ({
       </div>
 
       {isError && errorMessage && (
-        <p className="caption1-regular text-status-negative">{errorMessage}</p>
+        <p className="caption1-regular text-status-negative -mt-0.5 -mb-5">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
