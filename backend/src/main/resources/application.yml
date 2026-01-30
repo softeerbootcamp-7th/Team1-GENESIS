@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: unipocket
+
+# OAuth2 Provider 설정
+oauth2:
+  providers:
+    # Google OAuth2 설정
+    - type: GOOGLE
+      client-id: ${GOOGLE_CLIENT_ID}
+      client-secret: ${GOOGLE_CLIENT_SECRET}
+      redirect-uri: ${SERVER_URL}/api/v1/auth/oauth2/callback/google
+      authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+      token-uri: https://oauth2.googleapis.com/token
+      user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+      jwks-uri: https://www.googleapis.com/oauth2/v3/certs
+      issuer: https://accounts.google.com
+      scope: openid,profile,email
+
+    # Kakao OAuth2 설정
+    - type: KAKAO
+      client-id: ${KAKAO_CLIENT_ID}
+      client-secret: ${KAKAO_CLIENT_SECRET:}
+      redirect-uri: ${SERVER_URL}/api/v1/auth/oauth2/callback/kakao
+      authorization-uri: https://kauth.kakao.com/oauth/authorize
+      token-uri: https://kauth.kakao.com/oauth/token
+      user-info-uri: https://kapi.kakao.com/v2/user/me
+      jwks-uri: https://kauth.kakao.com/.well-known/jwks.json
+      issuer: https://kauth.kakao.com
+      scope: openid,profile_nickname,profile_image,account_email
