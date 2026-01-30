@@ -15,7 +15,12 @@ interface DropDownProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
-const DropDown = ({ selected, onSelect, options, size = 'sm' }: DropDownProps) => {
+const DropDown = ({
+  selected,
+  onSelect,
+  options,
+  size = 'sm',
+}: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const selectedName = options?.find((opt) => opt.id === selected)?.name;

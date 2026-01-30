@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
 import Divider from '@/components/common/Divider';
+import DropDown from '@/components/common/dropdown/Dropdown';
 import TextInput from '@/components/common/TextInput';
 
 import { Icons } from '@/assets';
-
-import DropDown from '../dropdown/Dropdown';
 
 interface CurrencyOption {
   id: number;
@@ -19,10 +18,31 @@ const currencyOptions: CurrencyOption[] = [
   { id: 4, name: 'EUR' },
 ];
 
+// 환율 고정 (API 연동 후 선택 가능하도록 변경 예정)
+const RATE = 1464; // USD -> KRW
+
 const Money = () => {
-  const [localCurrency, setLocalCurrency] = useState<string>('');
-  const [baseCurrency, setBaseCurrency] = useState<string>('');
+  const [localCurrency, setLocalCurrency] = useState('');
+  const [baseCurrency, setBaseCurrency] = useState('');
   const [localCurrencyType, setLocalCurrencyType] = useState<number | null>(1);
+
+  const handleLocalChange = (value: string) => {
+    const num = Number(value);
+    setLocalCurrency(value);
+
+    if (!Number.isNaN(num)) {
+      setBaseCurrency(num === 0 ? '' : Math.round(num * RATE).toString());
+    }
+  };
+
+  const handleBaseChange = (value: string) => {
+    const num = Number(value);
+    setBaseCurrency(value);
+
+    if (!Number.isNaN(num)) {
+      setLocalCurrency(num === 0 ? '' : (num / RATE).toFixed(2));
+    }
+  };
 
   return (
     <div className="flex w-90 flex-col gap-6">
@@ -39,10 +59,10 @@ const Money = () => {
             title="현지 금액"
             value={localCurrency}
             placeholder="0"
-            onChange={setLocalCurrency}
+            onChange={handleLocalChange}
             className="w-61"
           />
-          <div className="items-stretch mt-auto flex w-25">
+          <div className="mt-auto flex w-25">
             <DropDown
               selected={localCurrencyType}
               onSelect={setLocalCurrencyType}
@@ -56,7 +76,6 @@ const Money = () => {
           <div className="px-5">
             <Divider style="vertical" className="h-3" />
           </div>
-
           <div className="flex h-11 items-center gap-2.5 pl-3.25">
             <Icons.Swap className="text-label-neutral h-4 w-4" />
             <div className="flex flex-col gap-1">
@@ -68,20 +87,20 @@ const Money = () => {
               </p>
             </div>
           </div>
-
           <div className="px-5">
             <Divider style="vertical" className="h-3" />
           </div>
         </div>
+
         <div className="flex gap-4">
           <TextInput
             title="기준 금액"
             value={baseCurrency}
             placeholder="0"
-            onChange={setBaseCurrency}
+            onChange={handleBaseChange}
             className="w-61"
           />
-          <p className="body2-normal-medium text-label-assistive mt-auto ml-2.75 flex h-9 w-20 items-stretch">
+          <p className="body2-normal-medium text-label-assistive mt-auto ml-2.75 flex h-9 w-20 items-center">
             KRW
           </p>
         </div>
