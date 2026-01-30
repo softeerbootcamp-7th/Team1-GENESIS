@@ -42,11 +42,12 @@ const Money = () => {
             onChange={setLocalCurrency}
             className="w-61"
           />
-          <div className="iterms-stretch mt-auto flex h-9 w-20">
+          <div className="items-stretch mt-auto flex w-25">
             <DropDown
               selected={localCurrencyType}
               onSelect={setLocalCurrencyType}
               options={currencyOptions}
+              size="lg"
             />
           </div>
         </div>
