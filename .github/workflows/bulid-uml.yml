@@ -1,0 +1,51 @@
+name: Build-UML
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+      - story/**
+    paths:
+      - "backend/docs/domain/**"
+  workflow_dispatch:
+
+jobs:  
+  plantuml:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # 1) 코드 체크아웃
+      - uses: actions/checkout@v4
+
+      # 2) JDK 설치
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # 3) Graphviz + PlantUML JAR 내려받기
+      - name: Install Graphviz & PlantUML
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y graphviz
+          curl -sSL -o plantuml.jar \
+            https://github.com/plantuml/plantuml/releases/download/v1.2025.3/plantuml-1.2025.3.jar
+
+      # 4) .puml → .svg
+      - name: Render .puml ➜ .svg
+        run: |
+          find backend/docs/domain -name '*.puml' -print0 \
+          | xargs -0 java -jar plantuml.jar \
+              -graphvizdot /usr/bin/dot -tsvg -overwrite -v
+
+      # 5) 변경된 .svg 커밋
+      - name: Commit generated SVGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(diagram): auto-generate SVGs"
+          file_pattern: |
+            backend/docs/domain/*.svg
+            backend/docs/domain/**/*.svg
