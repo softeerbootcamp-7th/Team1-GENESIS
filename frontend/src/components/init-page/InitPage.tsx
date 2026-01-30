@@ -2,7 +2,7 @@ import LocaleSelectModal from '../common/modal/LocaleSelectModal';
 
 const InitPage = () => {
   return (
-    <div className="mx-auto flex w-full items-center justify-center bg-gray-200 pt-21">
+    <div className="bg-background-alternative mx-auto flex w-full items-center justify-center pt-21">
       <LocaleSelectModal mode="LOCAL" />
     </div>
   );
