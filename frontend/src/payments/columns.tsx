@@ -1,9 +1,9 @@
 import type { ColumnDef } from '@tanstack/react-table';
 
-import { DataTableColumnCell } from '@/components/common/data-table/DataTableColumnCell';
+import { DataTableCell } from '@/components/common/data-table/DataTableCell';
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { DataTableColumnHeader } from '../components/common/data-table/DataTableColumnHeader';
+import { DataTableHeader } from '../components/common/data-table/DataTableHeader';
 import type { Expense } from './dummy';
 
 export const columns: ColumnDef<Expense>[] = [
@@ -33,7 +33,7 @@ export const columns: ColumnDef<Expense>[] = [
   // {
   //   accessorKey: 'date',
   //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="날짜" />
+  //     <DataTableHeader column={column} title="날짜" />
   //   ),
   //   cell: ({ row }) => {
   //     const date = new Date(row.getValue('date'));
@@ -42,41 +42,41 @@ export const columns: ColumnDef<Expense>[] = [
   // },
   {
     accessorKey: 'storeName',
-    header: () => <DataTableColumnHeader>거래처</DataTableColumnHeader>,
+    header: () => <DataTableHeader>거래처</DataTableHeader>,
     cell: ({ row }) => (
-      <DataTableColumnCell>{row.getValue('storeName')}</DataTableColumnCell>
+      <DataTableCell>{row.getValue('storeName')}</DataTableCell>
     ),
   },
   {
     accessorKey: 'category.name', // 중첩 객체 접근
-    header: () => <DataTableColumnHeader>카테고리</DataTableColumnHeader>,
+    header: () => <DataTableHeader>카테고리</DataTableHeader>,
     // cell: ({ row }) => (
-    //   <DataTableColumnCell>{row.getValue('category')}</DataTableColumnCell>
+    //   <DataTableCell>{row.getValue('category')}</DataTableCell>
     // ),
   },
   {
     id: 'amount',
-    header: () => <DataTableColumnHeader>현지 금액</DataTableColumnHeader>,
+    header: () => <DataTableHeader>현지 금액</DataTableHeader>,
     cell: ({ row }) => {
       const amount = row.original.amount;
       const currency = row.original.currency;
       return (
-        <DataTableColumnCell>
+        <DataTableCell>
           {amount.toLocaleString()} {currency}
-        </DataTableColumnCell>
+        </DataTableCell>
       );
     },
   },
   {
     accessorKey: 'krwAmount',
-    header: () => <DataTableColumnHeader>원화 금액</DataTableColumnHeader>,
+    header: () => <DataTableHeader>원화 금액</DataTableHeader>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue('krwAmount'));
       const formatted = new Intl.NumberFormat('ko-KR', {
         style: 'currency',
         currency: 'KRW',
       }).format(amount);
-      return <DataTableColumnCell>{formatted}</DataTableColumnCell>;
+      return <DataTableCell>{formatted}</DataTableCell>;
     },
   },
 ];

@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-export function DataTableColumnCell({
+export function DataTableCell({
   children,
   className,
 }: ComponentPropsWithoutRef<'div'>) {
