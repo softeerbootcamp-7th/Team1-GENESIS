@@ -25,24 +25,36 @@ const Money = () => {
   const [localCurrency, setLocalCurrency] = useState('');
   const [baseCurrency, setBaseCurrency] = useState('');
   const [localCurrencyType, setLocalCurrencyType] = useState<number | null>(1);
+  const [amountError, setAmountError] = useState<string | null>(null);
 
-  const handleLocalChange = (value: string) => {
-    const num = Number(value);
-    setLocalCurrency(value);
 
-    if (!Number.isNaN(num)) {
-      setBaseCurrency(num === 0 ? '' : ((num * RATE).toFixed(0)));
+  const validateNumber = (value: string) => {
+    const sanitized = value.replace(/[^0-9.]/g, '');
+    const isValid = value === sanitized && (sanitized.match(/\./g)?.length ?? 0) <= 1;
+    return { sanitized, isValid };
+  };
+
+
+  const handleCurrencyChange = (value: string, direction: 'toBase' | 'toLocal') => {
+    const { sanitized, isValid } = validateNumber(value);
+
+    if (!isValid) {
+      setAmountError('숫자만 입력할 수 있어요.');
+      return;
+    }
+
+    setAmountError(null);
+    const num = Number(sanitized);
+
+    if (direction === 'toBase') {
+      setLocalCurrency(sanitized);
+      setBaseCurrency(sanitized === '' ? '' : (num * RATE).toFixed(0));
+    } else {
+      setBaseCurrency(sanitized);
+      setLocalCurrency(sanitized === '' ? '' : (num / RATE).toFixed(2));
     }
   };
 
-  const handleBaseChange = (value: string) => {
-    const num = Number(value);
-    setBaseCurrency(value);
-
-    if (!Number.isNaN(num)) {
-      setLocalCurrency(num === 0 ? '' : (num / RATE).toFixed(2));
-    }
-  };
 
   return (
     <div className="flex w-90 flex-col gap-6">
@@ -59,9 +71,11 @@ const Money = () => {
             title="현지 금액"
             value={localCurrency}
             placeholder="0"
-            onChange={handleLocalChange}
+            onChange={(value) => handleCurrencyChange(value, 'toBase')}
             className="w-61"
             prefix="$"
+            isError={!!amountError}
+            errorMessage={amountError ?? undefined}
           />
           <div className="mt-auto flex w-25">
             <DropDown
@@ -98,9 +112,11 @@ const Money = () => {
             title="기준 금액"
             value={baseCurrency}
             placeholder="0"
-            onChange={handleBaseChange}
+            onChange={(value) => handleCurrencyChange(value, 'toLocal')}
             className="w-61"
             prefix="₩"
+            isError={!!amountError}
+            errorMessage={amountError ?? undefined}
           />
           <p className="body2-normal-medium text-label-assistive mt-auto ml-2.75 flex h-9 w-20 items-center">
             KRW
