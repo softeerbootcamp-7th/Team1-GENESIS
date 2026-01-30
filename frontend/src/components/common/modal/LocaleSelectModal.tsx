@@ -81,7 +81,7 @@ const LocaleSelectModal = ({ mode }: LocaleSelectModalProps) => {
       {/* select section */}
       <div>
         <input type="text" />
-        <div className="flex h-170 w-118 flex-col overflow-y-auto">
+        <div className="flex h-142.5 w-118 flex-col overflow-y-auto">
           {countryCode.map((code) => {
             const data = getCountryInfo(code);
 
