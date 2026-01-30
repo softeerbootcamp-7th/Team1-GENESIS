@@ -11,6 +11,7 @@ interface TextInputProps {
   errorMessage?: string;
   isError?: boolean;
   isDisabled?: boolean;
+  className?: string;
 }
 
 const TextInput = ({
@@ -21,13 +22,14 @@ const TextInput = ({
   errorMessage,
   isError = false,
   isDisabled = false,
+  className,
 }: TextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const showClearButton = value.length > 0 && isFocused && !isDisabled;
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className={clsx("flex flex-col gap-2", className)}>
       {title && (
         <p className="label1-normal-bold text-label-neutral">{title}</p>
       )}
