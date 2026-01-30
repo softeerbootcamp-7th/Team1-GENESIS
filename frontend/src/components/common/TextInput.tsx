@@ -38,7 +38,7 @@ const TextInput = ({
 
       <div className="relative">
         {prefix && (
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 p-1 body1-normal-medium text-label-assistive pointer-events-none">
+          <div className="body1-normal-medium text-label-assistive pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 p-1">
             {prefix}
           </div>
         )}
@@ -79,7 +79,9 @@ const TextInput = ({
       </div>
 
       {isError && errorMessage && (
-        <p className="caption1-regular text-status-negative">{errorMessage}</p>
+        <p className="caption1-regular text-status-negative -mt-0.5 -mb-5">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
