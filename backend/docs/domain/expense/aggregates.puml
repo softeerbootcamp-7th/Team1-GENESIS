@@ -1,0 +1,93 @@
+@startuml
+package "Expense" {
+
+    entity Expense <<Aggregate Root>> {
+        -expenseId: ExpenseId
+        -approvalNumber: String
+        -categoryId: CategoryId
+        -paymentMethod: PaymentMethod
+        -travelId: TravelId
+        -memo: String
+        -occurredAt: Instant
+        -merchant: Merchant
+        -expenseSource: ExpenseSource
+        -originExchangeInfo: OriginExchangeInfo
+        -cachedExchangeInfo: CachedExchangeInfo
+        --
+        +changeStandard(rate: ExchangeRate, currencyId: CurrencyId): void
+        +setDisplayMerchantName(newName: String): void
+    }
+
+    class ExpenseSource <<Value Object>> {
+        -sourceType: SourceType
+        -fileLink: String
+    }
+
+    class Merchant <<Value Object>> {
+        -merchantName: String
+        -displayMerchantName: String
+    }
+
+    class OriginExchangeInfo <<Value Object>> {
+        -localCurrencyId: CurrencyId
+        -billingCurrencyId: CurrencyId
+        -localCurrencyAmount: Money
+        -billingCurrencyAmount: Money
+        --
+        +validateExchangeInfo(): void
+    }
+
+    class CachedExchangeInfo <<Value Object>> {
+        -standardCurrencyId: CurrencyId
+        -standardCurrencyAmount: Money
+        -cachedExchangeRate: ExchangeRate
+    }
+
+    Expense *-- Merchant
+    Expense *-- ExpenseSource
+    Expense *-- OriginExchangeInfo
+    Expense *-- CachedExchangeInfo
+
+
+    entity TempExpense <<Aggregate Root>> {
+        -tempExpenseId: Long
+        -approvalNumber: String
+        -occurredAt: Instant
+        -merchantName: String
+        -categoryId: CategoryId
+        -paymentMethod: PaymentMethod
+        -memo: String
+        -paymentInfo: PaymentInfo
+        --
+        +changeStandard(rate: ExchangeRate, currencyId: CurrencyId): void
+        +setDisplayMerchantName(newName: String): void
+    }
+
+    class PaymentInfo <<Value Object>> {
+        -localCurrencyId: CurrencyId
+        -billingCurrencyId: CurrencyId
+        -localCurrencyAmount: Money
+        -billingCurrencyAmount: Money
+        --
+        +validatePaymentInfo(): void
+    }
+
+    TempExpense *-- PaymentInfo
+
+    entity TempExpenseMeta <<Aggregate Root>> {
+        -metaId: Long
+        -userId: Long
+        -accountBookId: Long
+        -files: List<ExpenseFile>
+    }
+
+    entity ExpenseFile <<Entity>> {
+        -fileId: Long
+        -fileKey: String
+        -fileType: FileType
+    }
+
+    TempExpenseMeta *-- "0..*" ExpenseFile : files
+    TempExpense ..> TempExpenseMeta : metaId
+}
+@enduml
