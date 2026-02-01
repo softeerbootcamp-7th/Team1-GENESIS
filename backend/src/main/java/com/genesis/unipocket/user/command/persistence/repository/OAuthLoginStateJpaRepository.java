@@ -1,0 +1,16 @@
+package com.genesis.unipocket.user.command.persistence.repository;
+
+import com.genesis.unipocket.user.command.persistence.entity.OAuthLoginStateEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+/**
+ * <b>OAuth 로그인 State Repository</b>
+ * @author 김동균
+ * @since 2026-01-30
+ */
+public interface OAuthLoginStateJpaRepository extends JpaRepository<OAuthLoginStateEntity, Long> {
+
+    Optional<OAuthLoginStateEntity> findByState(String state);
+}
