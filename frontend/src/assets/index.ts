@@ -39,6 +39,7 @@ import Edit from './Icons/edit.svg';
 import FileBox from './Icons/file-box.svg';
 import Home from './Icons/home.svg';
 import Logo from './Icons/Logo.svg';
+import LogoText from './Icons/logo-text.svg';
 import Phone from './Icons/phone.svg';
 import Refresh from './Icons/refresh.svg';
 import Swap from './Icons/swap.svg';
@@ -59,6 +60,7 @@ export const Icons = {
   FileBox,
   Edit,
   Swap,
+  LogoText,
 } as const;
 
 export type IconName = keyof typeof Icons;
