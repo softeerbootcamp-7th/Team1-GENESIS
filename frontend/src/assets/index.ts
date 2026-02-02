@@ -39,6 +39,7 @@ import CloseCircle from './Icons/close-circle.svg';
 import Edit from './Icons/edit.svg';
 import FileBox from './Icons/file-box.svg';
 import Home from './Icons/home.svg';
+import Loading from './Icons/loading.svg';
 import Logo from './Icons/Logo.svg';
 import Phone from './Icons/phone.svg';
 import Refresh from './Icons/refresh.svg';
@@ -50,6 +51,7 @@ export const Icons = {
   CloseCircle,
   ChevronForward,
   Logo,
+  Loading,
   Analytics,
   Home,
   Travel,
