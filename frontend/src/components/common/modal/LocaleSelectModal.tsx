@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMatches } from '@tanstack/react-router';
+import clsx from 'clsx';
 
 import Control from '@/components/common/Control';
 
@@ -27,9 +28,11 @@ const CountryItem = ({
 }: CountryItemProps) => {
   return (
     <div
-      className={`border-line-normal-normal flex w-full items-center justify-center gap-6 border-b py-5 pr-2.5 pl-2 ${
-        isLast ? 'border-b-0' : ''
-      }`}
+      className={clsx(
+        'border-line-normal-normal flex w-full cursor-pointer items-center justify-center gap-6 border-b py-5 pr-2.5 pl-2',
+        isLast && 'border-b-0',
+      )}
+      onClick={() => onChange(value)}
     >
       <Control
         name="currency-select"
