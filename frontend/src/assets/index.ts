@@ -29,15 +29,24 @@ export const Cards = {
 } as const;
 
 // 3. Icons
+import AlertCircle from './Icons/alert-circle.svg';
 import Analytics from './Icons/analytics.svg';
+import Camera from './Icons/camera.svg';
 import CaretDown from './Icons/caret-down.svg';
 import Close from './Icons/close.svg';
+import CloseCircle from './Icons/close-circle.svg';
+import Edit from './Icons/edit.svg';
+import FileBox from './Icons/file-box.svg';
 import Home from './Icons/home.svg';
 import Logo from './Icons/Logo.svg';
-import Travel from './Icons/travel.svg';
+import Phone from './Icons/phone.svg';
 import Refresh from './Icons/refresh.svg';
+import Swap from './Icons/swap.svg';
+import Travel from './Icons/travel.svg';
 
 export const Icons = {
+  AlertCircle,
+  CloseCircle,
   Logo,
   Analytics,
   Home,
@@ -45,6 +54,11 @@ export const Icons = {
   CaretDown,
   Close,
   Refresh,
+  Phone,
+  Camera,
+  FileBox,
+  Edit,
+  Swap,
 } as const;
 
 export type IconName = keyof typeof Icons;
