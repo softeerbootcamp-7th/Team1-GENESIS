@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
-import Divider from '../Divider';
-import TextInput from '../TextInput';
+import Button from '@/components/common/Button';
+import Divider from '@/components/common/Divider';
+import Icon from '@/components/common/Icon';
+import TextInput from '@/components/common/TextInput';
+
 import CurrencyConverter from './CurrencyConverter';
 
 const SidePanel = () => {
@@ -10,10 +13,16 @@ const SidePanel = () => {
   const title = 'Coles (Wollongong Central) Groceries';
 
   return (
-    <div className="flex w-100 flex-col gap-8 pb-50">
-      <div className="p-4">navigation</div>
-      <div className="flex flex-col gap-9 px-5">
-        <div className="heading1-bold text-label-strong">{title}</div>
+    <div className="flex w-100 flex-col gap-8 pb-50 border-l border-line-normal-normal bg-background-normal shadow-panel">
+      <div className="flex p-4 justify-between">
+        <Icon iconName="ChevronForward" width={24} height={24} />
+        <div className="flex gap-2">
+            <Button>저장</Button>
+            <Button>삭제</Button>
+        </div>
+      </div>
+      <div className="flex flex-col gap-10 px-5">
+        <div className="heading1-bold text-label-strong word-break">{title}</div>
         <div>value container</div>
         <Divider style="thin" />
         <CurrencyConverter />
