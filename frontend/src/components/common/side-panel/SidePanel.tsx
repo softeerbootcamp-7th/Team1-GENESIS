@@ -8,7 +8,25 @@ import TextInput from '@/components/common/TextInput';
 import CurrencyConverter from './CurrencyConverter';
 import ValueContainer from './ValueContainer';
 
-const SidePanel = () => {
+export type SidePanelInputMode = 'manual' | 'file' | 'image';
+
+const uploadTitleMap: Record<Exclude<SidePanelInputMode, 'manual'>, string> = {
+  file: '파일',
+  image: '사진',
+};
+
+interface SidePanelProps {
+  mode?: SidePanelInputMode;
+
+  // file / image 전용
+  files?: File[];
+  onFilesChange?: (files: File[]) => void;
+
+  // 저장
+  onSave?: () => void;
+}
+
+const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
   const [title, setTitle] = useState('');
   const [memo, setMemo] = useState('');
 
@@ -19,8 +37,6 @@ const SidePanel = () => {
     ref.current.style.height = '0px';
     ref.current.style.height = `${ref.current.scrollHeight}px`;
   }, [title]);
-
-  const showUploader = true;
 
   return (
     <div className="scrollbar border-line-normal-normal bg-background-normal shadow-panel fixed top-0 right-0 z-50 flex h-screen w-100 flex-col gap-8 overflow-y-auto border-l pb-50">
@@ -57,10 +73,17 @@ const SidePanel = () => {
           placeholder="메모를 입력해 주세요."
         />
 
-        {showUploader && (
+        {mode !== 'manual' && (
           <>
             <Divider style="thin" />
-            <div>업로더</div>
+            <div className="flex flex-col gap-2">
+              <p className="label1-normal-bold text-label-neutral">
+                {uploadTitleMap[mode]}
+              </p>
+              {/* @TODO: 파일 또는 이미지 미리보기 컴포넌트 추가 예정 */}
+              {mode === 'file' && <p>파일 미리보기</p>}
+              {mode === 'image' && <p>사진 미리보기</p>}
+            </div>
           </>
         )}
       </div>
