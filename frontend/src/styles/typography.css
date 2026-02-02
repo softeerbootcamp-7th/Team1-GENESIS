@@ -137,7 +137,7 @@
 @utility headline1-bold {
   font-size: 18px;
   line-height: 1.45;
-  font-weight: 700;
+  font-weight: 600;
 }
 @utility headline1-medium {
   font-size: 18px;
@@ -154,7 +154,7 @@
 @utility headline2-bold {
   font-size: 17px;
   line-height: 1.41;
-  font-weight: 700;
+  font-weight: 600;
 }
 @utility headline2-medium {
   font-size: 17px;
