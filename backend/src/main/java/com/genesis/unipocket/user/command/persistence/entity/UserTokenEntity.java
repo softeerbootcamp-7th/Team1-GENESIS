@@ -7,52 +7,59 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-/**
- * <b>사용자 토큰 Entity</b>
- * @author 김동균
- * @since 2026-01-30
- */
 @Entity
-@Table(name = "user_tokens")
+@Table(name = "user_token")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class UserTokenEntity {
+public class UserTokenEntity implements Persistable<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Column(nullable = false, length = 500)
+    @Column(name = "refresh_token", nullable = false, length = 512)
     private String refreshToken;
 
-    @Column(nullable = false)
+    @Column(name = "expired_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(nullable = false)
+    @Column(name = "is_revoked", nullable = false)
     private Boolean isRevoked = false;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @Builder
-    public UserTokenEntity(UserEntity user, String refreshToken, LocalDateTime expiresAt) {
+    public UserTokenEntity(UserEntity user, String refreshToken, String browser, LocalDateTime expiresAt) {
         this.user = user;
         this.refreshToken = refreshToken;
         this.expiresAt = expiresAt;
+        this.isRevoked = false;
+        if (user != null) {
+            this.id = user.getId();
+        }
+    }
+
+    // Persistable 인터페이스 구현 (StaleObjectStateException 해결 핵심)
+    @Override
+    public boolean isNew() {
+        return createdAt == null; // 생성일자가 없으면 새로운 객체로 판단
     }
 
     public void revoke() {

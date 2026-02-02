@@ -13,13 +13,18 @@ import java.util.Optional;
  */
 public interface SocialAuthJpaRepository extends JpaRepository<SocialAuthEntity, Long> {
 
-    Optional<SocialAuthEntity> findByProviderTypeAndProviderId(
-            ProviderType providerType,
+    /**
+     * Provider와 Provider ID로 소셜 인증 정보 조회
+     * 주의: 메서드명은 Entity의 필드명과 정확히 일치해야 함
+     * Entity 필드: private ProviderType provider;
+     */
+    Optional<SocialAuthEntity> findByProviderAndProviderId(
+            ProviderType provider,  //  필드명: provider
             String providerId
     );
 
-    boolean existsByProviderTypeAndProviderId(
-            ProviderType providerType,
+    boolean existsByProviderAndProviderId(
+            ProviderType provider,  //  필드명: provider
             String providerId
     );
 }
