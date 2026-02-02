@@ -10,7 +10,8 @@ import lombok.Getter;
 /**
  * <b>가계부 공통 DTO</b>
  * <p>
- * 여러 퍼사드 계층에서 통신할 때 사용
+ * 퍼사드 <-> 서비스 간 통신에 사용되는 DTO
+ * 가계부 퍼사드 계층에서 입출력에 사용되는 DTO
  * </p>
  * @author bluefishez
  * @since 2026-01-30
