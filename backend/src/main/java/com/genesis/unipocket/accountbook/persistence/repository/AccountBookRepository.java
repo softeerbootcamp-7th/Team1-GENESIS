@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface AccountBookJpaRepository extends JpaRepository<AccountBookEntity, Long> {
+public interface AccountBookRepository extends JpaRepository<AccountBookEntity, Long> {
 
     @Query("SELECT a.title FROM AccountBookEntity a WHERE a.userId = :userId AND a.title LIKE :baseName%")
     List<String> findNamesStartingWith(@Param("userId") Long userId, @Param("baseName") String baseName);

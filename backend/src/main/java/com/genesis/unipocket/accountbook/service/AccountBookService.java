@@ -2,7 +2,7 @@ package com.genesis.unipocket.accountbook.service;
 
 import com.genesis.unipocket.accountbook.facade.dto.AccountBookDto;
 import com.genesis.unipocket.accountbook.persistence.entity.AccountBookEntity;
-import com.genesis.unipocket.accountbook.persistence.repository.AccountBookJpaRepository;
+import com.genesis.unipocket.accountbook.persistence.repository.AccountBookRepository;
 import com.genesis.unipocket.accountbook.presentation.dto.request.CreateAccountBookReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 @Service
 @RequiredArgsConstructor
 public class AccountBookService {
-	private final AccountBookJpaRepository repository;
+	private final AccountBookRepository repository;
 
 	@Transactional
 	public AccountBookDto create(long userId, CreateAccountBookReq req) {
