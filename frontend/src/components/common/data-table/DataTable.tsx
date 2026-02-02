@@ -1,5 +1,5 @@
-import React from 'react';
-import { type Cell, flexRender } from '@tanstack/react-table';
+import React, { useCallback, useMemo } from 'react';
+import { type Cell, flexRender, type Row } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -19,32 +19,40 @@ interface DataTableProps<TData> {
 
 const DataTable = <TData,>({ groupBy }: DataTableProps<TData>) => {
   const { table, dispatch } = useDataTable();
-  const rows = table.getRowModel().rows;
+  const rows = table.getRowModel().rows as Row<TData>[];
 
-  const groupedRows = rows.reduce(
-    (acc, row) => {
-      const key = groupBy ? groupBy(row.original as TData) : 'Ungrouped';
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(row);
-      return acc;
-    },
-    {} as Record<string, typeof rows>,
-  );
+  const groupedRows = useMemo(() => {
+    return rows.reduce(
+      (acc, row) => {
+        const key = groupBy ? groupBy(row.original) : 'Ungrouped';
 
-  const handleCellClick = (cell: Cell<TData, unknown>, e: React.MouseEvent) => {
-    if (cell.column.id === 'select') return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    dispatch({
-      type: 'SET_ACTIVE_CELL',
-      payload: {
-        rowId: cell.row.id,
-        columnId: cell.column.id,
-        rect,
-        value: cell.getValue() as unknown, // value를 unknown으로 처리
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(row);
+        return acc;
       },
-    });
-  };
+      {} as Record<string, Row<TData>[]>,
+    );
+  }, [rows, groupBy]);
+
+  const handleCellClick = useCallback(
+    (
+      cell: Cell<TData, unknown>,
+      currentTarget: EventTarget & HTMLTableCellElement,
+    ) => {
+      const rect = currentTarget.getBoundingClientRect();
+
+      dispatch({
+        type: 'SET_ACTIVE_CELL',
+        payload: {
+          rowId: cell.row.id,
+          columnId: cell.column.id,
+          rect,
+          value: cell.getValue(),
+        },
+      });
+    },
+    [dispatch],
+  ); // dispatch가 바뀌지 않는 한 함수 재사용
 
   return (
     <div className="overflow-hidden rounded-md">
@@ -109,19 +117,25 @@ const DataTable = <TData,>({ groupBy }: DataTableProps<TData>) => {
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
                     >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          onClick={(e) =>
-                            handleCellClick(cell as Cell<TData, unknown>, e)
-                          }
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      ))}
+                      {row.getVisibleCells().map((cell) => {
+                        const isSelectColumn = cell.column.id === 'select';
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            onClick={
+                              isSelectColumn
+                                ? undefined
+                                : (e) => handleCellClick(cell, e.currentTarget)
+                            }
+                            className={isSelectColumn ? '' : 'cursor-pointer'}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      })}
                     </TableRow>
                   ))}
                 </React.Fragment>

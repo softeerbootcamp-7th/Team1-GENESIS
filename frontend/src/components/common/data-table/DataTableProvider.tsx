@@ -17,10 +17,7 @@ const applyUpdater = <T,>(updater: Updater<T>, old: T) => {
     : updater;
 };
 
-const tableReducer = <TValue,>(
-  state: TableUIState<TValue>,
-  action: TableUIAction<TValue>,
-) => {
+const tableReducer = (state: TableUIState, action: TableUIAction) => {
   switch (action.type) {
     case 'SET_SELECTION_MODE':
       return { ...state, selectionMode: action.payload };
@@ -52,7 +49,7 @@ const DataTableProvider = <TData, TValue = unknown>({
   data,
   children,
 }: DataTableProviderProps<TData, TValue>) => {
-  const [tableState, dispatch] = useReducer(tableReducer<TValue>, {
+  const [tableState, dispatch] = useReducer(tableReducer, {
     selectionMode: null,
     rowSelection: {},
     activeCell: null,

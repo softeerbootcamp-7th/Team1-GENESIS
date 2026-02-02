@@ -18,11 +18,7 @@ const DataTableCellEditor = () => {
 };
 
 // 내부용 컴포넌트
-const EditorContent = <TValue,>({
-  activeCell,
-}: {
-  activeCell: ActiveCell<TValue>;
-}) => {
+const EditorContent = ({ activeCell }: { activeCell: ActiveCell }) => {
   const { dispatch } = useDataTable();
   const [value, setValue] = useState(String(activeCell.value));
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +54,7 @@ const EditorContent = <TValue,>({
     >
       <input
         ref={inputRef}
-        className="h-full w-full px-2 outline-none"
+        className="px-2 outline-none"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleSave}

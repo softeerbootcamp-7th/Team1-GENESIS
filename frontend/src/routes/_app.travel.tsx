@@ -16,9 +16,9 @@ function RouteComponent() {
   const data = getData();
   return (
     <div className="p-10">
-      <DataTableProvider<Expense> columns={columns} data={data}>
-        <DataTable<Expense>
-          groupBy={(row) =>
+      <DataTableProvider columns={columns} data={data}>
+        <DataTable
+          groupBy={(row: Expense) =>
             new Date(row.date).toLocaleDateString('ko-KR', {
               year: 'numeric',
               month: '2-digit',
