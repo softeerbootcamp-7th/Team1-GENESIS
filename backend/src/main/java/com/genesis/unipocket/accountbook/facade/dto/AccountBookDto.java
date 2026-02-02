@@ -19,17 +19,17 @@ import lombok.Getter;
 @Getter
 public class AccountBookDto {
 
-	private Long id;
+	private final Long id;
 
-	private Long userId;
+	private final Long userId;
 
-	private String title;
+	private final String title;
 
-	private CountryCode localCountryCode;
+	private final CountryCode localCountryCode;
 
-	private CountryCode baseCountryCode;
+	private final CountryCode baseCountryCode;
 
-	private Integer budget;
+	private final Integer budget;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private final LocalDate startDate;
