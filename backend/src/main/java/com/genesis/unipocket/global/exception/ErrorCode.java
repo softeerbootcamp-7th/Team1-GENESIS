@@ -32,7 +32,18 @@ public enum ErrorCode {
 			HttpStatus.METHOD_NOT_ALLOWED, "405_METHOD_NOT_ALLOWED", "지원하지 않는 HTTP 메소드입니다."),
 
 	UNSUPPORTED_MEDIA_TYPE(
-			HttpStatus.UNSUPPORTED_MEDIA_TYPE, "415_UNSUPPORTED_MEDIA_TYPE", "지원하지 않는 미디어 타입입니다.");
+			HttpStatus.UNSUPPORTED_MEDIA_TYPE, "415_UNSUPPORTED_MEDIA_TYPE", "지원하지 않는 미디어 타입입니다."),
+
+	// Account Book
+	ACCOUNT_BOOK_CREATE_VALIDATION_FAILED(
+			HttpStatus.BAD_REQUEST,
+			CodeLiterals.ACCOUNT_BOOK_CREATE_VALIDATION_FAILED,
+			"입력값이 올바르지 않습니다.");
+
+	public static class CodeLiterals {
+		public static final String ACCOUNT_BOOK_CREATE_VALIDATION_FAILED =
+				"400_ACCOUNT_BOOK_CREATE_VALIDATION_FAILED";
+	}
 
 	private final HttpStatus status;
 	private final String code;

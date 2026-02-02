@@ -1,22 +1,20 @@
 package com.genesis.unipocket.accountbook.presentation.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.genesis.unipocket.accountbook.facade.dto.AccountBookDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.genesis.unipocket.global.common.enums.CountryCode;
+import java.time.LocalDate;
 
 /**
  * <b>POST /api/account-books 출력</b>
+ *
  * @author bluefishez
  * @since 2026-01-30
  */
-@Getter
-@AllArgsConstructor
-public class CreateAccountBookRes {
-
-	@JsonUnwrapped private AccountBookDto accountBookDto;
-
-	public static CreateAccountBookRes from(AccountBookDto accountBookDto) {
-		return new CreateAccountBookRes(accountBookDto);
-	}
-}
+public record CreateAccountBookRes(
+		Long id,
+		Long userId,
+		String title,
+		CountryCode localCountryCode,
+		CountryCode baseCountryCode,
+		Integer budget,
+		LocalDate startDate,
+		LocalDate endDate) {}
