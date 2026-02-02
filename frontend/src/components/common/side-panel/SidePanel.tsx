@@ -5,6 +5,8 @@ import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import TextInput from '@/components/common/TextInput';
 
+import { Icons } from '@/assets'
+
 import CurrencyConverter from './CurrencyConverter';
 import ValueContainer from './ValueContainer';
 
@@ -47,8 +49,11 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
           width={24}
           height={24}
         />
-        <div className="flex gap-2">
-          <Button>저장</Button>
+        <div className="flex gap-4 items-center">
+          <div className="flex gap-1 items-center">
+            <p className="text-label-alternative label2-medium">저장 중...</p>
+            <Icons.Loading className="animate-spin w-3 h-3 text-label-assistive" />
+          </div>
           <Button>삭제</Button>
         </div>
       </div>
