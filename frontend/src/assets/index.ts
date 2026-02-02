@@ -33,6 +33,7 @@ import AlertCircle from './Icons/alert-circle.svg';
 import Analytics from './Icons/analytics.svg';
 import Camera from './Icons/camera.svg';
 import CaretDown from './Icons/caret-down.svg';
+import CheckmarkCircle from './Icons/checkmark-circle.svg';
 import ChevronForward from './Icons/chevron-forward.svg';
 import Close from './Icons/close.svg';
 import CloseCircle from './Icons/close-circle.svg';
@@ -50,6 +51,7 @@ export const Icons = {
   AlertCircle,
   CloseCircle,
   ChevronForward,
+  CheckmarkCircle,
   Logo,
   Loading,
   Analytics,
