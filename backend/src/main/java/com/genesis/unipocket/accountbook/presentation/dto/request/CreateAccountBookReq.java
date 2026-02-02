@@ -2,6 +2,11 @@ package com.genesis.unipocket.accountbook.presentation.dto.request;
 
 import com.genesis.unipocket.global.common.enums.CountryCode;
 import java.time.LocalDate;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,17 +16,24 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since 2026-01-30
  */
 @Getter
+@AllArgsConstructor
 public class CreateAccountBookReq {
 
-	private String title;
+	@NotBlank
+	@Size(max = 255)
+	private final String title;
 
-	private CountryCode localCountryCode;
+	@NotNull
+	private final CountryCode localCountryCode;
 
-	private CountryCode baseCountryCode;
+	@NotNull
+	private final CountryCode baseCountryCode;
 
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate startDate;
+	private final LocalDate startDate;
 
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate endDate;
+	private final LocalDate endDate;
 }

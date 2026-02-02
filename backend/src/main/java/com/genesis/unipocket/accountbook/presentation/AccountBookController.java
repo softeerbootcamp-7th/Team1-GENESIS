@@ -3,6 +3,7 @@ package com.genesis.unipocket.accountbook.presentation;
 import com.genesis.unipocket.accountbook.facade.AccountBookFacade;
 import com.genesis.unipocket.accountbook.presentation.dto.request.CreateAccountBookReq;
 import com.genesis.unipocket.accountbook.presentation.dto.response.CreateAccountBookRes;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class AccountBookController {
 
 	@PostMapping("/account-books")
 	public ResponseEntity<CreateAccountBookRes> createAccountBook(
-			@RequestBody CreateAccountBookReq req) {
+			@Valid @RequestBody CreateAccountBookReq req) {
 
 		return ResponseEntity.ok(CreateAccountBookRes.builder().build());
 	}
