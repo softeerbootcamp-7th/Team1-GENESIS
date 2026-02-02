@@ -1,0 +1,15 @@
+@theme {
+  /* 키프레임 정의 */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    } /* 바운스 높이를 10px로 제한 */
+  }
+
+  /* 애니메이션 정의: 이제 'animate-float' 클래스를 사용할 수 있습니다 */
+  --animate-float: float 2s ease-in-out infinite;
+}
