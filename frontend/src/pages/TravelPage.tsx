@@ -1,12 +1,12 @@
-import { DataTable } from '@/components/ui/data-table/DataTable';
-import DataTableCellEditor from '@/components/ui/data-table/DataTableCellEditor';
-import DataTableProvider from '@/components/ui/data-table/DataTableProvider';
-import { columns } from '@/components/ui/data-table/payments/columns';
+import { DataTable } from '@/components/common/data-table/DataTable';
+import DataTableCellEditor from '@/components/common/data-table/DataTableCellEditor';
+import DataTableProvider from '@/components/common/data-table/DataTableProvider';
+import { columns } from '@/components/common/data-table/payments/columns';
 import {
   type Expense,
   getData,
-} from '@/components/ui/data-table/payments/dummy';
-import SelectionActionProvider from '@/components/ui/data-table/SelectionActionProvider';
+} from '@/components/common/data-table/payments/dummy';
+import SelectionActionProvider from '@/components/common/data-table/SelectionActionProvider';
 
 const TravelPage = () => {
   const data = getData();
