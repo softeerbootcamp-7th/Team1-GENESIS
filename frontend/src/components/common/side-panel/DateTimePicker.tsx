@@ -31,9 +31,7 @@ export default function DateTimePicker() {
 
   // 이전 달
   for (let i = 0; i < startWeekDay; i++) {
-    dates.push(
-      new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i),
-    );
+    dates.push(new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i));
   }
 
   // 이번 달
@@ -135,13 +133,12 @@ export default function DateTimePicker() {
             size="md"
           />
         </div>
-        
       </div>
 
       {selectedDateTime && (
-        <span className="label2-medium text-center text-gray-600">
+        <p className="label2-medium text-center text-gray-600">
           선택됨: {selectedDateTime.toLocaleString('ko-KR')}
-        </span>
+        </p>
       )}
     </div>
   );
