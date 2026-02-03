@@ -13,14 +13,15 @@ import { useModalContext } from './useModalContext';
 interface DatePickItemProps {
   label: string;
   date?: Date | null;
+  isActive?: boolean;
 }
 
-const DatePickItem = ({ label, date }: DatePickItemProps) => {
+const DatePickItem = ({ label, date, isActive }: DatePickItemProps) => {
   return (
     <div
       className={clsx(
         'rounded-modal-10 flex w-48.5 flex-col items-center gap-1 border px-6.5 py-3 transition-colors',
-        date ? 'border-primary-normal' : 'border-line-normal-normal',
+        isActive ? 'border-primary-normal' : 'border-line-normal-normal',
       )}
     >
       <span className="text-label-normal body2-normal-medium">{label}</span>
@@ -68,8 +69,12 @@ const SelectDateContent = ({
       {/* calendar section */}
       <div className="flex flex-col gap-3 px-4">
         <div className="flex items-center justify-center gap-2.5">
-          <DatePickItem label="시작일" date={startDate} />
-          <DatePickItem label="종료일" date={endDate} />
+          <DatePickItem label="시작일" date={startDate} isActive={!startDate} />
+          <DatePickItem
+            label="종료일"
+            date={endDate}
+            isActive={!!startDate && !endDate}
+          />
         </div>
 
         <Calendar startDate={startDate} endDate={endDate} onChange={onChange} />
