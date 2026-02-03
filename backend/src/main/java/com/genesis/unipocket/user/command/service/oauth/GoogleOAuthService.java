@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * <b>Google OAuth Service</b>
- * 
+ *
  * @author 김동균
  * @since 2026-01-30
  */

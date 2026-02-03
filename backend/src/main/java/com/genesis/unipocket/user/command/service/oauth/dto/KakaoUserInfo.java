@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <b>Kakao 사용자 정보 DTO</b>
- * 
+ *
  * @author 김동균
  * @since 2026-01-29
  */

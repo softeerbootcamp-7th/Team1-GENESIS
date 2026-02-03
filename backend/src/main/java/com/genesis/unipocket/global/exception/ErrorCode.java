@@ -10,7 +10,6 @@ package com.genesis.unipocket.global.exception;
  * @author bluefishez
  * @since 2026-01-25
  */
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

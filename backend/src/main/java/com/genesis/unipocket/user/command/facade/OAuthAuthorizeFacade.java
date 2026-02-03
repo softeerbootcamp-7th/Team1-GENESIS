@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <b>OAuth 인증 Facade</b>
- * 
+ *
  * @author 김동균
  * @since 2026-01-29
  */
