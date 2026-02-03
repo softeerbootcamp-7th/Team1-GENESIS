@@ -15,6 +15,7 @@ const uploadTitleMap: Record<Exclude<SidePanelInputMode, 'manual'>, string> = {
   image: '사진',
 };
 
+// @TODO: API 연동 시 file / image 모드에서 파일 데이터 props로 받기
 interface SidePanelProps {
   mode?: SidePanelInputMode;
   file?: File; // file / image 전용
