@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Icons } from '@/assets';
 interface UploadBoxProps {
   type: 'image' | 'file';
@@ -24,23 +26,20 @@ const uploadPolicy = {
 
 const UploadBox = ({ type }: UploadBoxProps) => {
   const policy = uploadPolicy[type];
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files: fileList } = e.target;
-    if (!fileList || fileList.length === 0) return;
-
+  const validateAndProcessFiles = (fileList: FileList | null) => {
+    if (!fileList) return;
     const files = Array.from(fileList);
 
     // 1. 개수 제한 (multiple: false인 경우도 포함)
     if (!policy.multiple && files.length > 1) {
-      alert('한 번에 하나의 파일만 업로드할 수 있습니다.');
-      e.target.value = '';
+      alert('한 번에 하나의 파일만 업로드할 수 있어요.');
       return;
     }
 
     if (files.length > policy.maxCount) {
       alert(`최대 ${policy.maxCount}개까지 업로드할 수 있어요.`);
-      e.target.value = '';
       return;
     }
 
@@ -63,7 +62,6 @@ const UploadBox = ({ type }: UploadBoxProps) => {
 
     if (hasInvalidFile) {
       alert('지원하지 않는 파일 형식이 포함되어 있어요.');
-      e.target.value = '';
       return;
     }
 
@@ -71,8 +69,7 @@ const UploadBox = ({ type }: UploadBoxProps) => {
     const totalSize = files.reduce((sum, file) => sum + file.size, 0);
     if (totalSize > policy.maxTotalSize) {
       const maxSizeMB = policy.maxTotalSize / (1024 * 1024);
-      alert(`전체 파일 용량은 ${maxSizeMB}MB를 초과할 수 없습니다.`);
-      e.target.value = '';
+      alert(`전체 파일 용량은 ${maxSizeMB}MB를 초과할 수 없어요.`);
       return;
     }
 
@@ -81,8 +78,47 @@ const UploadBox = ({ type }: UploadBoxProps) => {
     // onUpload(files); // Props로 받은 업로드 함수 실행 등
   };
 
+  // 핸들러: 드래그 영역에 들어왔을 때
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  // 핸들러: 드래그 영역에서 벗어났을 때
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  // 핸들러: 드롭했을 때
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const { files } = e.dataTransfer;
+    validateAndProcessFiles(files);
+  };
+
+  // 핸들러: 클릭으로 업로드할 때
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    validateAndProcessFiles(e.target.files);
+    e.target.value = ''; // 같은 파일 재업로드 가능하도록 초기화
+  };
+
   return (
-    <label className="hover:bg-background-alternative flex cursor-pointer flex-col items-center justify-center gap-5 py-10">
+    <label
+      className={`
+        flex cursor-pointer flex-col items-center justify-center gap-5 py-10 border-2 border-dashed transition-colors
+        ${isDragging ? 'bg-blue-50 border-blue-400' : 'hover:bg-background-alternative border-transparent'}
+      `}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <input
         type="file"
         className="hidden"
