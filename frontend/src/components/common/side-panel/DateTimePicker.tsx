@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback,useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 
 import DropDown from '@/components/common/dropdown/Dropdown';
@@ -11,6 +11,16 @@ const isSameDay = (a: Date, b: Date) =>
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate();
 
+const hourOptions = Array.from({ length: 24 }).map((_, i) => ({
+  id: i,
+  name: i.toString().padStart(2, '0'),
+}));
+
+const minuteOptions = Array.from({ length: 60 }).map((_, i) => ({
+  id: i,
+  name: i.toString().padStart(2, '0'),
+}));
+
 export default function DateTimePicker() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -18,52 +28,68 @@ export default function DateTimePicker() {
   const [hour, setHour] = useState(12);
   const [minute, setMinute] = useState(0);
 
-  const year = currentMonth.getFullYear();
-  const month = currentMonth.getMonth();
+  const { year, month, dates } = useMemo(() => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
 
-  const firstDay = new Date(year, month, 1);
-  const startWeekDay = firstDay.getDay();
+    const firstDay = new Date(year, month, 1);
+    const startWeekDay = firstDay.getDay();
 
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const prevMonthDays = new Date(year, month, 0).getDate();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const prevMonthDays = new Date(year, month, 0).getDate();
 
-  const dates: Date[] = [];
+    const dates: Date[] = [];
 
-  // 이전 달
-  for (let i = 0; i < startWeekDay; i++) {
-    dates.push(new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i));
-  }
-
-  // 이번 달
-  for (let i = 1; i <= daysInMonth; i++) {
-    dates.push(new Date(year, month, i));
-  }
-
-  // 다음 달
-  let nextMonthDay = 1;
-  while (dates.length % 7 !== 0) {
-    dates.push(new Date(year, month + 1, nextMonthDay));
-    nextMonthDay++;
-  }
-
-  const handleDateClick = (date: Date) => {
-    setSelectedDate(date);
-
-    // 다른 달 날짜 클릭 시 달 이동
-    if (date.getMonth() !== month || date.getFullYear() !== year) {
-      setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    // 이전 달
+    for (let i = 0; i < startWeekDay; i++) {
+      dates.push(new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i));
     }
-  };
 
-  const selectedDateTime =
-    selectedDate &&
-    new Date(
+    // 이번 달
+    for (let i = 1; i <= daysInMonth; i++) {
+      dates.push(new Date(year, month, i));
+    }
+
+    // 다음 달
+    let nextMonthDay = 1;
+    while (dates.length % 7 !== 0) {
+      dates.push(new Date(year, month + 1, nextMonthDay));
+      nextMonthDay++;
+    }
+    return { year, month, dates };
+  }, [currentMonth]);
+
+  const handleDateClick = useCallback(
+    (date: Date) => {
+      setSelectedDate(date);
+
+      // 다른 달 날짜 클릭 시 달 이동
+      if (date.getMonth() !== month || date.getFullYear() !== year) {
+        setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+      }
+    },
+    [month, year],
+  );
+
+  const handlePrevMonth = useCallback(() => {
+    setCurrentMonth(new Date(year, month - 1));
+  }, [year, month]);
+
+  const handleNextMonth = useCallback(() => {
+    setCurrentMonth(new Date(year, month + 1));
+  }, [year, month]);
+
+  const selectedDateTime = useMemo(() => {
+    if (!selectedDate) return null;
+
+    return new Date(
       selectedDate.getFullYear(),
       selectedDate.getMonth(),
       selectedDate.getDate(),
       hour,
       minute,
     );
+  }, [selectedDate, hour, minute]);
 
   return (
     <div className="rounded-modal-10 border-line-normal-normal bg-background-normal w-65 space-y-4 border p-4">
@@ -73,7 +99,7 @@ export default function DateTimePicker() {
           color="text-label-normal"
           width={20}
           height={20}
-          onClick={() => setCurrentMonth(new Date(year, month - 1))}
+          onClick={handlePrevMonth}
         />
         <span className="text-label-normal headline2-bold">
           {year}년 {month + 1}월
@@ -83,7 +109,7 @@ export default function DateTimePicker() {
           color="text-label-normal"
           width={20}
           height={20}
-          onClick={() => setCurrentMonth(new Date(year, month + 1))}
+          onClick={handleNextMonth}
         />
       </div>
 
@@ -94,13 +120,13 @@ export default function DateTimePicker() {
       </div>
 
       <div className="grid grid-cols-7 gap-y-2">
-        {dates.map((date, idx) => {
+        {dates.map((date) => {
           const isCurrentMonth = date.getMonth() === month;
           const isSelected = selectedDate && isSameDay(date, selectedDate);
 
           return (
             <button
-              key={idx}
+              key={date.toISOString()}
               onClick={() => handleDateClick(date)}
               className={clsx(
                 'figure-body2-14-semibold mx-auto flex h-7 w-8 items-center justify-center rounded-full',
@@ -120,11 +146,8 @@ export default function DateTimePicker() {
         <div className="w-16">
           <DropDown
             selected={hour}
-            onSelect={(value) => setHour(value)}
-            options={Array.from({ length: 24 }).map((_, i) => ({
-              id: i,
-              name: i.toString().padStart(2, '0'),
-            }))}
+            onSelect={setHour}
+            options={hourOptions}
             size="md"
           />
         </div>
@@ -132,11 +155,8 @@ export default function DateTimePicker() {
         <div className="w-16">
           <DropDown
             selected={minute}
-            onSelect={(value) => setMinute(value)}
-            options={Array.from({ length: 60 }).map((_, i) => ({
-              id: i,
-              name: i.toString().padStart(2, '0'),
-            }))}
+            onSelect={setMinute}
+            options={minuteOptions}
             size="md"
           />
         </div>
