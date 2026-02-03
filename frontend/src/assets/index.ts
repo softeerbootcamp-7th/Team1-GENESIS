@@ -47,6 +47,7 @@ import Phone from './Icons/phone.svg';
 import Refresh from './Icons/refresh.svg';
 import Swap from './Icons/swap.svg';
 import Travel from './Icons/travel.svg';
+import UploadFile from './Icons/upload-file.svg';
 
 export const Icons = {
   AlertCircle,
@@ -67,6 +68,7 @@ export const Icons = {
   FileBox,
   Edit,
   Swap,
+  UploadFile,
 } as const;
 
 export type IconName = keyof typeof Icons;
