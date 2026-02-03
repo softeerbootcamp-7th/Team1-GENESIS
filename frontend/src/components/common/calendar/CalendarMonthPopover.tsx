@@ -95,15 +95,15 @@ const CalendarMonthPopover = ({
   date,
   onDateChange,
 }: CalendarMonthPopoverProps) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleDateChange = (newDate: Date) => {
     onDateChange(newDate);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen} modal={true}>
+    <Popover open={isOpen} onOpenChange={setIsOpen} modal={true}>
       <PopoverTrigger asChild>
         <button className="text-label-normal headline1-bold flex cursor-pointer items-center gap-1.5 text-center">
           {date.getFullYear()}년 {date.getMonth() + 1}월
