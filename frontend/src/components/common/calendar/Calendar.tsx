@@ -16,12 +16,9 @@ interface CalendarProps {
 }
 
 const Calendar = ({ startDate, endDate, onChange }: CalendarProps) => {
+  const initialDate = startDate ?? new Date();
   const [displayMonth, setDisplayMonth] = useState(
-    new Date(
-      (startDate ?? new Date()).getFullYear(),
-      (startDate ?? new Date()).getMonth(),
-      1,
-    ),
+    new Date(initialDate.getFullYear(), initialDate.getMonth(), 1),
   );
 
   const handleMonthChange = (direction: 'prev' | 'next') => {
