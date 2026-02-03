@@ -1,15 +1,10 @@
-import { useCallback,useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 
 import DropDown from '@/components/common/dropdown/Dropdown';
 import Icon from '@/components/common/Icon';
 
-const WEEK_DAYS = ['일', '월', '화', '수', '목', '금', '토'];
-
-const isSameDay = (a: Date, b: Date) =>
-  a.getFullYear() === b.getFullYear() &&
-  a.getMonth() === b.getMonth() &&
-  a.getDate() === b.getDate();
+import { dayNames, isSameDay } from '../calendar/date.utils';
 
 const hourOptions = Array.from({ length: 24 }).map((_, i) => ({
   id: i,
@@ -42,7 +37,9 @@ export default function DateTimePicker() {
 
     // 이전 달
     for (let i = 0; i < startWeekDay; i++) {
-      dates.push(new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i));
+      dates.push(
+        new Date(year, month - 1, prevMonthDays - startWeekDay + 1 + i),
+      );
     }
 
     // 이번 달
@@ -114,7 +111,7 @@ export default function DateTimePicker() {
       </div>
 
       <div className="label2-medium text-label-neutral grid grid-cols-7 text-center">
-        {WEEK_DAYS.map((d) => (
+        {dayNames.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
