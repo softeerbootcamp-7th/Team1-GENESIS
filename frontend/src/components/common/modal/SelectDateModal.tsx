@@ -73,6 +73,11 @@ const SelectDateContent = ({
         </div>
 
         <Calendar startDate={startDate} endDate={endDate} onChange={onChange} />
+
+        <p className="body1-normal-medium text-label-alternative pl-0.5">
+          *종료일이 확실하지 않더라도 임의의 날짜를 선택해주세요. <br />
+          *추후에 수정이 가능합니다.
+        </p>
       </div>
     </div>
   );
