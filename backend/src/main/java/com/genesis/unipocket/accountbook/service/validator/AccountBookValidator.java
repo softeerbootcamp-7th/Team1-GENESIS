@@ -1,4 +1,4 @@
-package com.genesis.unipocket.accountbook.validator;
+package com.genesis.unipocket.accountbook.service.validator;
 
 import com.genesis.unipocket.accountbook.entity.AccountBookEntity;
 import com.genesis.unipocket.global.common.enums.CountryCode;
