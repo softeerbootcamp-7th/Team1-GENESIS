@@ -91,26 +91,19 @@ const SelectDateModal = ({
   initialDateRange,
   ...modalProps
 }: SelectDateModalProps) => {
-  const [startDate, setStartDate] = useState<Date | null>(
-    initialDateRange?.startDate ?? null,
-  );
-  const [endDate, setEndDate] = useState<Date | null>(
-    initialDateRange?.endDate ?? null,
+  const [dateRange, setDateRange] = useState<DateRange>(
+    initialDateRange ?? { startDate: null, endDate: null },
   );
 
-  const handleDatesChange = (
-    newStartDate: Date | null,
-    newEndDate: Date | null,
-  ) => {
-    setStartDate(newStartDate);
-    setEndDate(newEndDate);
+  const handleDatesChange = (startDate: Date | null, endDate: Date | null) => {
+    setDateRange({ startDate, endDate });
   };
 
   return (
     <Modal {...modalProps}>
       <SelectDateContent
-        startDate={startDate}
-        endDate={endDate}
+        startDate={dateRange.startDate}
+        endDate={dateRange.endDate}
         onChange={handleDatesChange}
       />
     </Modal>
