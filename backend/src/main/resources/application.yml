@@ -1,3 +1,6 @@
+###  이 파일의 수정은 로컬에서만 이루어져야 합니다.  ###
+###      수정 사항을 Git에 포함시키지 마세요.      ###
 spring:
-  application:
-    name: unipocket
+  profiles:
+    include: common
+    active: dev
