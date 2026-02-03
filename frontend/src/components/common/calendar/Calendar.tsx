@@ -43,7 +43,7 @@ const Calendar = ({ startDate, endDate, onChange }: CalendarProps) => {
         newEnd = null;
       } else if (date < startDate) {
         newStart = date;
-        newEnd = null;
+        newEnd = startDate;
       } else {
         newStart = startDate;
         newEnd = date;
