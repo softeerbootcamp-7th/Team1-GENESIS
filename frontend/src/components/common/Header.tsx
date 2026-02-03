@@ -13,7 +13,7 @@ const Header = () => {
   const matches = useMatches();
   const isInitPath = matches.some((match) => match.routeId === '/_app/init');
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [time, setTime] = useState(getLocalTime());
+  const [time, setTime] = useState(getLocalTime('KR'));
 
   // @TODO: 추후 options API 연동
   const options = [
@@ -27,7 +27,7 @@ const Header = () => {
   // 1분마다 한국 시간 갱신
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(getLocalTime());
+      setTime(getLocalTime('KR'));
     }, 60_000);
     return () => clearInterval(interval);
   }, []);
