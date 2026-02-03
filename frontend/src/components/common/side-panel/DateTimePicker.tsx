@@ -46,6 +46,15 @@ export default function DateTimePicker() {
     nextMonthDay++;
   }
 
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+
+    // 다른 달 날짜 클릭 시 달 이동
+    if (date.getMonth() !== month || date.getFullYear() !== year) {
+      setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+  };
+
   const selectedDateTime =
     selectedDate &&
     new Date(
@@ -94,7 +103,7 @@ export default function DateTimePicker() {
           return (
             <button
               key={idx}
-              onClick={() => setSelectedDate(date)}
+              onClick={() => handleDateClick(date)}
               className={clsx(
                 'figure-body2-14-semibold mx-auto flex h-7 w-8 items-center justify-center rounded-full',
                 !isCurrentMonth && !isSelected && 'text-label-disable',
