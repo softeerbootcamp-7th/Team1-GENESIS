@@ -36,7 +36,8 @@ export const formatDateToString = (date: Date): string => {
  * @returns Date 객체
  */
 export const parseStringToDate = (dateString: string): Date => {
-  return new Date(dateString);
+  const [year, month, day] = dateString.split('-').map(Number);
+  return new Date(year, month - 1, day);
 };
 
 /**
