@@ -1,11 +1,13 @@
 package com.genesis.unipocket.user.command.presentation.dto.response;
 
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 /**
  * <b>로그인 응답 DTO</b>
+ *
  * @author 김동균
  * @since 2026-01-30
  */
@@ -20,14 +22,9 @@ public class LoginResponse {
 	private String accessToken;
 
 	/**
-	 * Refresh Token
-	 */
-	private String refreshToken;
-
-	/**
 	 * 사용자 ID
 	 */
-	private Long userId;
+	private UUID userId;
 
 	/**
 	 * Access Token 만료 시간 (초)
@@ -42,11 +39,9 @@ public class LoginResponse {
 	/**
 	 * 정적 팩토리 메서드
 	 */
-	public static LoginResponse of(
-			String accessToken, String refreshToken, Long userId, Long expiresIn) {
+	public static LoginResponse of(String accessToken, UUID userId, Long expiresIn) {
 		return LoginResponse.builder()
 				.accessToken(accessToken)
-				.refreshToken(refreshToken)
 				.userId(userId)
 				.expiresIn(expiresIn)
 				.tokenType("Bearer")

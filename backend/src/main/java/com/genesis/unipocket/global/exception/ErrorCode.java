@@ -53,8 +53,7 @@ public enum ErrorCode {
 
 	// ========== Token Errors (4000~4999) ==========
 	TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "T001", "토큰이 만료되었습니다."),
-	TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "T002", "유효하지 않은 토큰입니다."),
-	REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "T003", "리프레시 토큰을 찾을 수 없습니다.");
+	TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "T002", "유효하지 않은 토큰입니다.");
 
 	private final HttpStatus status;
 	private final String code;

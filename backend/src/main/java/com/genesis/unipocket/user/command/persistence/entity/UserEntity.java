@@ -4,6 +4,7 @@ import com.genesis.unipocket.user.command.persistence.entity.enums.UserRole;
 import com.genesis.unipocket.user.command.persistence.entity.enums.UserStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,9 +23,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "user_id")
-	private Long id;
+	private UUID id;
 
 	@Column(nullable = false, length = 50)
 	private String name;

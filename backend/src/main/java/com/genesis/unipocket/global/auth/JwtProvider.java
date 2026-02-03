@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class JwtProvider {
 	/**
 	 * 토큰 생성 공통 로직 (0.12.3 버전 문법)
 	 */
-	public String createToken(Long userId, long validityMs) {
+	public String createToken(UUID userId, long validityMs) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + validityMs);
 
