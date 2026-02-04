@@ -88,8 +88,8 @@ public class UserCommandController {
 	public LoginResponse reissue(@RequestBody ReissueRequest request) {
 		log.info("토큰 재발급 요청");
 
-		com.genesis.unipocket.global.auth.AuthService.TokenPair tokenPair = authService
-				.reissue(request.getRefreshToken());
+		com.genesis.unipocket.global.auth.AuthService.TokenPair tokenPair =
+				authService.reissue(request.getRefreshToken());
 
 		return LoginResponse.of(
 				tokenPair.accessToken(),

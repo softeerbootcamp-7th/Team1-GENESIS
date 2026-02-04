@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.global.exception.TokenException;
 import com.genesis.unipocket.user.command.persistence.entity.UserEntity;
 import com.genesis.unipocket.user.command.persistence.repository.UserRepository;
@@ -48,8 +47,7 @@ class AuthServiceTest {
 		UUID userId = UUID.randomUUID();
 		when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-		assertThatThrownBy(() -> authService.login(userId))
-				.isInstanceOf(TokenException.class);
+		assertThatThrownBy(() -> authService.login(userId)).isInstanceOf(TokenException.class);
 	}
 
 	@Test
@@ -90,8 +88,7 @@ class AuthServiceTest {
 		when(jwtProvider.getJti("token")).thenReturn("jti");
 		when(blacklistService.isBlacklisted("jti")).thenReturn(true);
 
-		assertThatThrownBy(() -> authService.reissue("token"))
-				.isInstanceOf(TokenException.class);
+		assertThatThrownBy(() -> authService.reissue("token")).isInstanceOf(TokenException.class);
 	}
 
 	@Test
