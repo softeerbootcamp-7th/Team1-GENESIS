@@ -13,8 +13,8 @@ interface CountryItemProps {
   country: string;
   currency: string;
   checked: boolean;
-  value: string;
-  onChange: (value: string) => void;
+  value: CountryCode;
+  onChange: (value: CountryCode) => void;
   isLast: boolean;
 }
 
@@ -39,7 +39,7 @@ const CountryItem = ({
         name="currency-select"
         value={value}
         checked={checked}
-        onChange={onChange}
+        onChange={() => onChange(value)}
       />
       <div className="flex w-full justify-between">
         <div className="flex gap-4">
@@ -56,8 +56,8 @@ type LocaleSelectMode = 'BASE' | 'LOCAL'; // 기준 통화, 현지 통화
 
 interface LocaleSelectModalProps {
   mode: LocaleSelectMode;
-  onSelect?: (code: string) => void;
-  selectedCode?: string;
+  onSelect?: (code: CountryCode) => void;
+  selectedCode?: CountryCode;
 }
 
 const LocaleSelectModal = ({
@@ -67,23 +67,25 @@ const LocaleSelectModal = ({
 }: LocaleSelectModalProps) => {
   const matches = useMatches();
   const isInitPath = matches.some((match) => match.routeId === '/_app/init');
-  const [selectedCode, setSelectedCode] = useState<string>(
-    propSelectedCode || '',
+  const [selectedCode, setSelectedCode] = useState<CountryCode | null>(
+    propSelectedCode || null,
   );
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
-  const handleSelect = (code: string) => {
+  const handleSelect = (code: CountryCode) => {
     setSelectedCode(code);
     setIsConfirmOpen(true);
   };
 
   const handleConfirm = () => {
-    onSelect?.(selectedCode);
+    if (selectedCode !== null) {
+      onSelect?.(selectedCode);
+    }
     setIsConfirmOpen(false);
   };
 
   const handleCancel = () => {
-    setSelectedCode(propSelectedCode || '');
+    setSelectedCode(propSelectedCode || null);
     setIsConfirmOpen(false);
   };
 

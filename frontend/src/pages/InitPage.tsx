@@ -21,8 +21,8 @@ const InitPage = () => {
   });
   const [isDateValid, setDateValid] = useState(false);
 
-  const handleCountrySelect = (code: string) => {
-    setSelectedCountry(code as CountryCode);
+  const handleCountrySelect = (code: CountryCode) => {
+    setSelectedCountry(code);
     setStep('select-date');
   };
 
