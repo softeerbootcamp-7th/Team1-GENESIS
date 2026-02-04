@@ -15,10 +15,15 @@ import { useDataTable } from './context';
 
 interface DataTableProps<TData> {
   groupBy?: (row: TData) => string;
+  enableGroupSelection?: boolean;
   height: number;
 }
 
-const DataTable = <TData,>({ groupBy, height }: DataTableProps<TData>) => {
+const DataTable = <TData,>({
+  groupBy,
+  height,
+  enableGroupSelection = true,
+}: DataTableProps<TData>) => {
   const { table, dispatch } = useDataTable();
   const rows = table.getRowModel().rows as Row<TData>[];
 
@@ -91,19 +96,23 @@ const DataTable = <TData,>({ groupBy, height }: DataTableProps<TData>) => {
                   data-group-header
                   className="sticky top-10 z-10 border-none bg-white"
                 >
-                  <TableCell className="w-12.5 px-3 py-4">
-                    {/* 3. 그룹 선택 체크박스 */}
-                    <Checkbox
-                      checked={
-                        isAllGroupSelected ||
-                        (isSomeGroupSelected && 'indeterminate')
-                      }
-                      onCheckedChange={(value) => {
-                        dateRows.forEach((row) => row.toggleSelected(!!value));
-                      }}
-                      aria-label={`Select all rows for ${date}`}
-                    />
-                  </TableCell>
+                  {enableGroupSelection && (
+                    <TableCell className="w-12.5 px-3 py-4">
+                      {/* 3. 그룹 선택 체크박스 */}
+                      <Checkbox
+                        checked={
+                          isAllGroupSelected ||
+                          (isSomeGroupSelected && 'indeterminate')
+                        }
+                        onCheckedChange={(value) => {
+                          dateRows.forEach((row) =>
+                            row.toggleSelected(!!value),
+                          );
+                        }}
+                        aria-label={`Select all rows for ${date}`}
+                      />
+                    </TableCell>
+                  )}
                   <TableCell
                     colSpan={table.getVisibleLeafColumns().length - 1}
                     className="figure-body2-14-semibold text-label-alternative px-3 py-4"

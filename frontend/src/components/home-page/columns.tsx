@@ -1,8 +1,28 @@
 import type { ColumnDef } from '@tanstack/react-table';
 
-import type { Expense } from './dummy';
+import type { Expense } from '../landing-page/dummy';
+import { Checkbox } from '../ui/checkbox';
 
 export const columns: ColumnDef<Expense>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'merchantName',
     header: () => <>거래처</>,
