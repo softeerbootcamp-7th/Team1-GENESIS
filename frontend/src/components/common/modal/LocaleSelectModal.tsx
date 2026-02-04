@@ -83,7 +83,7 @@ const LocaleSelectModal = ({
   };
 
   const handleCancel = () => {
-    setSelectedCode('');
+    setSelectedCode(propSelectedCode || '');
     setIsConfirmOpen(false);
   };
 
