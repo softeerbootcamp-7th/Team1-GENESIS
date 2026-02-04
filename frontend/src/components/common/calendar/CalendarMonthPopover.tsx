@@ -24,8 +24,8 @@ const CalendarMonthView = ({
     setViewYear(displayDate.getFullYear());
   }, [displayDate]);
 
-  const handleYearChange = (direction: 'prev' | 'next') => {
-    setViewYear((prev) => prev + (direction === 'prev' ? -1 : 1));
+  const handleYearChange = (offset: number) => {
+    setViewYear((prev) => prev + offset);
   };
 
   const handleMonthClick = (monthIndex: number) => {
@@ -51,11 +51,11 @@ const CalendarMonthView = ({
         </h3>
 
         <div className="flex gap-2.5">
-          <button onClick={() => handleYearChange('prev')}>
+          <button onClick={() => handleYearChange(-1)}>
             <Icon iconName="ChevronBack" color="text-label-alternative" />
           </button>
 
-          <button onClick={() => handleYearChange('next')}>
+          <button onClick={() => handleYearChange(1)}>
             <Icon iconName="ChevronForward" color="text-label-alternative" />
           </button>
         </div>
