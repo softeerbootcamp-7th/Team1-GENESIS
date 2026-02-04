@@ -57,11 +57,9 @@ const SelectDateContent = ({
     <div className="flex flex-col gap-8">
       {/* text section */}
       <div className="flex flex-col items-center gap-2.5">
-        <h2 className="text-label-normal headline1-bold">
-          카드 연동 기간 설정
-        </h2>
+        <h2 className="text-label-normal headline1-bold">가계부 기간 설정</h2>
         <span className="text-label-alternative body1-normal-medium text-center">
-          언제부터 카드 내역을 불러올까요? <br />
+          언제부터 기록할까요? <br />
           교환학생 지출을 기록할 기간을 선택해주세요
         </span>
       </div>
