@@ -107,7 +107,14 @@ const CalendarMonthPopover = ({
       <PopoverTrigger asChild>
         <button className="text-label-normal headline1-bold flex cursor-pointer items-center gap-1.5 text-center">
           {date.getFullYear()}년 {date.getMonth() + 1}월
-          <Icon iconName="CaretDown" width={20} height={20} />
+          <div
+            className={clsx(
+              'transition-transform duration-500',
+              isOpen && 'rotate-180',
+            )}
+          >
+            <Icon iconName="CaretDown" width={16} height={16} />
+          </div>
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto border-none bg-transparent pt-3 shadow-none">
