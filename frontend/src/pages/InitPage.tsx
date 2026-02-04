@@ -49,6 +49,7 @@ const InitPage = () => {
   const handlePrevButton = () => {
     setSelectedCountry(undefined);
     setDateRange({ startDate: null, endDate: null });
+    setDateValid(false);
     setStep('select-country');
   };
 
