@@ -6,7 +6,7 @@ import { useDragAndDrop } from './useDragAndDrop';
 import { uploadPolicy, useFileValidator } from './useFileValidator';
 
 const LandingUploadBox = () => {
-  const policy = uploadPolicy.image;
+  const policy = uploadPolicy.landingImage;
   const validateFiles = useFileValidator(policy);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
