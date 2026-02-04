@@ -1,7 +1,6 @@
-import { Link } from '@tanstack/react-router';
-import clsx from 'clsx';
+import LoginButton from '@/components/login-page/LoginButton';
 
-import { AuthLogos } from '@/assets';
+import { AuthLogos, Icons } from '@/assets';
 
 const AUTH_PROVIDERS = [
   {
@@ -22,46 +21,26 @@ const AUTH_PROVIDERS = [
   },
 ] as const;
 
-interface AuthButtonProps {
-  text: string;
-  bgColor: string;
-  textColor: string;
-  Icon: React.ComponentType<{ className: string }>;
-  to: string;
-}
-
-const AuthButton = ({
-  text,
-  bgColor,
-  textColor,
-  Icon,
-  to,
-}: AuthButtonProps) => (
-  <Link to={to} className="mx-auto block w-81.25">
-    <div
-      className={clsx(
-        'flex items-center justify-center gap-3.5 rounded-lg py-[11.5px]',
-        bgColor,
-        textColor,
-      )}
-    >
-      <Icon className="h-4.5 w-4.5" />
-      <span className="text-[15px] font-semibold">{text}</span>
-    </div>
-  </Link>
-);
-
 const LoginPage = () => {
   return (
-    <main className="bg-cool-neutral-99 -mt-14.25 flex min-h-screen items-center justify-center">
+    <main className="realative -mt-14.25 flex min-h-screen items-center justify-center md:static">
       <div className="px-25 py-17.5 text-center">
-        <h1 className="mb-4 text-[32px] font-medium">로그인</h1>
-        <h2 className="mb-25 text-gray-400">
-          소셜 로그인으로 간단하게 시작해보세요
-        </h2>
-        <div className="flex flex-col gap-3">
+        <div className="hidden flex-col gap-1 md:mb-25 md:flex">
+          <h1 className="text-[32px] font-medium">로그인</h1>
+          <h2 className="text-gray-400">
+            소셜 로그인으로 간단하게 시작해보세요
+          </h2>
+        </div>
+        <div className="flex flex-col items-center md:hidden">
+          <Icons.Logo width={42} height={42} />
+          <Icons.LogoText width={160} height={48} />
+          <h1 className="label2-medium text-primary-normal mt-5">
+            교환학생 지출의 모든 것, 통합 가계부 유니포켓
+          </h1>
+        </div>
+        <div className="absolute right-0 bottom-23 left-0 flex flex-col gap-3 md:static">
           {AUTH_PROVIDERS.map((provider) => (
-            <AuthButton key={provider.id} {...provider} />
+            <LoginButton key={provider.id} {...provider} />
           ))}
         </div>
       </div>
