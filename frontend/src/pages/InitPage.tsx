@@ -46,6 +46,12 @@ const InitPage = () => {
     });
   };
 
+  const handlePrevButton = () => {
+    setSelectedCountry(undefined);
+    setDateRange({ startDate: null, endDate: null });
+    setStep('select-country');
+  };
+
   return (
     <div className="bg-background-alternative flex h-screen w-full justify-center">
       {step === 'select-country' && (
@@ -64,7 +70,10 @@ const InitPage = () => {
             onChange={handleDateChange}
             onValidChange={setDateValid}
           />
-          <div className="flex w-full justify-end">
+          <div className="flex w-full justify-between">
+            <Button variant="outlined" size="lg" onClick={handlePrevButton}>
+              이전
+            </Button>
             <Button
               variant="solid"
               size="lg"
