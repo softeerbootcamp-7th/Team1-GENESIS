@@ -56,7 +56,7 @@ tasks.register("unitTest", Test) {
 	}
 
 	// fork PR에서도 항상 돌아야 하므로 test 프로파일 고정(더미 설정/인메모리 DB 등)
-	systemProperty "spring.profiles.active", "test"
+	systemProperty "spring.profiles.active", "test-unit"
 }
 
 tasks.register("integrationTest", Test) {
@@ -68,7 +68,7 @@ tasks.register("integrationTest", Test) {
 	}
 
 	// 내부 PR에서만 secrets/ENV_FILE로 값 주입하고, 그에 맞는 프로파일 사용
-	systemProperty "spring.profiles.active", "ci"
+	systemProperty "spring.profiles.active", "test-ci"
 	shouldRunAfter tasks.named("unitTest")
 }
 
