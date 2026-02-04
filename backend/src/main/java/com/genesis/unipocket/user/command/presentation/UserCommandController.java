@@ -3,11 +3,11 @@ package com.genesis.unipocket.user.command.presentation;
 import com.genesis.unipocket.global.config.OAuth2Properties.ProviderType;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
+import com.genesis.unipocket.global.util.CookieUtil;
 import com.genesis.unipocket.user.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.user.command.facade.UserLoginFacade;
 import com.genesis.unipocket.user.command.presentation.dto.response.AuthorizeResponse;
 import com.genesis.unipocket.user.command.presentation.dto.response.LoginResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,13 @@ public class UserCommandController {
 
 	private final OAuthAuthorizeFacade authorizeFacade;
 	private final UserLoginFacade loginFacade;
+	private final CookieUtil cookieUtil;
 
 	@Value("${app.frontend.url:http://localhost:3000}")
 	private String frontendUrl;
+
+	@Value("${jwt.access-token-expiration}")
+	private long accessTokenExpirationMs;
 
 	/**
 	 * OAuth 인증 시작: 소셜 로그인 페이지로 리다이렉트
@@ -61,11 +65,16 @@ public class UserCommandController {
 
 		LoginResponse loginResponse = loginFacade.login(providerType, code, state);
 
-		addCookie(
+		// Access Token 쿠키 저장
+		cookieUtil.addCookie(
 				response,
 				"access_token",
 				loginResponse.getAccessToken(),
 				loginResponse.getExpiresIn().intValue());
+
+		// Refresh Token 쿠키 저장 (10일)
+		cookieUtil.addCookie(
+				response, "refresh_token", loginResponse.getRefreshToken(), 10 * 24 * 60 * 60);
 
 		String redirectUrl = createRedirectUrl();
 		response.sendRedirect(redirectUrl);
@@ -81,20 +90,6 @@ public class UserCommandController {
 			log.error("Invalid OAuth provider: {}", provider);
 			throw new BusinessException(ErrorCode.INVALID_OAUTH_PROVIDER);
 		}
-	}
-
-	/**
-	 * 쿠키 추가 유틸리티
-	 */
-	private void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
-		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/");
-		cookie.setMaxAge(maxAge);
-
-		// HTTPS 환경에서는 Secure 설정 권장 (개발 환경 고려하여 일단 false 또는 조건부)
-		// cookie.setSecure(true);
-
-		response.addCookie(cookie);
 	}
 
 	/**
