@@ -19,10 +19,9 @@ const variantMap = {
 };
 
 interface TabContextType {
-  value: string;
-  setValue: (value: string) => void;
+  currentValue: string;
+  setCurrentValue: (value: string) => void;
   variant: TabVariant;
-  setVariant: (variant: TabVariant) => void;
 }
 
 const TabContext = createContext<TabContextType | null>(null);
@@ -45,12 +44,15 @@ const TabProvider = ({
   defaultValue,
   variant = 'underline',
 }: TabProviderProps) => {
-  const [value, setValue] = useState(defaultValue);
-  const [currentVariant, setVariant] = useState(variant);
+  const [currentValue, setCurrentValue] = useState(defaultValue);
 
   return (
     <TabContext.Provider
-      value={{ value, setValue, variant: currentVariant, setVariant }}
+      value={{
+        currentValue,
+        setCurrentValue,
+        variant,
+      }}
     >
       {children}
     </TabContext.Provider>
@@ -66,14 +68,16 @@ interface TabTriggerProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 const TabTrigger = ({ value, children }: TabTriggerProps) => {
-  const { value: activeValue, setValue, variant } = useTab();
-  const isActive = activeValue === value;
+  const { currentValue, setCurrentValue, variant } = useTab();
+  const isActive = currentValue === value;
 
-  const currentVariant = variantMap[variant];
-  const stateClass = isActive ? currentVariant.active : currentVariant.inactive;
+  const currentVariantStyles = variantMap[variant];
+  const stateClass = isActive
+    ? currentVariantStyles.active
+    : currentVariantStyles.inactive;
 
   return (
-    <button onClick={() => setValue(value)} className={stateClass}>
+    <button onClick={() => setCurrentValue(value)} className={stateClass}>
       {children}
     </button>
   );
@@ -86,8 +90,8 @@ interface TabContentProps {
 
 const TabContent = ({ value, children }: TabContentProps) => {
   const context = useTab();
-  const { value: activeValue } = context;
-  if (activeValue !== value) return null;
+  const { currentValue } = context;
+  if (currentValue !== value) return null;
   return <>{children}</>;
 };
 
