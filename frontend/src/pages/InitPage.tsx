@@ -53,7 +53,7 @@ const InitPage = () => {
   };
 
   return (
-    <div className="bg-background-alternative flex h-screen w-full justify-center">
+    <div className="bg-background-alternative mt-12 flex h-screen w-full justify-center">
       {step === 'select-country' && (
         <LocaleSelectModal
           mode="LOCAL"
@@ -63,7 +63,7 @@ const InitPage = () => {
       )}
 
       {step === 'select-date' && (
-        <div className="bg-background-normal rounded-modal-20 mt-20 flex h-screen w-fit flex-col items-center gap-8 px-10.5 py-10">
+        <div className="bg-background-normal rounded-modal-20 flex h-screen w-fit flex-col items-center gap-5 px-10.5 py-10">
           <SelectDateContent
             startDate={dateRange.startDate}
             endDate={dateRange.endDate}
