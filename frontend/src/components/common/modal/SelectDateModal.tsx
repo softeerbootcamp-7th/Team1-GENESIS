@@ -88,12 +88,19 @@ const SelectDateContent = ({
   );
 };
 
-interface SelectDateModalProps extends Omit<ModalProps, 'children'> {
+interface SelectDateModalProps extends Omit<
+  ModalProps,
+  'children' | 'onAction'
+> {
   initialDateRange?: DateRange;
+  onConfirm: (dateRange: DateRange) => void;
+  onAction?: () => void;
 }
 
 const SelectDateModal = ({
   initialDateRange,
+  onConfirm,
+  onAction,
   ...modalProps
 }: SelectDateModalProps) => {
   const [dateRange, setDateRange] = useState<DateRange>(
@@ -104,8 +111,13 @@ const SelectDateModal = ({
     setDateRange({ startDate, endDate });
   };
 
+  const handleConfirm = () => {
+    onConfirm(dateRange);
+    onAction?.();
+  };
+
   return (
-    <Modal {...modalProps}>
+    <Modal {...modalProps} onAction={handleConfirm}>
       <SelectDateContent
         startDate={dateRange.startDate}
         endDate={dateRange.endDate}
