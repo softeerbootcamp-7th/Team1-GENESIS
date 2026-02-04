@@ -16,7 +16,7 @@ const UploadBox = ({ type }: UploadBoxProps) => {
 
   const {
     isDragging,
-    bind: { onDragOver, onDragLeave, onDrop },
+    bind,
   } = useDragAndDrop(validateFiles);
 
   // 클릭 업로드
@@ -42,9 +42,7 @@ const UploadBox = ({ type }: UploadBoxProps) => {
           ? 'border-blue-400 bg-blue-50'
           : 'hover:bg-background-alternative border-transparent'
       } `}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
+      {...bind}
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
