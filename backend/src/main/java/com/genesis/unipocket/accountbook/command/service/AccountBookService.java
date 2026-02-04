@@ -1,10 +1,10 @@
-package com.genesis.unipocket.accountbook.service;
+package com.genesis.unipocket.accountbook.command.service;
 
-import com.genesis.unipocket.accountbook.dto.common.AccountBookDto;
-import com.genesis.unipocket.accountbook.dto.request.CreateAccountBookReq;
-import com.genesis.unipocket.accountbook.entity.AccountBookEntity;
-import com.genesis.unipocket.accountbook.repository.AccountBookRepository;
-import com.genesis.unipocket.accountbook.service.validator.AccountBookValidator;
+import com.genesis.unipocket.accountbook.command.dto.common.AccountBookDto;
+import com.genesis.unipocket.accountbook.command.dto.request.CreateAccountBookReq;
+import com.genesis.unipocket.accountbook.command.entity.AccountBookEntity;
+import com.genesis.unipocket.accountbook.command.repository.AccountBookRepository;
+import com.genesis.unipocket.accountbook.command.service.validator.AccountBookValidator;
 import com.genesis.unipocket.global.common.enums.CountryCode;
 import java.util.List;
 import java.util.regex.Matcher;
