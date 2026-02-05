@@ -1,5 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { clsx } from 'clsx';
+
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 import DropDown from '@/components/common/dropdown/Dropdown';
 import Icon from '@/components/common/Icon';
@@ -17,12 +19,43 @@ const minuteOptions = Array.from({ length: 60 }).map((_, i) => ({
   name: i.toString().padStart(2, '0'),
 }));
 
-export default function DateTimePicker() {
+export default function DateTimePicker({
+  onDateTimeSelect,
+  onClose,
+}: {
+  onDateTimeSelect?: (date: Date) => void;
+  onClose?: () => void;
+}) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const [hour, setHour] = useState(12);
+  const [hour, setHour] = useState(0);
   const [minute, setMinute] = useState(0);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useOutsideClick(containerRef, () => {
+    onClose?.();
+  });
+
+  const handleHourSelect = (hourValue: number) => {
+    setHour(hourValue);
+  };
+
+  const handleMinuteSelect = (minuteValue: number) => {
+    setMinute(minuteValue);
+    if (selectedDate) {
+      const completeDateTime = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+        hour,
+        minuteValue,
+      );
+      onDateTimeSelect?.(completeDateTime);
+      onClose?.();
+    }
+  };
 
   const { year, month, dates } = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -77,20 +110,11 @@ export default function DateTimePicker() {
     setCurrentMonth(new Date(year, month + 1));
   }, [year, month]);
 
-  const selectedDateTime = useMemo(() => {
-    if (!selectedDate) return null;
-
-    return new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      selectedDate.getDate(),
-      hour,
-      minute,
-    );
-  }, [selectedDate, hour, minute]);
-
   return (
-    <div className="rounded-modal-10 border-line-normal-normal bg-background-normal w-65 space-y-4 border p-4">
+    <div
+      ref={containerRef}
+      className="rounded-modal-10 border-line-normal-normal bg-background-normal w-65 space-y-4 border p-4"
+    >
       <div className="flex items-center justify-between">
         <Icon
           iconName="ChevronBack"
@@ -145,7 +169,7 @@ export default function DateTimePicker() {
         <div className="w-16">
           <DropDown
             selected={hour}
-            onSelect={setHour}
+            onSelect={handleHourSelect}
             options={hourOptions}
             size="md"
           />
@@ -154,18 +178,12 @@ export default function DateTimePicker() {
         <div className="w-16">
           <DropDown
             selected={minute}
-            onSelect={setMinute}
+            onSelect={handleMinuteSelect}
             options={minuteOptions}
             size="md"
           />
         </div>
       </div>
-
-      {selectedDateTime && (
-        <p className="label2-medium text-center text-gray-600">
-          선택됨: {selectedDateTime.toLocaleString('ko-KR')}
-        </p>
-      )}
     </div>
   );
 }

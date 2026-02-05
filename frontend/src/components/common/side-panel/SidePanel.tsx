@@ -127,7 +127,10 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
           />
           {isDateTimePickerOpen && (
             <div className="absolute top-8 right-0 z-50 mt-2">
-              <DateTimePicker onDateTimeSelect={handleDateTimeSelect} />
+              <DateTimePicker 
+                onDateTimeSelect={handleDateTimeSelect}
+                onClose={() => setIsDateTimePickerOpen(false)}
+              />
             </div>
           )}
         </div>
