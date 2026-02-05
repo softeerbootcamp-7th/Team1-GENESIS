@@ -29,7 +29,7 @@ const DUMMY_DATA = {
 } as const;
 
 const ChartComparison = () => {
-  const [selectedId, setSelectedId] = useState<number | null>(1);
+  const [selectedId, setSelectedId] = useState<number>(1);
   const isBaseCurrency = selectedId === 1;
 
   const options = [
