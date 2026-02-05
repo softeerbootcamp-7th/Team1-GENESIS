@@ -116,12 +116,12 @@ const LocaleSelectModal = ({
       </div>
 
       {/* select section */}
-      <div className="flex flex-col gap-4.5">
+      <div className="flex h-162 flex-col gap-4.5">
         <input
           type="text"
           className="bg-fill-normal rounded-modal-10 h-15 w-full"
         />
-        <div className="flex h-142.5 w-118 flex-col overflow-y-auto">
+        <div className="flex w-118 flex-1 flex-col overflow-y-auto">
           {countryCode.map((code, index) => {
             const data = getCountryInfo(code);
 
