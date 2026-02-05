@@ -33,12 +33,11 @@ const InitPage = () => {
 
   const handleDateConfirm = () => {
     // TODO: API Call with country, startDate, endDate
-    const formattedStartDate = dateRange.startDate
-      ? formatDateToString(dateRange.startDate)
-      : undefined;
-    const formattedEndDate = dateRange.endDate
-      ? formatDateToString(dateRange.endDate)
-      : undefined;
+    if (!selectedCountry || !dateRange.startDate || !dateRange.endDate) {
+      return;
+    }
+    const formattedStartDate = formatDateToString(dateRange.startDate);
+    const formattedEndDate = formatDateToString(dateRange.endDate);
 
     console.log('API Call:', {
       localCountryCode: selectedCountry,
