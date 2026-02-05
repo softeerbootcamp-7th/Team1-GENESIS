@@ -7,5 +7,9 @@ export const Route = createFileRoute('/_app/home')({
 });
 
 function RouteComponent() {
-  return <div><SidePanel /></div>;
+  return (
+    <div>
+      <SidePanel />
+    </div>
+  );
 }

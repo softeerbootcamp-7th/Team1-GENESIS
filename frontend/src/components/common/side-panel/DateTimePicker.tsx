@@ -29,9 +29,13 @@ export default function DateTimePicker({
   initialDateTime?: Date | null;
 }) {
   const [currentMonth, setCurrentMonth] = useState<Date>(
-    initialDateTime ? new Date(initialDateTime.getFullYear(), initialDateTime.getMonth(), 1) : new Date()
+    initialDateTime
+      ? new Date(initialDateTime.getFullYear(), initialDateTime.getMonth(), 1)
+      : new Date(),
   );
-  const [selectedDate, setSelectedDate] = useState<Date | null>(initialDateTime || null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    initialDateTime || null,
+  );
 
   const [hour, setHour] = useState(initialDateTime?.getHours() ?? 0);
   const [minute, setMinute] = useState(initialDateTime?.getMinutes() ?? 0);
@@ -183,7 +187,7 @@ export default function DateTimePicker({
       </div>
 
       <div className="flex items-center justify-center gap-3">
-        <div className='w-16'>
+        <div className="w-16">
           <DropDown
             selected={hour}
             onSelect={handleHourSelect}
@@ -192,7 +196,7 @@ export default function DateTimePicker({
           />
         </div>
         <span className="text-gray-400">:</span>
-        <div className='w-16'>
+        <div className="w-16">
           <DropDown
             selected={minute}
             onSelect={handleMinuteSelect}

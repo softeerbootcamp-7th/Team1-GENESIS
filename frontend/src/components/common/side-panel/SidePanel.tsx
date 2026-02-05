@@ -123,7 +123,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
           <ValueContainer items={valueItems} />
           {isDateTimePickerOpen && (
             <div className="absolute top-8 right-0 z-50 mt-2">
-              <DateTimePicker 
+              <DateTimePicker
                 initialDateTime={selectedDateTime}
                 onDateTimeSelect={handleDateTimeSelect}
                 onClose={() => setIsDateTimePickerOpen(false)}
