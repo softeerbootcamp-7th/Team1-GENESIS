@@ -35,9 +35,6 @@ export default function DateTimePicker({
 
   const [hour, setHour] = useState(initialDateTime?.getHours() ?? 0);
   const [minute, setMinute] = useState(initialDateTime?.getMinutes() ?? 0);
-  const [selectedStep, setSelectedStep] = useState<'hour' | 'minute' | null>(
-    initialDateTime ? null : 'hour'
-  );
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -47,12 +44,20 @@ export default function DateTimePicker({
 
   const handleHourSelect = (hourValue: number) => {
     setHour(hourValue);
-    setSelectedStep('minute');
+    if (selectedDate) {
+      const completeDateTime = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+        hourValue,
+        minute,
+      );
+      onDateTimeSelect?.(completeDateTime);
+    }
   };
 
   const handleMinuteSelect = (minuteValue: number) => {
     setMinute(minuteValue);
-    setSelectedStep(null);
     if (selectedDate) {
       const completeDateTime = new Date(
         selectedDate.getFullYear(),
@@ -102,12 +107,21 @@ export default function DateTimePicker({
     (date: Date) => {
       setSelectedDate(date);
 
+      const completeDateTime = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        hour,
+        minute,
+      );
+      onDateTimeSelect?.(completeDateTime);
+
       // 다른 달 날짜 클릭 시 달 이동
       if (date.getMonth() !== month || date.getFullYear() !== year) {
         setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
       }
     },
-    [month, year],
+    [hour, minute, month, onDateTimeSelect, year],
   );
 
   const handlePrevMonth = useCallback(() => {
@@ -174,7 +188,7 @@ export default function DateTimePicker({
       </div>
 
       <div className="flex items-center justify-center gap-3">
-        <div className={clsx('w-16', selectedStep === 'hour' && 'rounded-xl border border-primary-normal')}>
+        <div className='w-16'>
           <DropDown
             selected={hour}
             onSelect={handleHourSelect}
@@ -183,7 +197,7 @@ export default function DateTimePicker({
           />
         </div>
         <span className="text-gray-400">:</span>
-        <div className={clsx('w-16', selectedStep === 'minute' && 'rounded-xl border border-primary-normal')}>
+        <div className='w-16'>
           <DropDown
             selected={minute}
             onSelect={handleMinuteSelect}
