@@ -1,0 +1,100 @@
+import { useState } from 'react';
+
+import DropDown from '@/components/common/dropdown/Dropdown';
+
+import type { CategoryType } from '@/types/category';
+
+import { CATEGORY_COLORS } from '../chartColor';
+import CategoryListItem from './CategoryListItem';
+import CategoryPieChart from './CategoryPieChart';
+import { dummyData } from './dummy';
+
+const CURRENCY_OPTIONS = [
+  { id: 1, name: '기준 통화' },
+  { id: 2, name: '현지 통화' },
+];
+
+const PERIOD_OPTIONS = [
+  { id: 1, name: '전체' },
+  { id: 2, name: '월별' },
+];
+
+type CategoryStatisticsItem = {
+  categoryName: CategoryType;
+  amount: number;
+  percent: number;
+};
+
+export type CategoryStatisticsResponse = {
+  totalAmount: number;
+  currency: string;
+  items: CategoryStatisticsItem[];
+};
+
+// 임시용
+const totalAmount = (amount: string) => {
+  return <div>{amount}</div>;
+};
+
+const CategoryChart = () => {
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    CURRENCY_OPTIONS[0].id,
+  );
+  const [selectedPeriod, setSelectedPeriod] = useState(PERIOD_OPTIONS[0].id);
+
+  // 실제 데이터 렌더링용 (API 응답 구조에 맞춤)
+  const chartData = dummyData.items.map((item) => ({
+    percentage: item.percent,
+    categoryName: item.categoryName,
+    amount: item.amount.toLocaleString(),
+  }));
+
+  const formattedTotalAmount = `₩${dummyData.totalAmount.toLocaleString()}`;
+
+  return (
+    <div className="rounded-modal-16 bg-background-normal shadow-semantic-subtle flex w-139 flex-col gap-2.5 p-2 pt-4">
+      {/* header */}
+      <div className="flex items-center justify-between px-2.5">
+        <span>카테고리별 지출</span>
+        <div className="flex items-center gap-1.5">
+          <DropDown
+            selected={selectedCurrency}
+            onSelect={setSelectedCurrency}
+            options={CURRENCY_OPTIONS}
+            size="xs"
+          />
+          <DropDown
+            selected={selectedPeriod}
+            onSelect={setSelectedPeriod}
+            options={PERIOD_OPTIONS}
+            size="xs"
+          />
+        </div>
+      </div>
+      {/* stat section */}
+      <div className="rounded-modal-8 bg-background-alternative flex justify-between px-8 py-4">
+        <CategoryPieChart
+          data={chartData}
+          totalAmount={totalAmount(formattedTotalAmount)}
+        />
+        <div className="flex flex-col justify-between">
+          {chartData.map(
+            (item, idx) =>
+              item.percentage > 0 && (
+                <CategoryListItem
+                  key={idx}
+                  currency={selectedCurrency === 1 ? 'BASE' : 'LOCAL'}
+                  categoryName={item.categoryName}
+                  percentage={item.percentage}
+                  amount={item.amount}
+                  color={CATEGORY_COLORS[idx % CATEGORY_COLORS.length]}
+                />
+              ),
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryChart;
