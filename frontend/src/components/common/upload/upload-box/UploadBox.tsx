@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 import { clsx } from 'clsx';
 
 import { useDragAndDrop } from '@/hooks/useDragAndDrop';
@@ -27,12 +27,12 @@ const UploadBox = ({ type }: UploadBoxProps) => {
     e.target.value = '';
   };
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       fileInputRef.current?.click();
     }
-  }, []);
+  };
 
   return (
     <label
