@@ -1,8 +1,7 @@
 package com.genesis.unipocket.travel.domain;
 
 import com.genesis.unipocket.global.base.BaseEntity;
-import com.genesis.unipocket.global.exception.BusinessException;
-import com.genesis.unipocket.global.exception.ErrorCode;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,5 +47,13 @@ public class Travel extends BaseEntity {
             // argument
             throw new IllegalArgumentException("Travel end date must be after start date");
         }
+    }
+
+    public void update(String travelPlaceName, LocalDate startDate, LocalDate endDate, String imageKey) {
+        this.travelPlaceName = travelPlaceName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.imageKey = imageKey;
+        validateDateRange();
     }
 }
