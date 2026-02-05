@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-interface UploadPolicy {
+type UploadPolicy = {
   message?: string;
   accept: string;
   multiple: boolean;
