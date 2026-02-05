@@ -69,7 +69,7 @@ const InitPage = () => {
             endDate={dateRange.endDate}
             onChange={handleDateChange}
           />
-          <div className="mb-10 flex w-full items-center justify-between">
+          <div className="mb-10 flex w-full items-center justify-between px-4">
             <Button variant="outlined" size="lg" onClick={handlePrevButton}>
               이전
             </Button>
