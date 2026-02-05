@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
@@ -102,34 +102,31 @@ export default function DateTimePicker({
     return { year, month, dates };
   }, [currentMonth]);
 
-  const handleDateClick = useCallback(
-    (date: Date) => {
-      setSelectedDate(date);
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
 
-      const completeDateTime = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        hour,
-        minute,
-      );
-      onDateTimeSelect?.(completeDateTime);
+    const completeDateTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      hour,
+      minute,
+    );
+    onDateTimeSelect?.(completeDateTime);
 
-      // 다른 달 날짜 클릭 시 달 이동
-      if (date.getMonth() !== month || date.getFullYear() !== year) {
-        setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
-      }
-    },
-    [hour, minute, month, onDateTimeSelect, year],
-  );
+    // 다른 달 날짜 클릭 시 달 이동
+    if (date.getMonth() !== month || date.getFullYear() !== year) {
+      setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+  };
 
-  const handlePrevMonth = useCallback(() => {
+  const handlePrevMonth = () => {
     setCurrentMonth(new Date(year, month - 1));
-  }, [year, month]);
+  };
 
-  const handleNextMonth = useCallback(() => {
+  const handleNextMonth = () => {
     setCurrentMonth(new Date(year, month + 1));
-  }, [year, month]);
+  };
 
   return (
     <div

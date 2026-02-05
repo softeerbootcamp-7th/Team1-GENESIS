@@ -32,9 +32,7 @@ const ValueContainer = ({ items }: ValueContainerProps) => {
           key={label}
           label={label}
           value={value}
-          onClick={() => {
-            onClick?.();
-          }}
+          onClick={onClick}
         />
       ))}
     </div>
