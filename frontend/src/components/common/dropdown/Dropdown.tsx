@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { clsx } from 'clsx';
 
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 
@@ -15,6 +16,7 @@ interface DropDownProps {
   onSelect: (id: number) => void;
   options?: Option[];
   size?: 'xs' | 'sm' | 'md' | 'lg';
+  align?: 'left' | 'right';
 }
 
 const DropDown = ({
@@ -22,6 +24,7 @@ const DropDown = ({
   onSelect,
   options,
   size = 'sm',
+  align = 'left',
 }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -45,7 +48,11 @@ const DropDown = ({
       </Filter>
 
       {isOpen && (
-        <ul className="scrollbar rounded-modal-10 border-line-solid-normal bg-background-normal absolute top-full left-0 z-50 mt-1.5 max-h-60 w-50 overflow-hidden overflow-y-auto border p-1 shadow-lg">
+        <ul
+          className={clsx(
+            `scrollbar rounded-modal-10 border-line-solid-normal bg-background-normal absolute top-full z-50 mt-1.5 max-h-60 w-50 overflow-hidden overflow-y-auto border p-1 shadow-lg ${align === 'left' ? 'left-0' : 'right-0'}`,
+          )}
+        >
           {options?.map((option) => (
             <OptionItem
               key={option.id}
