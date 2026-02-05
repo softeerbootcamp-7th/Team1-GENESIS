@@ -35,6 +35,9 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     {
       label: '일시',
       value: '비어 있음',
+      onClick: () => {
+        setIsDateTimePickerOpen((prev) => !prev);
+      },
     },
     {
       label: '카테고리',
@@ -118,14 +121,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
           }}
         />
         <div className="relative">
-          <ValueContainer 
-            items={valueItems}
-            onItemClick={(label) => {
-              if (label === '일시') {
-                setIsDateTimePickerOpen(!isDateTimePickerOpen);
-              }
-            }}
-          />
+          <ValueContainer items={valueItems} />
           {isDateTimePickerOpen && (
             <div className="absolute top-8 right-0 z-50 mt-2">
               <DateTimePicker 

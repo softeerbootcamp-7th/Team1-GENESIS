@@ -3,12 +3,11 @@ import type React from 'react';
 export interface ValueItemProps {
   label: string;
   value: React.ReactNode;
-  onClick?: () => void;
+  onClick?: () => void; // @TODO: 필수로 변경 예정
 }
 
 interface ValueContainerProps {
   items: ValueItemProps[];
-  onItemClick?: (label: string) => void;
 }
 
 const ValueItem = ({ label, value, onClick }: ValueItemProps) => {
@@ -25,15 +24,17 @@ const ValueItem = ({ label, value, onClick }: ValueItemProps) => {
   );
 };
 
-const ValueContainer = ({ items, onItemClick }: ValueContainerProps) => {
+const ValueContainer = ({ items }: ValueContainerProps) => {
   return (
     <div className="relative flex flex-col gap-2">
-      {items.map(({ label, value }) => (
+      {items.map(({ label, value, onClick }) => (
         <ValueItem 
           key={label} 
           label={label} 
           value={value}
-          onClick={() => onItemClick?.(label)}
+          onClick={() => {
+            onClick?.();
+          }}
         />
       ))}
     </div>
