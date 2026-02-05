@@ -55,12 +55,12 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     },
   ]);
 
-  const ref = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLTextAreaElement>(null);
 
   useLayoutEffect(() => {
-    if (!ref.current) return;
-    ref.current.style.height = '0px';
-    ref.current.style.height = `${ref.current.scrollHeight}px`;
+    if (!titleRef.current) return;
+    titleRef.current.style.height = '0px';
+    titleRef.current.style.height = `${titleRef.current.scrollHeight}px`;
   }, [title]);
 
   const handleDateTimeSelect = (selected: Date) => {
@@ -103,7 +103,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
       </div>
       <div className="flex flex-col gap-10 px-5">
         <textarea
-          ref={ref}
+          ref={titleRef}
           className="heading1-bold text-label-strong placeholder:text-label-assistive resize-none overflow-hidden border-0 bg-transparent leading-tight outline-0"
           value={title}
           placeholder="거래처를 입력해 주세요."
