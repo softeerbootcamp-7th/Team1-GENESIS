@@ -50,8 +50,9 @@ const ChartComparison = () => {
             selected={selectedId}
             options={options}
             size="xs"
-            align="right"
+            align="center"
             onSelect={setSelectedId}
+            itemWidth="w-18.5"
           />
         </div>
       </div>
