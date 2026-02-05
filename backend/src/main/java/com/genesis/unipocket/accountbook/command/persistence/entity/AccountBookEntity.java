@@ -1,5 +1,6 @@
-package com.genesis.unipocket.accountbook.command.entity;
+package com.genesis.unipocket.accountbook.command.persistence.entity;
 
+import com.genesis.unipocket.accountbook.command.persistence.dto.AccountBookCreateArgs;
 import com.genesis.unipocket.global.base.BaseEntity;
 import com.genesis.unipocket.global.common.enums.CountryCode;
 import jakarta.persistence.Column;
@@ -32,7 +33,7 @@ public class AccountBookEntity extends BaseEntity {
 
 	// TODO: User 모델을 받으면 새롭게 주입 예정
 	@Column(nullable = false, name = "user_id")
-	private Long userId;
+	private String userId;
 
 	@Column(columnDefinition = "CHAR(4)")
 	@Enumerated(value = EnumType.STRING)
@@ -54,21 +55,15 @@ public class AccountBookEntity extends BaseEntity {
 	@Column(name = "end_date", nullable = false, columnDefinition = "DATE")
 	private LocalDate endDate;
 
-	public static AccountBookEntity create(
-			Long userId,
-			String title,
-			CountryCode localCountryCode,
-			CountryCode baseCountryCode,
-			LocalDate startDate,
-			LocalDate endDate) {
+	public static AccountBookEntity create(AccountBookCreateArgs args) {
 
 		return AccountBookEntity.builder()
-				.userId(userId)
-				.localCountryCode(localCountryCode)
-				.baseCountryCode(baseCountryCode)
-				.title(title)
-				.startDate(startDate)
-				.endDate(endDate)
+				.userId(args.userId())
+				.localCountryCode(args.localCountryCode())
+				.baseCountryCode(args.baseCountryCode())
+				.title(args.title())
+				.startDate(args.startDate())
+				.endDate(args.endDate())
 				.build();
 	}
 
