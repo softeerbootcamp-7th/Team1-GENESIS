@@ -31,7 +31,7 @@ export const uploadPolicy = {
     maxCount: 1,
     maxTotalSize: 20 * 1024 * 1024,
   },
-} as const;
+} as const satisfies Record<string, UploadPolicy>;
 
 export const useFileValidator = (policy: UploadPolicy) => {
   return useCallback(
