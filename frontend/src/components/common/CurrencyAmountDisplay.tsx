@@ -34,7 +34,7 @@ const CurrencyAmountDisplay = ({
   if (!countryInfo) return null;
 
   // KRW(원), JPY(엔), VND(동) 등은 소수점을 쓰지 않는 것이 관례
-  const isZeroDecimal = ['KRW', 'JPY', 'VND'].includes(
+  const isZeroDecimal = new Set(['KRW', 'JPY', 'VND']).has(
     countryInfo.currencyName,
   );
   const fractionDigits = isZeroDecimal ? 0 : 2;
