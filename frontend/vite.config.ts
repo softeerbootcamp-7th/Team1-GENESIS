@@ -4,7 +4,13 @@ import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
-import type { User } from './src/lib/auth';
+type User = {
+  userId: string;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  socialProvider: string;
+};
 
 let isTokenExpired = true;
 let reissueFailCount = 0; // 재발급 실패 카운트 (테스트용)
