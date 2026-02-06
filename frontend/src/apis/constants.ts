@@ -1,4 +1,4 @@
-export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const DEFAULT_TIMEOUT = 5000; // 5초
 
 export const ERROR_NAMES = {
@@ -16,6 +16,7 @@ export const HTTP_STATUS = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
+  REQUEST_TIMEOUT: 408,
   INTERNAL_SERVER_ERROR: 500,
 } as const;
 
