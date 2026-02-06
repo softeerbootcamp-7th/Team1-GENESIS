@@ -30,11 +30,11 @@ export default function DateTimePicker({
   onClose?: () => void;
   initialDateTime?: Date | null;
 }) {
-  const [currentMonth, setCurrentMonth] = useState<Date>(
-    initialDateTime
-      ? new Date(initialDateTime.getFullYear(), initialDateTime.getMonth(), 1)
-      : new Date(),
-  );
+  const [currentMonth, setCurrentMonth] = useState<Date>(() => {
+    const baseDate = initialDateTime ?? new Date();
+    return new Date(baseDate.getFullYear(), baseDate.getMonth(), 1);
+  });
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     initialDateTime || null,
   );
