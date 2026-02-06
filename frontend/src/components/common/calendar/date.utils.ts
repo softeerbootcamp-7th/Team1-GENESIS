@@ -47,16 +47,16 @@ export const formatDateTime = (date: Date): string => {
     weekday: 'short',
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false // 24시간 형식
+    hour12: false, // 24시간 형식
   });
 
   const parts = formatter.formatToParts(date);
-  const year = parts.find(p => p.type === 'year')?.value;
-  const month = parts.find(p => p.type === 'month')?.value;
-  const day = parts.find(p => p.type === 'day')?.value;
-  const weekday = parts.find(p => p.type === 'weekday')?.value;
-  const hour = parts.find(p => p.type === 'hour')?.value;
-  const minute = parts.find(p => p.type === 'minute')?.value;
+  const year = parts.find((p) => p.type === 'year')?.value;
+  const month = parts.find((p) => p.type === 'month')?.value;
+  const day = parts.find((p) => p.type === 'day')?.value;
+  const weekday = parts.find((p) => p.type === 'weekday')?.value;
+  const hour = parts.find((p) => p.type === 'hour')?.value;
+  const minute = parts.find((p) => p.type === 'minute')?.value;
 
   return `${year}.${month}.${day}. (${weekday}) ${hour}:${minute}`;
 };

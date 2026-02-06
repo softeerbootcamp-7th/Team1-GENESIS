@@ -84,16 +84,15 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     }, 300);
   };
 
-
   if (!isMounted) return null;
   return (
     <div
-    className={clsx(
-      'scrollbar border-line-normal-normal bg-background-normal shadow-panel fixed top-0 right-0 z-50 flex h-screen w-100 flex-col gap-8 overflow-y-auto border-l pb-50',
-      'transform transition-transform duration-300 ease-out',
-      isOpen ? 'translate-x-0' : 'translate-x-full',
-    )}
-  >
+      className={clsx(
+        'scrollbar border-line-normal-normal bg-background-normal shadow-panel fixed top-0 right-0 z-50 flex h-screen w-100 flex-col gap-8 overflow-y-auto border-l pb-50',
+        'transform transition-transform duration-300 ease-out',
+        isOpen ? 'translate-x-0' : 'translate-x-full',
+      )}
+    >
       <div className="flex items-center justify-between p-4">
         <Icon
           color="text-label-neutral"
