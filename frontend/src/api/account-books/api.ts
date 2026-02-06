@@ -5,7 +5,7 @@ import {
 import { customFetch } from '@/api/config/client';
 import { ENDPOINTS } from '@/api/config/endpoint';
 
-export const createAccountBook = async (
+export const createAccountBook = (
   data: CreateAccountBookRequest,
 ): Promise<AccountBookResponse> => {
   return customFetch(ENDPOINTS.ACCOUNT_BOOKS, {
