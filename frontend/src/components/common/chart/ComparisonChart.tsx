@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import DropDown from '@/components/common/dropdown/Dropdown';
 
+import { type CurrencyType } from '@/types/currency';
+
 const DUMMY_DATA = {
   month: 12,
   base: {
@@ -30,14 +32,14 @@ const DUMMY_DATA = {
 
 const ComparisonChart = () => {
   const [selectedId, setSelectedId] = useState<number>(1);
-  const isBaseCurrency = selectedId === 1;
 
   const options = [
     { id: 1, name: '기준 통화' },
     { id: 2, name: '현지 통화' },
   ];
 
-  const data = isBaseCurrency ? DUMMY_DATA.base : DUMMY_DATA.local;
+  const selectedCurrency: CurrencyType = selectedId === 1 ? 'BASE' : 'LOCAL';
+  const data = selectedCurrency === 'BASE' ? DUMMY_DATA.base : DUMMY_DATA.local;
 
   return (
     <div className="shadow-semantic-subtle bg-background-normal flex h-67 w-67 flex-col gap-2.5 rounded-2xl px-2 pt-4 pb-2">
