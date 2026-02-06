@@ -54,13 +54,13 @@ export default function DateTimePicker({
     },
   );
 
-  const createDateTime = (date: Date, newHour: number, newMinute: number) => {
+  const createDateTime = (date: Date, hour: number, minute: number) => {
     return new Date(
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
-      newHour,
-      newMinute,
+      hour,
+      minute,
     );
   };
 
