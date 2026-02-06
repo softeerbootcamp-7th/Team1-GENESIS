@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
+import { clsx } from 'clsx';
 
 import Button from '@/components/common/Button';
 import { formatDateTime } from '@/components/common/calendar/date.utils';
@@ -26,6 +27,8 @@ interface SidePanelProps {
 }
 
 const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [isMounted, setIsMounted] = useState(true);
   const [title, setTitle] = useState('');
   const [memo, setMemo] = useState('');
   const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
@@ -74,14 +77,30 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     );
   };
 
+  const closePanel = () => {
+    setIsOpen(false);
+    setTimeout(() => {
+      setIsMounted(false);
+    }, 300);
+  };
+
+
+  if (!isMounted) return null;
   return (
-    <div className="scrollbar border-line-normal-normal bg-background-normal shadow-panel fixed top-0 right-0 z-50 flex h-screen w-100 flex-col gap-8 overflow-y-auto border-l pb-50">
+    <div
+    className={clsx(
+      'scrollbar border-line-normal-normal bg-background-normal shadow-panel fixed top-0 right-0 z-50 flex h-screen w-100 flex-col gap-8 overflow-y-auto border-l pb-50',
+      'transform transition-transform duration-300 ease-out',
+      isOpen ? 'translate-x-0' : 'translate-x-full',
+    )}
+  >
       <div className="flex items-center justify-between p-4">
         <Icon
           color="text-label-neutral"
           iconName="ChevronForward"
           width={24}
           height={24}
+          onClick={closePanel}
         />
         <div className="flex items-center gap-2">
           {/*<div className="flex gap-1 items-center">
