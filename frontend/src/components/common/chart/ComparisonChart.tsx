@@ -52,7 +52,7 @@ const ComparisonChart = () => {
             size="xs"
             align="center"
             onSelect={setSelectedId}
-            itemWidth="w-18.5"
+            itemWidth="w-20"
           />
         </div>
       </div>
