@@ -1,14 +1,17 @@
 import { useState } from 'react';
 
+import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
 import DropDown from '@/components/common/dropdown/Dropdown';
 
 import type { CategoryType } from '@/types/category';
 
-import { CATEGORY_COLORS } from '../chartColor';
-import {
-  CategoryListItemSkeleton,
-  CategoryPieChartSkeleton,
-} from './CategoryChartSkeleton';
+import type { CountryCode } from '@/data/countryCode';
+
+import ChartContainer from '../ChartContainer';
+import ChartContent from '../ChartContent';
+import ChartHeader from '../ChartHeader';
+import { CATEGORY_CHART_COLORS, CURRENCY_OPTIONS } from '../chartType';
+import StatSectionSkeleton from './CategoryChartSkeleton';
 import CategoryListItem from './CategoryListItem';
 import CategoryPieChart from './CategoryPieChart';
 import { mockData } from './mock';
@@ -30,24 +33,6 @@ export type CategoryStatisticsResponse = {
   items: CategoryStatisticsItem[];
 };
 
-// 임시용
-const totalAmount = (amount: string) => {
-  return <div>{amount}</div>;
-};
-
-const StatSectionSkeleton = () => {
-  return (
-    <>
-      <CategoryPieChartSkeleton />
-      <div className="flex flex-col justify-between">
-        {Array.from({ length: 7 }).map((_, idx) => (
-          <CategoryListItemSkeleton key={idx} />
-        ))}
-      </div>
-    </>
-  );
-};
-
 const CategoryChart = ({ isLoading = false }: { isLoading?: boolean }) => {
   const [selectedCurrency, setSelectedCurrency] = useState(
     CURRENCY_OPTIONS[0].id,
@@ -58,65 +43,55 @@ const CategoryChart = ({ isLoading = false }: { isLoading?: boolean }) => {
   const categoryStats = mockData.items.map((item) => ({
     percentage: item.percent,
     categoryName: item.categoryName,
-    amount: item.amount.toLocaleString(),
+    amount: item.amount,
   }));
 
-  const formattedTotalAmount = `₩${dummyData.totalAmount.toLocaleString()}`;
+  const totalAmount = (
+    <CurrencyAmountDisplay
+      countryCode={mockData.countryCode}
+      amount={mockData.totalAmount}
+      size="lg"
+    />
+  );
 
   return (
-    <div className="rounded-modal-16 bg-background-normal shadow-semantic-subtle flex w-139 flex-col gap-2.5 p-2 pt-4">
-      {/* header */}
-      <div className="flex items-center justify-between px-2.5">
-        <span>카테고리별 지출</span>
-        <div className="flex items-center gap-1.5">
-          <DropDown
-            selected={selectedCurrency}
-            onSelect={setSelectedCurrency}
-            options={CURRENCY_OPTIONS}
-            size="xs"
-          />
-          <DropDown
-            selected={selectedPeriod}
-            onSelect={setSelectedPeriod}
-            options={PERIOD_OPTIONS}
-            size="xs"
-          />
-        </div>
-      </div>
+    <ChartContainer className="w-139">
+      <ChartHeader title="카테고리별 지출">
+        <DropDown
+          selected={selectedCurrency}
+          onSelect={setSelectedCurrency}
+          options={CURRENCY_OPTIONS}
+          size="xs"
+        />
+        <DropDown
+          selected={selectedPeriod}
+          onSelect={setSelectedPeriod}
+          options={PERIOD_OPTIONS}
+          size="xs"
+        />
+      </ChartHeader>
+
       {/* stat section */}
-      <div className="rounded-modal-8 bg-background-alternative flex justify-between px-8 py-4">
-        {isLoading ? (
-          <StatSectionSkeleton />
-        ) : (
-          <>
-            <CategoryPieChart
-              data={chartData}
-              totalAmount={totalAmount(formattedTotalAmount)}
+      <ChartContent isLoading={isLoading} skeleton={<StatSectionSkeleton />}>
+        <CategoryPieChart data={categoryStats} totalAmount={totalAmount} />
+        <div className="flex flex-col items-start justify-center gap-1">
+          {categoryStats.map((item, idx) => (
+            <CategoryListItem
+              key={item.categoryName}
+              currencyType={
+                CURRENCY_OPTIONS.find((opt) => opt.id === selectedCurrency)
+                  ?.type || 'BASE'
+              }
+              countryCode={mockData.countryCode}
+              categoryName={item.categoryName}
+              percentage={item.percentage}
+              amount={item.amount}
+              color={CATEGORY_CHART_COLORS[idx % CATEGORY_CHART_COLORS.length]}
             />
-            <div className="flex flex-col justify-between">
-              {chartData.map(
-                (item, idx) =>
-                  item.percentage > 0 && (
-                    <CategoryListItem
-                      key={item.categoryName}
-                      currencyType={
-                        CURRENCY_OPTIONS.find(
-                          (opt) => opt.id === selectedCurrency,
-                        )?.type || 'BASE'
-                      }
-                      countryCode={dummyData.countryCode}
-                      categoryName={item.categoryName}
-                      percentage={item.percentage}
-                      amount={item.amount}
-                      color={CATEGORY_COLORS[idx % CATEGORY_COLORS.length]}
-                    />
-                  ),
-              )}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+          ))}
+        </div>
+      </ChartContent>
+    </ChartContainer>
   );
 };
 

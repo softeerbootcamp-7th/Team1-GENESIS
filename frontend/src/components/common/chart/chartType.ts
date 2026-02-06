@@ -1,6 +1,6 @@
 import type { CurrencyType } from '@/types/currency';
 
-export const CATEGORY_COLORS = [
+export const CATEGORY_CHART_COLORS = [
   'var(--color-teal-40)',
   'var(--color-teal-50)',
   'var(--color-teal-70)',
