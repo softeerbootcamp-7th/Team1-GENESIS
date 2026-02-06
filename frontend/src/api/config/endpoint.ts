@@ -1,3 +1,3 @@
 export const ENDPOINTS = {
-  ACCOUNT_BOOKS: '/account-books',
+  ACCOUNT_BOOKS: 'account-books',
 } as const;
