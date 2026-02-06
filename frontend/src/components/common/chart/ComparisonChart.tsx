@@ -28,7 +28,7 @@ const DUMMY_DATA = {
   },
 } as const;
 
-const ChartComparison = () => {
+const ComparisonChart = () => {
   const [selectedId, setSelectedId] = useState<number>(1);
   const isBaseCurrency = selectedId === 1;
 
@@ -92,4 +92,4 @@ const ChartComparison = () => {
   );
 };
 
-export default ChartComparison;
+export default ComparisonChart;
