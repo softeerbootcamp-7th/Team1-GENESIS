@@ -24,7 +24,7 @@ const OUTSIDE_CLICK_IGNORE_SELECTOR =
 interface DateTimePickerProps {
   onDateTimeSelect: (date: Date) => void;
   onClose?: () => void;
-  initialDateTime?: Date | null;
+  initialDateTime: Date | null;
 }
 
 const DateTimePicker = ({
@@ -38,11 +38,16 @@ const DateTimePicker = ({
   });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(
-    initialDateTime || null,
+    initialDateTime,
   );
 
-  const [hour, setHour] = useState(initialDateTime?.getHours() ?? 0);
-  const [minute, setMinute] = useState(initialDateTime?.getMinutes() ?? 0);
+  const [hour, setHour] = useState(
+    initialDateTime ? initialDateTime.getHours() : 0,
+  );
+
+  const [minute, setMinute] = useState(
+    initialDateTime ? initialDateTime.getMinutes() : 0,
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
 
