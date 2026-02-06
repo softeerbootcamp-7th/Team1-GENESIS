@@ -54,15 +54,19 @@ export default function DateTimePicker({
     },
   );
 
+  const createDateTime = (date: Date, newHour: number, newMinute: number) => {
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      newHour,
+      newMinute,
+    );
+  };
+
   const updateDateTime = (newHour: number, newMinute: number) => {
     if (selectedDate) {
-      const completeDateTime = new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        selectedDate.getDate(),
-        newHour,
-        newMinute,
-      );
+      const completeDateTime = createDateTime(selectedDate, newHour, newMinute);
       onDateTimeSelect?.(completeDateTime);
     }
   };
@@ -113,13 +117,7 @@ export default function DateTimePicker({
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
 
-    const completeDateTime = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      hour,
-      minute,
-    );
+    const completeDateTime = createDateTime(date, hour, minute);
     onDateTimeSelect?.(completeDateTime);
 
     // 다른 달 날짜 클릭 시 달 이동
