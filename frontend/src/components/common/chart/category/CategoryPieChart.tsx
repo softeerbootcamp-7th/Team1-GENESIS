@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import type { CategoryType } from '@/types/category';
 import type { CurrencyType } from '@/types/currency';
 
@@ -26,6 +28,7 @@ const CategoryPieChart = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const gap = 4;
+  const TOTAL_DURATION = 0.8;
 
   const chartData = data.reduce<
     ((typeof data)[number] & { color: string; startPercentage: number })[]
@@ -60,8 +63,13 @@ const CategoryPieChart = ({
           // 전체 원 중에서 startPercentage 지점부터 시작
           const rotation = (startPercentage / 100) * 360 - 90;
 
+          // 이 세그먼트의 시작 시간 (딜레이)
+          const delay = (startPercentage / 100) * TOTAL_DURATION;
+          // 이 세그먼트가 채워지는 데 걸리는 시간
+          const duration = (percentage / 100) * TOTAL_DURATION;
+
           return (
-            <circle
+            <motion.circle
               key={index}
               cx={center}
               cy={center}
@@ -69,19 +77,30 @@ const CategoryPieChart = ({
               fill="transparent"
               stroke={color}
               strokeWidth={strokeWidth}
-              strokeDasharray={`${drawLength} ${circumference - drawLength}`} // 그릴 길이, 빈 길이
               strokeDashoffset={0}
               transform={`rotate(${rotation} ${center} ${center})`}
               strokeLinecap="butt"
+              initial={{ strokeDasharray: `0 ${circumference}` }}
+              animate={{
+                strokeDasharray: `${drawLength} ${circumference - drawLength}`,
+              }}
+              transition={{
+                duration,
+                ease: 'linear',
+                delay,
+              }}
             />
           );
         })}
       </svg>
-      <div className="absolute text-center">
-        <span className="figure-heading1-semibold text-label-normal">
-          {totalAmount}
-        </span>
-      </div>
+      <motion.div
+        className="absolute flex w-32.5 justify-center text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: TOTAL_DURATION }}
+      >
+        <div>{totalAmount}</div>
+      </motion.div>
     </div>
   );
 };
