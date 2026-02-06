@@ -42,7 +42,7 @@ class TravelApiTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
 	@Autowired private AccountBookRepository accountBookRepository;
-    @Autowired private S3Service s3Service;
+	@Autowired private S3Service s3Service;
 
 	private Long accountBookId;
 
