@@ -13,9 +13,9 @@ import CategoryListItem from './CategoryListItem';
 import CategoryPieChart from './CategoryPieChart';
 import { dummyData } from './dummy';
 
-const CURRENCY_OPTIONS = [
-  { id: 1, name: '기준 통화' },
-  { id: 2, name: '현지 통화' },
+const CURRENCY_OPTIONS: { id: number; name: string; type: CurrencyType }[] = [
+  { id: 1, name: '기준 통화', type: 'BASE' },
+  { id: 2, name: '현지 통화', type: 'LOCAL' },
 ];
 
 const PERIOD_OPTIONS = [
@@ -31,7 +31,7 @@ type CategoryStatisticsItem = {
 
 export type CategoryStatisticsResponse = {
   totalAmount: number;
-  currency: string;
+  countryCode: CountryCode;
   items: CategoryStatisticsItem[];
 };
 
@@ -104,11 +104,12 @@ const CategoryChart = ({ isLoading = false }: { isLoading?: boolean }) => {
                   item.percentage > 0 && (
                     <CategoryListItem
                       key={item.categoryName}
-                      currency={
-                        selectedCurrency === CURRENCY_OPTIONS[0].id
-                          ? 'BASE'
-                          : 'LOCAL'
+                      currencyType={
+                        CURRENCY_OPTIONS.find(
+                          (opt) => opt.id === selectedCurrency,
+                        )?.type || 'BASE'
                       }
+                      countryCode={dummyData.countryCode}
                       categoryName={item.categoryName}
                       percentage={item.percentage}
                       amount={item.amount}
