@@ -331,4 +331,53 @@ public class AccountBookServiceTest {
 		// then
 		assertThat(result).hasSize(2);
 	}
+
+	@Test
+	@DisplayName("가계부 수정 - 예산(budget)을 null로 업데이트")
+	void update_WithNullBudget_Success() {
+		// given
+		Long accountBookId = 1L;
+		AccountBookUpdateRequest req =
+				new AccountBookUpdateRequest(
+						"New Title",
+						CountryCode.JP,
+						CountryCode.KR,
+						null, // budget is null
+						LocalDate.of(2023, 2, 1),
+						LocalDate.of(2023, 11, 30));
+
+		AccountBookEntity entity =
+				AccountBookEntity.create(
+						new AccountBookCreateArgs(
+								userId,
+								"Old Title",
+								CountryCode.US,
+								CountryCode.KR,
+								LocalDate.of(2023, 1, 1),
+								LocalDate.of(2023, 12, 31)));
+		// Set an initial budget to check if it's correctly updated to null
+		// entity.updateBudget(5000L);
+
+		given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
+
+		// Mock the DTO conversion
+		// After the fix, entity.getBudget() should be null
+		AccountBookDto expectedDto =
+				new AccountBookDto(
+						accountBookId,
+						req.title(),
+						req.localCountryCode(),
+						req.baseCountryCode(),
+						null,
+						req.startDate(),
+						req.endDate());
+		given(converter.toDto(any(AccountBookEntity.class))).willReturn(expectedDto);
+
+		// when
+		AccountBookDto result = accountBookService.update(accountBookId, userId, req);
+
+		// then
+		assertThat(result.budget()).isNull();
+		verify(validator).validate(entity);
+	}
 }
