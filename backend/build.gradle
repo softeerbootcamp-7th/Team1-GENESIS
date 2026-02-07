@@ -43,7 +43,7 @@ dependencies {
 	// MySQL Driver
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	// H2 Database
-	runtimeOnly 'com.h2database:h2'
+	developmentOnly 'com.h2database:h2'
 
 	// test libraries & containers
 	testImplementation 'org.testcontainers:junit-jupiter'
