@@ -1,9 +1,12 @@
+# =============================================================================
+# Unit Test Configuration (H2 In-Memory DB, 더미 값 하드코딩)
+# =============================================================================
+
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;MODE=MySQL
     username: sa
     password:
-
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -13,20 +16,18 @@ spring:
   cloud:
     aws:
       region:
-        static: ${AWS_REGION:ap-northeast-2}
+        static: ap-northeast-2
       credentials:
-        access-key: ${AWS_ACCESS_KEY:dummy-access-key}
-        secret-key: ${AWS_SECRET_KEY:dummy-secret-key}
+        access-key: test-access-key
+        secret-key: test-secret-key
       s3:
-        bucket: ${AWS_S3_BUCKET_NAME:dummy-bucket
+        bucket: test-bucket
 
-# JWT Configuration
 jwt:
   secret: test-secret-key-must-be-at-least-32-characters-long
   access-token-expiration: 1800000
   refresh-token-expiration: 864000000
 
-# OAuth2 Configuration (테스트용 더미 값)
 oauth2:
   providers:
     - type: GOOGLE
@@ -47,7 +48,6 @@ oauth2:
       user-info-uri: https://kapi.kakao.com/v2/user/me
       scope: profile_nickname,profile_image,account_email
 
-# Application Configuration
 app:
   frontend:
     url: http://localhost:5173

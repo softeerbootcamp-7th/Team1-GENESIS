@@ -86,12 +86,7 @@ tasks.register("integrationTest", Test) {
 		includeTags "integration"
 	}
 
-	// 내부 PR에서만 secrets/ENV_FILE로 값 주입하고, 그에 맞는 프로파일 사용
 	systemProperty "spring.profiles.active", "test-it"
-	environment "AWS_ACCESS_KEY", "dummy-access-key"
-	environment "AWS_SECRET_KEY", "dummy-secret-key"
-	environment "AWS_S3_BUCKET_NAME", "dummy-bucket"
-	environment "AWS_REGION", "ap-northeast-2"
 	shouldRunAfter tasks.named("unitTest")
 }
 
