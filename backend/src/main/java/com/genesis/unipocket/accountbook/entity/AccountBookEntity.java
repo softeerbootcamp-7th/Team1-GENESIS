@@ -81,7 +81,7 @@ public class AccountBookEntity extends BaseEntity {
 		this.baseCountryCode = baseCountryCode;
 	}
 
-	public void updateBudget(long budget) {
+	public void updateBudget(Long budget) {
 		this.budget = budget;
 	}
 
