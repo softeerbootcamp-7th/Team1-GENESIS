@@ -89,7 +89,11 @@ public class NaverExchangeRateServiceImpl implements ExchangeRateService {
 
 			// 임시 환율 데이터 (실제 구현 시 삭제)
 			return getHardcodedExchangeRate(from, to);
+		} catch (BusinessException e) {
+			// BusinessException은 그대로 다시 throw (의도된 예외)
+			throw e;
 		} catch (Exception e) {
+			// 그 외 예외는 API 에러로 변환
 			log.error("Failed to fetch exchange rate from API: {} -> {}", from, to, e);
 			throw new BusinessException(ErrorCode.EXCHANGE_RATE_API_ERROR);
 		}

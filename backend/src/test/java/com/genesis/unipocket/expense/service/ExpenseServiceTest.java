@@ -51,7 +51,7 @@ class ExpenseServiceTest {
 		// when & then
 		assertThatThrownBy(() -> expenseService.getExpense(expenseId, accountBookId))
 				.isInstanceOf(BusinessException.class)
-				.hasFieldOrPropertyWithValue("errorCode", ErrorCode.EXPENSE_NOT_FOUND);
+				.hasFieldOrPropertyWithValue("code", ErrorCode.EXPENSE_NOT_FOUND);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ class ExpenseServiceTest {
 		// when & then
 		assertThatThrownBy(() -> expenseService.getExpense(expenseId, accountBookId))
 				.isInstanceOf(BusinessException.class)
-				.hasFieldOrPropertyWithValue("errorCode", ErrorCode.EXPENSE_UNAUTHORIZED_ACCESS);
+				.hasFieldOrPropertyWithValue("code", ErrorCode.EXPENSE_UNAUTHORIZED_ACCESS);
 	}
 
 	@Test

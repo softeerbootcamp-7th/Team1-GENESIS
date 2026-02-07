@@ -102,7 +102,7 @@ class NaverExchangeRateServiceImplTest {
 		// when & then
 		assertThatThrownBy(() -> exchangeRateService.convertAmount(invalidAmount, from, to, dateTime))
 				.isInstanceOf(BusinessException.class)
-				.hasFieldOrPropertyWithValue("errorCode", ErrorCode.EXPENSE_INVALID_AMOUNT);
+				.hasFieldOrPropertyWithValue("code", ErrorCode.EXPENSE_INVALID_AMOUNT);
 	}
 
 	@Test
@@ -121,7 +121,7 @@ class NaverExchangeRateServiceImplTest {
 		BigDecimal convertedAmount = exchangeRateService.convertAmount(amount, from, to, dateTime);
 
 		// then
-		assertThat(convertedAmount).isEqualTo(BigDecimal.valueOf(1100.00));
+		assertThat(convertedAmount).isEqualByComparingTo(BigDecimal.valueOf(1100.00));
 	}
 
 	@Test
@@ -156,6 +156,6 @@ class NaverExchangeRateServiceImplTest {
 		// when & then
 		assertThatThrownBy(() -> exchangeRateService.getExchangeRate(from, to, dateTime))
 				.isInstanceOf(BusinessException.class)
-				.hasFieldOrPropertyWithValue("errorCode", ErrorCode.EXCHANGE_RATE_NOT_FOUND);
+				.hasFieldOrPropertyWithValue("code", ErrorCode.EXCHANGE_RATE_NOT_FOUND);
 	}
 }
