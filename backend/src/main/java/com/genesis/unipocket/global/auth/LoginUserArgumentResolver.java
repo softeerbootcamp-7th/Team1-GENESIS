@@ -32,7 +32,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
 	@Override
 	public Object resolveArgument(
-			@NonNull MethodParameter parameter,
+			MethodParameter parameter,
 			ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) {
