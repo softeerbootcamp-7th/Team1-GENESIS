@@ -1,12 +1,6 @@
 import type { CountryCode } from '@/data/countryCode';
 import { countryCode } from '@/data/countryCode';
 
-export type ExpenseStatisticsResponse = {
-  currencySignAndName?: string;
-  label: string;
-  percent: number;
-};
-
 export const mockDataForMethod: {
   label: string;
   percent: number;
