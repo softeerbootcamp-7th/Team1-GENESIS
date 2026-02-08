@@ -25,8 +25,10 @@ public class RestClientConfig {
 	}
 
 	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate(clientHttpRequestFactory());
+	public org.springframework.web.client.RestTemplate restTemplate() {
+		org.springframework.web.client.RestTemplate restTemplate =
+				new org.springframework.web.client.RestTemplate(clientHttpRequestFactory());
+		return restTemplate;
 	}
 
 	/**
