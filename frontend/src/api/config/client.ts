@@ -56,14 +56,12 @@ export const customFetch = async <T>({
     if (response.status === HTTP_STATUS.UNAUTHORIZED && !isRetry) {
       try {
         // 토큰 재발급 시도 (조용히 처리, 성공 시 로그 없음)
-        console.log('토큰 만료로 인한 재발급 시도...');
         await refreshAccessToken();
 
         // 재발급 성공 시 원래 요청 재시도 (isRetry=true로 설정)
         return await customFetch<T>({ endpoint, options, isRetry: true });
-      } catch (error) {
+      } catch {
         // 재발급 실패 시에만 로그 출력
-        console.error('토큰 재발급 실패:', error);
         throw new ApiError({
           message: '세션이 만료되었습니다. 다시 로그인해주세요.',
           status: HTTP_STATUS.UNAUTHORIZED,
