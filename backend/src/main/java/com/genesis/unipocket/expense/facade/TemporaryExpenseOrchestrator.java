@@ -3,7 +3,9 @@ package com.genesis.unipocket.expense.facade;
 import com.genesis.unipocket.accountbook.service.AccountBookService;
 import com.genesis.unipocket.expense.dto.request.TemporaryExpenseResponse;
 import com.genesis.unipocket.expense.dto.request.TemporaryExpenseUpdateRequest;
-import com.genesis.unipocket.expense.facade.converter.TemporaryExpenseFacadeConverter;
+import com.genesis.unipocket.expense.persistence.entity.dto.TemporaryExpenseUpdateCommand;
+import com.genesis.unipocket.expense.persistence.entity.expense.File;
+import com.genesis.unipocket.expense.persistence.entity.expense.TempExpenseMeta;
 import com.genesis.unipocket.expense.persistence.entity.expense.TemporaryExpense;
 import com.genesis.unipocket.expense.persistence.repository.FileRepository;
 import com.genesis.unipocket.expense.persistence.repository.TempExpenseMetaRepository;
@@ -28,7 +30,6 @@ import org.springframework.stereotype.Service;
 public class TemporaryExpenseOrchestrator {
 
 	private final TemporaryExpenseService temporaryExpenseService;
-	private final TemporaryExpenseFacadeConverter converter;
 	private final FileRepository fileRepository;
 	private final TempExpenseMetaRepository tempExpenseMetaRepository;
 	private final AccountBookService accountBookService;
@@ -52,7 +53,7 @@ public class TemporaryExpenseOrchestrator {
 		} else {
 			entities = temporaryExpenseService.findByAccountBookId(accountBookId);
 		}
-		return converter.toResponseList(entities);
+		return TemporaryExpenseResponse.fromList(entities);
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class TemporaryExpenseOrchestrator {
 		Long accountBookId = getAccountBookIdFromTempExpense(tempExpense);
 		validateOwnership(accountBookId, userId);
 
-		return converter.toResponse(tempExpense);
+		return TemporaryExpenseResponse.from(tempExpense);
 	}
 
 	/**
@@ -79,8 +80,8 @@ public class TemporaryExpenseOrchestrator {
 
 		TemporaryExpense updated =
 				temporaryExpenseService.updateTemporaryExpense(
-						tempExpenseId, converter.toCommand(request));
-		return converter.toResponse(updated);
+						tempExpenseId, TemporaryExpenseUpdateCommand.from(request));
+		return TemporaryExpenseResponse.from(updated);
 	}
 
 	/**
@@ -100,11 +101,11 @@ public class TemporaryExpenseOrchestrator {
 	 */
 	private Long getAccountBookIdFromTempExpense(TemporaryExpense tempExpense) {
 		// Get accountBookId via file → meta
-		com.genesis.unipocket.expense.persistence.entity.expense.File file =
+		File file =
 				fileRepository
 						.findById(tempExpense.getFileId())
 						.orElseThrow(() -> new IllegalArgumentException("파일을 찾을 수 없습니다."));
-		com.genesis.unipocket.expense.persistence.entity.expense.TempExpenseMeta meta =
+		TempExpenseMeta meta =
 				tempExpenseMetaRepository
 						.findById(file.getTempExpenseMetaId())
 						.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
