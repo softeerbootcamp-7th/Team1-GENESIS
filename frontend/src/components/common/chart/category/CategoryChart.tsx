@@ -50,7 +50,10 @@ const CategoryChart = ({ isLoading = false }: { isLoading?: boolean }) => {
       </ChartHeader>
 
       {/* stat section */}
-      <ChartContent isLoading={isLoading} skeleton={<CategoryChartSkeleton />}>
+      <ChartContent
+        isLoading={isLoading || visibleStats.length === 0}
+        skeleton={<CategoryChartSkeleton />}
+      >
         <CategoryChartView
           data={visibleStats}
           totalAmount={mockData.totalAmount}

@@ -69,7 +69,7 @@ const ExpenseChart = ({
         title={(mode === 'method' ? '결제수단' : '통화') + '별 지출'}
       />
       <ChartContent
-        isLoading={isLoading}
+        isLoading={isLoading || chartData.length === 0}
         skeleton={<ExpenseChartSkeleton />}
         className="p-5"
       >

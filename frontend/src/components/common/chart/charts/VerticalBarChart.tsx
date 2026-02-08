@@ -62,7 +62,8 @@ const VerticalBarChart = ({
     { y: number; height: number; item: BarData; index: number }[]
   >((acc, item, index) => {
     // 현재 세그먼트의 높이 비율 계산
-    const segmentHeight = (item.percent / totalPercent) * availableHeight;
+    const segmentHeight =
+      totalPercent > 0 ? (item.percent / totalPercent) * availableHeight : 0;
 
     // y좌표 계산: 첫 번째 요소면 0, 아니면 이전 요소의 끝(y + height) + 간격(gap)
     const y =
