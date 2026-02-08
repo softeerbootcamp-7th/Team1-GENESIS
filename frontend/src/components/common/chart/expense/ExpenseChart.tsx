@@ -49,7 +49,7 @@ const ExpenseChart = ({
         const color = EXPENSE_CHART_COLORS[idx % EXPENSE_CHART_COLORS.length];
 
         const countryInfo = getCountryInfo(item.countryCode);
-        const label = countryInfo?.currencyNameKor || '';
+        const label = countryInfo?.currencyNameKor || item.countryCode;
         const subLabel = countryInfo
           ? `${countryInfo.currencySign} ${countryInfo.currencyName}`
           : item.countryCode;
