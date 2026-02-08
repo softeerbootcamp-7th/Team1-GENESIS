@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,32 +67,8 @@ public class ExpenseController {
 	public ResponseEntity<ExpenseListResponse> getExpenses(
 			@LoginUser UUID userId,
 			@PathVariable Long accountBookId,
-			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-					LocalDateTime startDate,
-			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-					LocalDateTime endDate,
-			@RequestParam(required = false) Category category,
-			@RequestParam(required = false) BigDecimal minAmount,
-			@RequestParam(required = false) BigDecimal maxAmount,
-			@RequestParam(required = false) String merchantName,
-			@RequestParam(required = false) Long travelId,
-			@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "20") int size,
-			@RequestParam(defaultValue = "occurredAt,desc") String[] sort) {
-
-		ExpenseSearchFilter filter =
-				new ExpenseSearchFilter(
-						startDate,
-						endDate,
-						category,
-						minAmount,
-						maxAmount,
-						merchantName,
-						travelId,
-						null);
-
-		Sort sortObj = Sort.by(Arrays.asList(parseSortParams(sort)));
-		Pageable pageable = PageRequest.of(page, size, sortObj);
+			ExpenseSearchFilter filter,
+			@PageableDefault(sort = "occurredAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
 		Page<ExpenseDto> dtoPage =
 				expenseFacade.getExpenses(accountBookId, userId, filter, pageable);
@@ -100,7 +77,12 @@ public class ExpenseController {
 				dtoPage.getContent().stream().map(ExpenseResponse::from).toList();
 
 		ExpenseListResponse response =
-				ExpenseListResponse.of(responses, dtoPage.getTotalElements(), page, size);
+				ExpenseListResponse.of(
+						responses,
+						dtoPage.getTotalElements(),
+						pageable.getPageNumber(),
+						pageable.getPageSize()
+				);
 
 		return ResponseEntity.ok(response);
 	}
