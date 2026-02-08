@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import com.genesis.unipocket.expense.application.dto.TemporaryExpenseUpdateCommand;
+import com.genesis.unipocket.expense.persistence.entity.TemporaryExpenseService;
+import com.genesis.unipocket.expense.persistence.entity.dto.TemporaryExpenseUpdateCommand;
 import com.genesis.unipocket.expense.common.enums.Category;
 import com.genesis.unipocket.expense.persistence.entity.expense.TemporaryExpense;
 import com.genesis.unipocket.expense.persistence.entity.expense.TemporaryExpense.TemporaryExpenseStatus;

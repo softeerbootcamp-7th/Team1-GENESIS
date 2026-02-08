@@ -1,6 +1,6 @@
 package com.genesis.unipocket.expense.facade.converter;
 
-import com.genesis.unipocket.expense.application.dto.TemporaryExpenseUpdateCommand;
+import com.genesis.unipocket.expense.persistence.entity.dto.TemporaryExpenseUpdateCommand;
 import com.genesis.unipocket.expense.persistence.entity.expense.TemporaryExpense;
 import com.genesis.unipocket.expense.presentation.dto.TemporaryExpenseResponse;
 import com.genesis.unipocket.expense.presentation.dto.TemporaryExpenseUpdateRequest;

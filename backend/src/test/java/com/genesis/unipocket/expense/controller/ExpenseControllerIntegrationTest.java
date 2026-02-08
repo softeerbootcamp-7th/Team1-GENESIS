@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.genesis.unipocket.TestcontainersConfiguration;
 import com.genesis.unipocket.expense.common.enums.Category;
-import com.genesis.unipocket.expense.entity.expense.ExpenseEntity;
-import com.genesis.unipocket.expense.repository.ExpenseRepository;
+import com.genesis.unipocket.expense.persistence.entity.expense.ExpenseEntity;
+import com.genesis.unipocket.expense.persistence.repository.ExpenseRepository;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;

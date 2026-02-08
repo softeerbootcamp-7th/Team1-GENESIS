@@ -5,11 +5,11 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import com.genesis.unipocket.expense.common.enums.Category;
-import com.genesis.unipocket.expense.converter.ExpenseManualConverter;
+import com.genesis.unipocket.expense.dto.converter.ExpenseManualConverter;
 import com.genesis.unipocket.expense.dto.common.ExpenseDto;
 import com.genesis.unipocket.expense.dto.request.ExpenseUpdateRequest;
-import com.genesis.unipocket.expense.entity.expense.ExpenseEntity;
-import com.genesis.unipocket.expense.repository.ExpenseRepository;
+import com.genesis.unipocket.expense.persistence.entity.expense.ExpenseEntity;
+import com.genesis.unipocket.expense.persistence.repository.ExpenseRepository;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
