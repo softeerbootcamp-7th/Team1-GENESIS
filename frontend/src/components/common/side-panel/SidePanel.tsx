@@ -105,6 +105,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
 
     try {
       const payload = buildCreateManualExpenseRequest();
+      console.log('payload', payload);
       await createManualExpense(ACCOUNT_BOOK_ID, payload);
       console.log('Manual expense created successfully');
     } catch (error) {
@@ -164,6 +165,11 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
           placeholder="거래처를 입력해 주세요."
           onChange={(e) => {
             setTitle(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+            }
           }}
         />
         <div className="relative">
