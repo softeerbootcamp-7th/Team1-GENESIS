@@ -1,4 +1,4 @@
-package com.genesis.unipocket.expense.presentation.dto;
+package com.genesis.unipocket.expense.dto.request;
 
 /**
  * <b>Presigned URL 응답 DTO</b>

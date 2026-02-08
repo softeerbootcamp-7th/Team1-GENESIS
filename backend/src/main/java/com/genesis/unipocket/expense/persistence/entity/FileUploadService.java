@@ -60,12 +60,12 @@ public class FileUploadService {
 	public java.util.List<FileUploadResponse> createBatchPresignedUrls(
 			Long accountBookId,
 			java.util.List<
-							com.genesis.unipocket.expense.presentation.dto.BatchPresignedUrlRequest
+							com.genesis.unipocket.expense.dto.request.BatchPresignedUrlRequest
 									.FileInfo>
 					files) {
 		java.util.List<FileUploadResponse> responses = new java.util.ArrayList<>();
 
-		for (com.genesis.unipocket.expense.presentation.dto.BatchPresignedUrlRequest.FileInfo
+		for (com.genesis.unipocket.expense.dto.request.BatchPresignedUrlRequest.FileInfo
 				fileInfo : files) {
 			FileUploadResponse response =
 					createPresignedUrl(accountBookId, fileInfo.fileName(), fileInfo.fileType());

@@ -1,4 +1,4 @@
-package com.genesis.unipocket.expense.presentation.dto;
+package com.genesis.unipocket.expense.dto.request;
 
 import com.genesis.unipocket.expense.persistence.entity.expense.File.FileType;
 
