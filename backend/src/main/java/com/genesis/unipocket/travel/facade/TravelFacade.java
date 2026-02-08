@@ -1,8 +1,6 @@
 package com.genesis.unipocket.travel.facade;
 
 import com.genesis.unipocket.accountbook.service.AccountBookService;
-import com.genesis.unipocket.global.exception.BusinessException;
-import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.travel.dto.common.WidgetDto;
 import com.genesis.unipocket.travel.dto.request.TravelRequest;
 import com.genesis.unipocket.travel.dto.request.TravelUpdateRequest;
@@ -27,7 +25,7 @@ public class TravelFacade {
 	 */
 	public Long createTravel(TravelRequest request, UUID userId) {
 		// Validate user owns the account book
-		validateAccountBookOwnership(request.accountBookId(), userId);
+		accountBookService.getAccountBook(request.accountBookId(), userId.toString());
 
 		return travelService.createTravel(request);
 	}
@@ -37,7 +35,7 @@ public class TravelFacade {
 	 */
 	public List<TravelResponse> getTravels(Long accountBookId, UUID userId) {
 		// Validate user owns the account book
-		validateAccountBookOwnership(accountBookId, userId);
+		accountBookService.getAccountBook(accountBookId, userId.toString());
 
 		return travelService.getTravels(accountBookId);
 	}
@@ -50,7 +48,7 @@ public class TravelFacade {
 		TravelDetailResponse travelDetail = travelService.getTravelDetail(travelId);
 
 		// Validate user owns the associated account book
-		validateAccountBookOwnership(travelDetail.accountBookId(), userId);
+		accountBookService.getAccountBook(travelDetail.accountBookId(), userId.toString());
 
 		return travelDetail;
 	}
@@ -61,7 +59,7 @@ public class TravelFacade {
 	public void updateTravel(Long travelId, TravelRequest request, UUID userId) {
 		// Get travel to check ownership
 		Travel travel = travelService.getTravel(travelId);
-		validateAccountBookOwnership(travel.getAccountBookId(), userId);
+		accountBookService.getAccountBook(travel.getAccountBookId(), userId.toString());
 
 		travelService.updateTravel(travelId, request);
 	}
@@ -72,7 +70,7 @@ public class TravelFacade {
 	public void patchTravel(Long travelId, TravelUpdateRequest request, UUID userId) {
 		// Get travel to check ownership
 		Travel travel = travelService.getTravel(travelId);
-		validateAccountBookOwnership(travel.getAccountBookId(), userId);
+		accountBookService.getAccountBook(travel.getAccountBookId(), userId.toString());
 
 		travelService.patchTravel(travelId, request);
 	}
@@ -83,7 +81,7 @@ public class TravelFacade {
 	public void deleteTravel(Long travelId, UUID userId) {
 		// Get travel to check ownership
 		Travel travel = travelService.getTravel(travelId);
-		validateAccountBookOwnership(travel.getAccountBookId(), userId);
+		accountBookService.getAccountBook(travel.getAccountBookId(), userId.toString());
 
 		travelService.deleteTravel(travelId);
 	}
@@ -94,19 +92,8 @@ public class TravelFacade {
 	public void updateWidgets(Long travelId, List<WidgetDto> widgets, UUID userId) {
 		// Get travel to check ownership
 		Travel travel = travelService.getTravel(travelId);
-		validateAccountBookOwnership(travel.getAccountBookId(), userId);
+		accountBookService.getAccountBook(travel.getAccountBookId(), userId.toString());
 
 		travelService.updateWidgets(travelId, widgets);
-	}
-
-	/**
-	 * Validate user owns the account book
-	 */
-	private void validateAccountBookOwnership(Long accountBookId, UUID userId) {
-		try {
-			accountBookService.getAccountBook(accountBookId, userId.toString());
-		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.FORBIDDEN);
-		}
 	}
 }

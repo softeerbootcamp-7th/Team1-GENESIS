@@ -10,8 +10,6 @@ import com.genesis.unipocket.expense.persistence.entity.expense.TemporaryExpense
 import com.genesis.unipocket.expense.persistence.repository.FileRepository;
 import com.genesis.unipocket.expense.persistence.repository.TempExpenseMetaRepository;
 import com.genesis.unipocket.expense.service.TemporaryExpenseService;
-import com.genesis.unipocket.global.exception.BusinessException;
-import com.genesis.unipocket.global.exception.ErrorCode;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -45,7 +43,7 @@ public class TemporaryExpenseOrchestrator {
 	public List<TemporaryExpenseResponse> getTemporaryExpenses(
 			Long accountBookId, TemporaryExpense.TemporaryExpenseStatus status, UUID userId) {
 		// Validate ownership
-		validateOwnership(accountBookId, userId);
+		accountBookService.getAccountBook(accountBookId, userId.toString());
 
 		List<TemporaryExpense> entities;
 		if (status != null) {
@@ -63,7 +61,7 @@ public class TemporaryExpenseOrchestrator {
 		// Validate ownership by checking accountBookId
 		TemporaryExpense tempExpense = temporaryExpenseService.findById(tempExpenseId);
 		Long accountBookId = getAccountBookIdFromTempExpense(tempExpense);
-		validateOwnership(accountBookId, userId);
+		accountBookService.getAccountBook(accountBookId, userId.toString());
 
 		return TemporaryExpenseResponse.from(tempExpense);
 	}
@@ -76,7 +74,7 @@ public class TemporaryExpenseOrchestrator {
 		// Validate ownership
 		TemporaryExpense tempExpense = temporaryExpenseService.findById(tempExpenseId);
 		Long accountBookId = getAccountBookIdFromTempExpense(tempExpense);
-		validateOwnership(accountBookId, userId);
+		accountBookService.getAccountBook(accountBookId, userId.toString());
 
 		TemporaryExpense updated =
 				temporaryExpenseService.updateTemporaryExpense(
@@ -91,7 +89,7 @@ public class TemporaryExpenseOrchestrator {
 		// Validate ownership
 		TemporaryExpense tempExpense = temporaryExpenseService.findById(tempExpenseId);
 		Long accountBookId = getAccountBookIdFromTempExpense(tempExpense);
-		validateOwnership(accountBookId, userId);
+		accountBookService.getAccountBook(accountBookId, userId.toString());
 
 		temporaryExpenseService.deleteTemporaryExpense(tempExpenseId);
 	}
@@ -110,16 +108,5 @@ public class TemporaryExpenseOrchestrator {
 						.findById(file.getTempExpenseMetaId())
 						.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
 		return meta.getAccountBookId();
-	}
-
-	/**
-	 * Validate that the user owns the account book
-	 */
-	private void validateOwnership(Long accountBookId, UUID userId) {
-		try {
-			accountBookService.getAccountBook(accountBookId, userId.toString());
-		} catch (Exception e) {
-			throw new BusinessException(ErrorCode.FORBIDDEN);
-		}
 	}
 }
