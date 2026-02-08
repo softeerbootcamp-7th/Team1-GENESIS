@@ -20,7 +20,7 @@ const ChartContent = ({
         className,
       )}
     >
-      {isLoading && skeleton ? skeleton : children}
+      {isLoading ? skeleton : children}
     </div>
   );
 };
