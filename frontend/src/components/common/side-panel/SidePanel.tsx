@@ -34,7 +34,7 @@ interface SidePanelProps {
 const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMounted, setIsMounted] = useState(true);
-  const [title, setTitle] = useState('');
+  const [merchantName, setMerchantName] = useState('');
   const [memo, setMemo] = useState('');
   const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
@@ -46,7 +46,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     }
 
     return {
-      merchantName: title,
+      merchantName,
       categoryCode: 1, // TODO: Category 선택값으로 교체
       paymentMethod: '하나 비바 X',
       occurredAt: selectedDateTime.toISOString(),
@@ -87,7 +87,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     if (!titleRef.current) return;
     titleRef.current.style.height = '0px';
     titleRef.current.style.height = `${titleRef.current.scrollHeight}px`;
-  }, [title]);
+  }, [merchantName]);
 
   const handleDateTimeSelect = (selected: Date) => {
     setSelectedDateTime(selected);
@@ -161,10 +161,10 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
         <textarea
           ref={titleRef}
           className="heading1-bold text-label-strong placeholder:text-label-assistive resize-none overflow-hidden border-0 bg-transparent leading-tight outline-0"
-          value={title}
+          value={merchantName}
           placeholder="거래처를 입력해 주세요."
           onChange={(e) => {
-            setTitle(e.target.value);
+            setMerchantName(e.target.value);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
