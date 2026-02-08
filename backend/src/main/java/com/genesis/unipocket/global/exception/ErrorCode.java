@@ -61,15 +61,21 @@ public enum ErrorCode {
 	USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "U002", "이미 존재하는 사용자입니다."),
 
 	// ========== Token Errors (4000~4999) ==========
+	TOKEN_REQUIRED(HttpStatus.UNAUTHORIZED, "T000", "로그인이 필요합니다."),
 	TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "T001", "토큰이 만료되었습니다."),
 	TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "T002", "유효하지 않은 토큰입니다."),
-	TOKEN_BLACKLISTED(HttpStatus.UNAUTHORIZED, "T003", "차단된 토큰입니다."),
+	TOKEN_BLACKLISTED(HttpStatus.UNAUTHORIZED, "T003", "로그아웃된 토큰입니다."),
 	REFRESH_TOKEN_REQUIRED(HttpStatus.BAD_REQUEST, "T004", "리프레시 토큰이 필요합니다."),
 
 	// Account Book
+	ACCOUNT_BOOK_NOT_FOUND(HttpStatus.NOT_FOUND, "404_ACCOUNT_BOOK_NOT_FOUND", "가계부를 찾을 수 없습니다."),
 	ACCOUNT_BOOK_CREATE_VALIDATION_FAILED(
 			HttpStatus.BAD_REQUEST,
 			CodeLiterals.ACCOUNT_BOOK_CREATE_VALIDATION_FAILED,
+			"입력값이 올바르지 않습니다."),
+	ACCOUNT_BOOK_UPDATE_VALIDATION_FAILED(
+			HttpStatus.BAD_REQUEST,
+			CodeLiterals.ACCOUNT_BOOK_UPDATE_VALIDATION_FAILED,
 			"입력값이 올바르지 않습니다."),
 	ACCOUNT_BOOK_INVALID_DATE_RANGE(
 			HttpStatus.BAD_REQUEST,
@@ -82,11 +88,18 @@ public enum ErrorCode {
 	ACCOUNT_BOOK_INVALID_BUDGET(
 			HttpStatus.BAD_REQUEST, "400_ACCOUNT_BOOK_INVALID_BUDGET", "예산은 0 이상이어야 합니다."),
 	ACCOUNT_BOOK_UNAUTHORIZED_ACCESS(
-			HttpStatus.FORBIDDEN, "403_ACCOUNT_BOOK_UNAUTHORIZED_ACCESS", "해당 가계부에 접근할 권한이 없습니다.");
+			HttpStatus.FORBIDDEN, "403_ACCOUNT_BOOK_UNAUTHORIZED_ACCESS", "해당 가계부에 접근할 권한이 없습니다."),
+
+	// Travel Errors
+	TRAVEL_INVALID_DATE_RANGE(
+			HttpStatus.BAD_REQUEST, "400_TRAVEL_INVALID_DATE_RANGE", "여행 종료 날짜는 시작 날짜보다 이후여야 합니다."),
+	TRAVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "404_TRAVEL_NOT_FOUND", "여행 정보를 찾을 수 없습니다.");
 
 	public static class CodeLiterals {
 		public static final String ACCOUNT_BOOK_CREATE_VALIDATION_FAILED =
 				"400_ACCOUNT_BOOK_CREATE_VALIDATION_FAILED";
+		public static final String ACCOUNT_BOOK_UPDATE_VALIDATION_FAILED =
+				"400_ACCOUNT_BOOK_UPDATE_VALIDATION_FAILED";
 	}
 
 	private final HttpStatus status;

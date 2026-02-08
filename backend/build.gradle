@@ -42,12 +42,15 @@ dependencies {
 
 	// MySQL Driver
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	// H2 Database
+	developmentOnly 'com.h2database:h2'
 
 	// test libraries & containers
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:mysql'
+	testImplementation 'com.redis:testcontainers-redis:2.2.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// JWT Related Dependencies
@@ -57,6 +60,13 @@ dependencies {
 
 	// H2 Database (for testing)
 	testRuntimeOnly 'com.h2database:h2'
+
+	// AWS S3
+	implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+
+	// Swagger / OpenAPI
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
 }
 
 tasks.register("unitTest", Test) {
@@ -79,8 +89,7 @@ tasks.register("integrationTest", Test) {
 		includeTags "integration"
 	}
 
-	// 내부 PR에서만 secrets/ENV_FILE로 값 주입하고, 그에 맞는 프로파일 사용
-	systemProperty "spring.profiles.active", "test-ci"
+	systemProperty "spring.profiles.active", "test-it"
 	shouldRunAfter tasks.named("unitTest")
 }
 
