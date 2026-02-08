@@ -11,6 +11,7 @@ import { Icons } from '@/assets';
 import ProfileImage from '@/assets/images/profile.png';
 import { AUTH_PROVIDERS } from '@/constants/authProviders';
 import { getLocalTime } from '@/lib/utils';
+import { queryClient } from '@/main';
 
 import {
   Popover,
@@ -32,6 +33,7 @@ const ProfilePopover = () => {
     mutationFn: logout,
     throwOnError: true, // 에러를 에러 바운더리로 전파
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getUser'] });
       navigate({ to: '/login' });
     },
   });
