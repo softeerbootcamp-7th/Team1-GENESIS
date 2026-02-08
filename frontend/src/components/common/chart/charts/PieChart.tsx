@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 
+import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
+
 interface PieChartSegment {
   percentage: number;
   color: string;
@@ -14,8 +16,6 @@ interface PieChartProps {
 const PieChart = ({ data, size = 192, children }: PieChartProps) => {
   const strokeWidth = 10;
   const gap = 4;
-  const TOTAL_DURATION = 0.8;
-
   const center = size / 2;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -53,9 +53,9 @@ const PieChart = ({ data, size = 192, children }: PieChartProps) => {
           // 전체 원 중에서 startPercentage 지점부터 시작
           const rotation = (startPercentage / 100) * 360 - 90;
           // 이 세그먼트의 시작 시간 (딜레이)
-          const delay = (startPercentage / 100) * TOTAL_DURATION;
+          const delay = (startPercentage / 100) * TOTAL_ANIMATION_DURATION;
           // 이 세그먼트가 채워지는 데 걸리는 시간
-          const duration = (percentage / 100) * TOTAL_DURATION;
+          const duration = (percentage / 100) * TOTAL_ANIMATION_DURATION;
 
           return (
             <motion.circle
@@ -87,7 +87,7 @@ const PieChart = ({ data, size = 192, children }: PieChartProps) => {
           className="absolute flex w-32.5 justify-center text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: TOTAL_DURATION }}
+          transition={{ duration: TOTAL_ANIMATION_DURATION }}
         >
           {children}
         </motion.div>

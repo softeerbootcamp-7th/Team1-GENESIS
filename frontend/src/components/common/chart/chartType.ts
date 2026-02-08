@@ -10,6 +10,19 @@ export const CATEGORY_CHART_COLORS = [
   'var(--color-fill-strong)',
 ];
 
+export const EXPENSE_CHART_COLORS = [
+  'var(--color-teal-50)',
+  'var(--color-teal-60)',
+  'var(--color-teal-70)',
+  'var(--color-teal-80)',
+  'var(--color-fill-strong)',
+];
+
+export const EXPENSE_SUSPENSE_COLOR = [
+  'var(--color-fill-strong)',
+  'var(--color-fill-normal)',
+];
+
 export const CURRENCY_OPTIONS: {
   id: number;
   name: string;
@@ -18,3 +31,7 @@ export const CURRENCY_OPTIONS: {
   { id: 1, name: '기준 통화', type: 'BASE' },
   { id: 2, name: '현지 통화', type: 'LOCAL' },
 ];
+
+export type ExpenseChartMode = 'method' | 'currency';
+
+export const TOTAL_ANIMATION_DURATION = 0.8;
