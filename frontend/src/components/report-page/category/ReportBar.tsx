@@ -10,7 +10,7 @@ const ReportBar = ({ value, variant }: ReportBarProps) => {
     <div className="flex items-center gap-2">
       <div
         className={clsx(
-          'h-3 w-57.75 rounded-full',
+          'h-3 w-57.75 rounded-r-xs',
           variant === 'me'
             ? 'bg-primary-normal'
             : 'bg-cool-neutral-95',
