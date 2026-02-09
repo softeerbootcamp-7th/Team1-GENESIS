@@ -4,10 +4,10 @@ import { useMatches } from '@tanstack/react-router';
 import Dropdown from '@/components/common/dropdown/Dropdown';
 
 import { Icons } from '@/assets';
-import ProfileImage from '@/assets/images/profile.png';
 import { getLocalTime } from '@/lib/utils';
 
 import Button from './Button';
+import ProfilePopover from './ProfilePopover';
 
 const Header = () => {
   const matches = useMatches();
@@ -49,11 +49,7 @@ const Header = () => {
           </div>
         )}
         <Button onClick={() => {}}>모바일</Button>
-        <img
-          src={ProfileImage}
-          alt="프로필 이미지"
-          className="h-8 w-8 cursor-pointer rounded-full object-cover"
-        />
+        <ProfilePopover />
       </div>
     </div>
   );

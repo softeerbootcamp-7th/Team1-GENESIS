@@ -1,6 +1,7 @@
 @theme {
   /* ---------- Modal Radius Tokens ---------- */
   --radius-modal-20: 20px;
+  --radius-modal-18: 18px;
   --radius-modal-16: 16px;
   --radius-modal-12: 12px;
   --radius-modal-10: 10px;
@@ -13,6 +14,10 @@
 
 @utility rounded-modal-20 {
   border-radius: var(--radius-modal-20);
+}
+
+@utility rounded-modal-18 {
+  border-radius: var(--radius-modal-18);
 }
 
 @utility rounded-modal-16 {
@@ -64,4 +69,8 @@
 
 @utility shadow-semantic-subtle {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.08);
+}
+
+@utility shadow-popover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
 }
