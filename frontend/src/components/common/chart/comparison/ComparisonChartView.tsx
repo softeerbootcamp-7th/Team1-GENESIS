@@ -1,6 +1,8 @@
 import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
 import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
 
+import countryData from '@/data/countryData.json';
+
 import { mockData } from './mock';
 
 interface ComparisonChartViewProps {
@@ -17,7 +19,7 @@ const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
     <>
       <p className="body1-normal-bold text-label-neutral">
         나랑 같은 국가의 교환학생보다 <br />
-        <span className="text-primary-strong">{data.average - data.me} </span>
+        <span className="text-primary-strong">{data.average - data.me}{countryData[data.countryCode].currencyUnitKor} </span>
         썼어요
       </p>
       <div className="flex h-26.5 flex-col gap-3">
