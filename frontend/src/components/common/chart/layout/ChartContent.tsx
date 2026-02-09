@@ -1,5 +1,6 @@
 import type { PropsWithChildren, ReactNode } from 'react';
-import clsx from 'clsx';
+
+import { cn } from '@/lib/utils';
 
 interface ChartContentProps extends PropsWithChildren {
   className?: string;
@@ -15,8 +16,8 @@ const ChartContent = ({
 }: ChartContentProps) => {
   return (
     <div
-      className={clsx(
-        'rounded-modal-8 bg-background-alternative flex justify-between px-8 py-4',
+      className={cn(
+        'rounded-modal-8 bg-background-alternative flex justify-between p-5',
         className,
       )}
     >
