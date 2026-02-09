@@ -1,4 +1,4 @@
-import { mockData } from './mock';
+import { mockData } from '../mock';
 import ReportBarList from './ReportBarList';
 
 interface ReportBarLegendProps {
