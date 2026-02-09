@@ -1,3 +1,4 @@
+import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
 import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
 import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
 
@@ -39,6 +40,7 @@ const ComparisonCard = ({
     <div className="flex h-8.5 gap-3.5">
       <div
         className={`h-8 ${barWidth} animate-expand-width origin-left items-center rounded-xs ${styles.barColor}`}
+        style={{ animationDuration: `${TOTAL_ANIMATION_DURATION}s` }}
       />
       <div className="flex flex-col gap-1.5">
         <span className={`caption2-medium ${styles.textColor}`}>{label}</span>
