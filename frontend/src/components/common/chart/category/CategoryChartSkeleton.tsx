@@ -17,7 +17,7 @@ const CategoryLegendItemSkeleton = () => {
 };
 
 const CategoryChartSkeleton = () => {
-  const CATEGORY_COUNT = 7;
+  const CATEGORY_LEGEND_COUNT = 7;
   return (
     <>
       <div>
@@ -26,12 +26,13 @@ const CategoryChartSkeleton = () => {
             percentage: item.percent,
             color: 'var(--color-fill-strong)',
           }))}
+          animate={false}
         >
           <div className="bg-fill-normal rounded-modal-4 h-5.5 w-32.5 animate-pulse" />
         </PieChart>
       </div>
       <div className="flex flex-col justify-between">
-        {Array.from({ length: CATEGORY_COUNT }).map((_, idx) => (
+        {Array.from({ length: CATEGORY_LEGEND_COUNT }).map((_, idx) => (
           <CategoryLegendItemSkeleton key={idx} />
         ))}
       </div>
