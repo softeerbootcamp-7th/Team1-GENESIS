@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import {
   EXPENSE_CHART_COLORS,
+  EXPENSE_TITLE_BY_MODE,
   type ExpenseChartMode,
 } from '@/components/common/chart/chartType';
 import ExpenseChartSkeleton from '@/components/common/chart/expense/ExpenseChartSkeleton';
@@ -65,9 +66,7 @@ const ExpenseChart = ({
   }, [mode]);
   return (
     <ChartContainer className="w-67">
-      <ChartHeader
-        title={(mode === 'method' ? '결제수단' : '통화') + '별 지출'}
-      />
+      <ChartHeader title={EXPENSE_TITLE_BY_MODE[mode]} />
       <ChartContent
         isLoading={isLoading || chartData.length === 0}
         skeleton={<ExpenseChartSkeleton />}

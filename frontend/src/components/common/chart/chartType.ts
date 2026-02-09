@@ -21,6 +21,11 @@ export const CURRENCY_OPTIONS: {
   { id: 2, name: '현지 통화', type: 'LOCAL' },
 ];
 
+export const EXPENSE_TITLE_BY_MODE: Record<ExpenseChartMode, string> = {
+  method: '결제수단별 지출',
+  currency: '통화별 지출',
+};
+
 /** constants */
 export const TOTAL_ANIMATION_DURATION = 0.8;
 
