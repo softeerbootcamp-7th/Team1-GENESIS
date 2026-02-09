@@ -1,9 +1,14 @@
+import { motion } from 'framer-motion';
+
+import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
+
 interface SemiCircleChartProps {
   value: number;
   max?: number;
   color?: string;
   size?: number;
   children?: React.ReactNode;
+  animate?: boolean;
 }
 
 const CHART_CONFIG = {
@@ -17,6 +22,7 @@ const SemiCircleChart = ({
   color = 'var(--color-primary-normal)',
   size = 200,
   children,
+  animate = true,
 }: SemiCircleChartProps) => {
   const percentage = Math.min(Math.max(value / max, 0), 1);
 
@@ -49,6 +55,13 @@ const SemiCircleChart = ({
   const trackLength = Math.max(totalLength - trackStartOffset, 0);
   const trackDashArray = `0 ${trackStartOffset} ${trackLength} 0`;
 
+  // 애니메이션
+  const finalOffset = Math.max(totalLength - filledLength, 0);
+  const initialOffset = animate ? totalLength : finalOffset;
+  const pathTransition = animate
+    ? { duration: TOTAL_ANIMATION_DURATION, ease: 'easeOut' as const }
+    : { duration: 0 };
+
   return (
     <div
       className="relative flex flex-col items-center justify-end"
@@ -71,14 +84,16 @@ const SemiCircleChart = ({
         />
 
         {/* 데이터 게이지 */}
-        <path
+        <motion.path
           d={dPath}
           fill="none"
           stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="butt"
-          strokeDasharray={`${filledLength} ${totalLength}`}
-          className="transition-all duration-1000 ease-out"
+          strokeDasharray={`${totalLength}`}
+          initial={{ strokeDashoffset: initialOffset }}
+          animate={{ strokeDashoffset: finalOffset }}
+          transition={pathTransition}
         />
       </svg>
 
