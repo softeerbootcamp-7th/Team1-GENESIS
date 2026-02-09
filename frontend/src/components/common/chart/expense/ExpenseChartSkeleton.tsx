@@ -28,7 +28,7 @@ const ExpenseLegendItemSkeleton = () => {
 };
 
 const ExpenseChartSkeleton = () => {
-  const EXPENSE_LEGEND_COUNT = 5;
+  const EXPENSE_LEGEND_COUNT = 4;
   return (
     <>
       <VerticalBarChart
