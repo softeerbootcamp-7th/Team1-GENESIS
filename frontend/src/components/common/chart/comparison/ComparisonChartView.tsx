@@ -1,6 +1,8 @@
 import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
 import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
 
+import { type CurrencyType } from '@/types/currency';
+
 import countryData from '@/data/countryData.json';
 
 import { mockData } from './mock';
@@ -9,18 +11,7 @@ interface ComparisonChartViewProps {
   selectedId: number;
 }
 
-import { type CurrencyType } from '@/types/currency';
-
-const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
-  const selectedCurrency: CurrencyType = selectedId === 1 ? 'BASE' : 'LOCAL';
-  const data = selectedCurrency === 'BASE' ? mockData.base : mockData.local;
-
-  const diff = Math.abs(data.average - data.me);
-  const isLess = data.me < data.average;
-  const isEqual = data.me === data.average;
-
-  const unit = countryData[data.countryCode].currencyUnitKor
-  const messageMap = {
+const messageMap = {
   equal: {
     text: '과',
     subtext: '똑같이',
@@ -35,19 +26,29 @@ const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
   },
 } as const;
 
-const message = (
-  isEqual
-    ? messageMap.equal
-    : isLess
-    ? messageMap.less
-    : messageMap.more
-);
+const getMessage = (isEqual: boolean, isLess: boolean) =>
+  isEqual ? messageMap.equal : isLess ? messageMap.less : messageMap.more;
+
+const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
+  const selectedCurrency: CurrencyType = selectedId === 1 ? 'BASE' : 'LOCAL';
+  const data = selectedCurrency === 'BASE' ? mockData.base : mockData.local;
+  const isLocal = selectedCurrency === 'LOCAL';
+
+  const diff = Math.abs(data.average - data.me);
+  const isLess = data.me < data.average;
+  const isEqual = data.me === data.average;
+
+  const unit = countryData[data.countryCode].currencyUnitKor;
+  const message = getMessage(isEqual, isLess);
+  const diffText = diff !== 0 ? `${diff}${unit}` : '';
 
   return (
     <>
       <p className="body1-normal-bold text-label-neutral">
         나랑 같은 국가의 교환학생{message.text} <br />
-        <span className="text-primary-strong">{diff !=0 ? `${diff}${unit}` : ''} {message.subtext}</span>
+        <span className="text-primary-strong">
+          {diffText} {message.subtext}
+        </span>
         {' '}썼어요
       </p>
       <div className="flex h-26.5 flex-col gap-3">
@@ -61,7 +62,7 @@ const message = (
               미국 교환학생 평균
             </span>
             <div className="flex items-center gap-1.75">
-              {selectedCurrency === 'LOCAL' && (
+              {isLocal && (
                 <CurrencyBadge
                   countryCode={data.countryCode}
                   className="text-cool-neutral-70"
@@ -81,7 +82,7 @@ const message = (
           <div className="flex flex-col gap-1.5">
             <span className="text-primary-normal caption2-medium">나</span>
             <div className="flex items-center gap-1.75">
-              {selectedCurrency === 'LOCAL' && (
+              {isLocal && (
                 <CurrencyBadge
                   countryCode={data.countryCode}
                   className="text-primary-normal"
