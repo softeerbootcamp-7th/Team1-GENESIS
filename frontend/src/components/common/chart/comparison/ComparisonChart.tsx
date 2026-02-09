@@ -4,6 +4,8 @@ import DropDown from '@/components/common/dropdown/Dropdown';
 
 import { type CurrencyType } from '@/types/currency';
 
+import ChartHeader from '../layout/ChartHeader';
+
 const DUMMY_DATA = {
   month: 12,
   base: {
@@ -43,12 +45,8 @@ const ComparisonChart = () => {
 
   return (
     <div className="shadow-semantic-subtle bg-background-normal flex h-67 w-67 flex-col gap-2.5 rounded-2xl px-2 pt-4 pb-2">
-      <div className="flex items-center justify-between px-2.5">
-        <span className="body2-normal-medium text-label-neutral">
-          내 월간 소비 비교
-        </span>
-        <div className="flex">
-          <DropDown
+      <ChartHeader title="내 월간 소비 비교">
+        <DropDown
             selected={selectedId}
             options={options}
             size="xs"
@@ -56,8 +54,7 @@ const ComparisonChart = () => {
             onSelect={setSelectedId}
             itemWidth="w-20"
           />
-        </div>
-      </div>
+      </ChartHeader>
       <div className="bg-background-alternative rounded-modal-8 flex h-56.5 flex-col justify-between px-4 py-5">
         <p className="body1-normal-bold text-label-neutral">
           나랑 같은 국가의 교환학생보다 <br />
