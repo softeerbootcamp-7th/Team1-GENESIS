@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { clsx } from 'clsx';
 
-import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 import Filter from '../Filter';
 import OptionItem from './OptionItem';
@@ -37,7 +37,7 @@ const DropDown = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(dropdownRef, () => {
+  useClickOutside(dropdownRef, () => {
     setIsOpen(false);
   });
 

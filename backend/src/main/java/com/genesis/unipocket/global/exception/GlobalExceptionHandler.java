@@ -4,6 +4,7 @@ import com.genesis.unipocket.global.common.dto.CustomErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,13 +38,19 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * &#064;Valid  검증 실패 시 발생 (400)
+	 * &#064;Valid 검증 실패 시 발생 (400)
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValid(
 			MethodArgumentNotValidException e) {
 
-		return createErrorResponse(ErrorCode.INVALID_INPUT_VALUE);
+		String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+		if (message == null) {
+			message = ErrorCode.INVALID_INPUT_VALUE.getMessage();
+		}
+
+		return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getStatus())
+				.body(new CustomErrorResponse(ErrorCode.INVALID_INPUT_VALUE.getCode(), message));
 	}
 
 	/**
@@ -85,6 +92,12 @@ public class GlobalExceptionHandler {
 
 		logException(ErrorCode.INTERNAL_SERVER_ERROR, req, e);
 		return createErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<?> handleHttpMessageNotReadableException(
+			HttpMessageNotReadableException e) {
+		return createErrorResponse(ErrorCode.HTTP_MESSAGE_NOT_READABLE);
 	}
 
 	private void logException(ErrorCode errorCode, HttpServletRequest req, Exception e) {
