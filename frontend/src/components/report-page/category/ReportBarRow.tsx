@@ -4,17 +4,16 @@ interface ReportBarRowProps {
   category: string;
   me: number;
   other: number;
-  maxValue: number;
 }
 
 const ReportBarRow = ({ category, me, other }: ReportBarRowProps) => {
   return (
     <div className="flex items-center gap-4">
-      <span className="flex w-12 label1-normal-medium text-label-neutral justify-end">
+      <span className="label1-normal-medium text-label-neutral flex w-12 justify-end">
         {category}
       </span>
 
-      <div className="flex flex-col justify-between h-10 w-full">
+      <div className="flex h-10 w-full flex-col justify-between">
         <ReportBar value={me} variant="me" />
         <ReportBar value={other} variant="other" />
       </div>
