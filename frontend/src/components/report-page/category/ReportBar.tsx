@@ -14,12 +14,12 @@ interface ReportBarProps {
 const VARIANT_STYLES = {
   me: {
     bgColor: 'bg-primary-normal',
-    textColor: 'text-primary-normal',
-    size: 'sm',
+    textStyle: 'text-primary-normal body2-normal-bold',
+    size: 'md',
   },
   other: {
     bgColor: 'bg-cool-neutral-95',
-    textColor: 'text-cool-neutral-80',
+    textStyle: 'text-cool-neutral-80',
     size: 'xs',
   },
 } as const;
@@ -40,7 +40,7 @@ const ReportBar = ({ value, variant, countryCode }: ReportBarProps) => {
         amount={value}
         countryCode={countryCode}
         size={styles.size}
-        className={styles.textColor}
+        className={styles.textStyle}
       />
     </div>
   );
