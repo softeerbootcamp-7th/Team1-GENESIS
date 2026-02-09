@@ -70,7 +70,6 @@ const ExpenseChart = ({
       <ChartContent
         isLoading={isLoading || chartData.length === 0}
         skeleton={<ExpenseChartSkeleton />}
-        className="p-5"
       >
         <ExpenseChartView data={chartData} />
       </ChartContent>

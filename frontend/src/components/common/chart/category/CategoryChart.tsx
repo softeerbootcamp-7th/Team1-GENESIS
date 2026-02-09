@@ -53,6 +53,7 @@ const CategoryChart = ({ isLoading = false }: { isLoading?: boolean }) => {
       <ChartContent
         isLoading={isLoading || visibleStats.length === 0}
         skeleton={<CategoryChartSkeleton />}
+        className="px-8 py-4"
       >
         <CategoryChartView
           data={visibleStats}
