@@ -28,6 +28,7 @@ const ExpenseLegendItemSkeleton = () => {
 };
 
 const ExpenseChartSkeleton = () => {
+  const EXPENSE_LEGEND_COUNT = 5;
   return (
     <>
       <VerticalBarChart
@@ -36,7 +37,7 @@ const ExpenseChartSkeleton = () => {
         colors={[EXPENSE_SUSPENSE_COLOR[0]]}
       />
       <div className="flex flex-col items-start justify-center gap-2.5">
-        {Array.from({ length: 5 }).map((_, idx) => (
+        {Array.from({ length: EXPENSE_LEGEND_COUNT }).map((_, idx) => (
           <ExpenseLegendItemSkeleton key={idx} />
         ))}
       </div>
