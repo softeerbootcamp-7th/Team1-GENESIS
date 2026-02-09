@@ -15,12 +15,40 @@ const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
   const selectedCurrency: CurrencyType = selectedId === 1 ? 'BASE' : 'LOCAL';
   const data = selectedCurrency === 'BASE' ? mockData.base : mockData.local;
 
+  const diff = Math.abs(data.average - data.me);
+  const isLess = data.me < data.average;
+  const isEqual = data.me === data.average;
+
+  const unit = countryData[data.countryCode].currencyUnitKor
+  const messageMap = {
+  equal: {
+    text: '과',
+    subtext: '똑같이',
+  },
+  less: {
+    text: '보다',
+    subtext: '덜',
+  },
+  more: {
+    text: '보다',
+    subtext: '더',
+  },
+} as const;
+
+const message = (
+  isEqual
+    ? messageMap.equal
+    : isLess
+    ? messageMap.less
+    : messageMap.more
+);
+
   return (
     <>
       <p className="body1-normal-bold text-label-neutral">
-        나랑 같은 국가의 교환학생보다 <br />
-        <span className="text-primary-strong">{data.average - data.me}{countryData[data.countryCode].currencyUnitKor} </span>
-        썼어요
+        나랑 같은 국가의 교환학생{message.text} <br />
+        <span className="text-primary-strong">{diff !=0 ? `${diff}${unit}` : ''} {message.subtext}</span>
+        {' '}썼어요
       </p>
       <div className="flex h-26.5 flex-col gap-3">
         <span className="caption2-medium text-label-assistive">
