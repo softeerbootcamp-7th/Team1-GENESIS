@@ -25,6 +25,7 @@ const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
   const isEqual = data.me === data.average;
 
   const unit = countryData[data.countryCode].currencyUnitKor;
+  const localCountryName = countryData[mockData.local.countryCode].countryName;
   const formattedDiff = formatCurrencyAmount(diff, data.countryCode, 0);
 
   const [averageBarWidth, meBarWidth] = isEqual
@@ -58,7 +59,7 @@ const ComparisonChartView = ({ selectedId }: ComparisonChartViewProps) => {
         <ComparisonCard
           barWidth={averageBarWidth}
           barColor="bg-cool-neutral-95"
-          label="미국 교환학생 평균"
+          label={`${localCountryName} 교환학생 평균`}
           amount={data.average}
           countryCode={data.countryCode}
           isLocal={isLocal}
