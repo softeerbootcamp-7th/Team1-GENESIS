@@ -3,6 +3,12 @@ import { formatCurrencyAmount, getCountryInfo } from '@/lib/country';
 import { cn } from '@/lib/utils';
 
 const SIZE_VARIANTS = {
+  xs: {
+    containerGap: 'gap-0.5',
+    symbol: 'label2-medium',
+    integer: 'label2-medium',
+    decimal: 'label2-medium -mt-0.5',
+  },
   sm: {
     containerGap: 'gap-0.5',
     symbol: 'figure-caption1-medium text-label-alternative',
@@ -26,7 +32,7 @@ const SIZE_VARIANTS = {
 interface CurrencyAmountDisplayProps {
   countryCode: CountryCode;
   amount: number;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   className?: string;
 }
 
@@ -71,7 +77,7 @@ const CurrencyAmountDisplay = ({
 
       {/* 숫자 영역 (정수 + 소수) */}
       <div className="flex items-center">
-        <span className={styles.integer}>{integerPart}</span>
+        <span className={cn(styles.integer, className)}>{integerPart}</span>
 
         {decimalPart && (
           <span
