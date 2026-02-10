@@ -1,4 +1,4 @@
-package com.genesis.unipocket.user.dto.common.oauth;
+package com.genesis.unipocket.user.common.dto.oauth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

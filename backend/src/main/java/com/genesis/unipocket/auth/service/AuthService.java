@@ -2,7 +2,7 @@ package com.genesis.unipocket.auth.service;
 
 import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.global.exception.TokenException;
-import com.genesis.unipocket.user.persistence.repository.UserRepository;
+import com.genesis.unipocket.user.command.persistence.repository.UserCommandRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class AuthService {
 
 	private final JwtProvider jwtProvider;
 	private final TokenBlacklistService blacklistService;
-	private final UserRepository userRepository;
+	private final UserCommandRepository userRepository;
 
 	/**
 	 * 로그인 - Access Token과 Refresh Token 발급
@@ -128,5 +128,6 @@ public class AuthService {
 	/**
 	 * 토큰 쌍 (Access Token + Refresh Token)
 	 */
-	public record TokenPair(String accessToken, String refreshToken) {}
+	public record TokenPair(String accessToken, String refreshToken) {
+	}
 }
