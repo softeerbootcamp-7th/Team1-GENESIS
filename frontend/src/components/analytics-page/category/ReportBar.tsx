@@ -62,22 +62,25 @@ const ReportBar = ({
           animationDuration: `${TOTAL_ANIMATION_DURATION}s`,
         }}
       />
-      {showAmount && (
-        <div className="flex gap-1">
-          {isLocal && (
-            <CurrencyBadge
-              countryCode={countryCode}
-              className={styles.textStyle}
-            />
-          )}
-          <CurrencyAmountDisplay
-            amount={value}
+      <div
+        className={clsx(
+          'flex gap-1 transition-opacity duration-200',
+          showAmount ? 'opacity-100' : 'opacity-0',
+        )}
+      >
+        {isLocal && (
+          <CurrencyBadge
             countryCode={countryCode}
-            size={styles.size}
             className={styles.textStyle}
           />
-        </div>
-      )}
+        )}
+        <CurrencyAmountDisplay
+          amount={value}
+          countryCode={countryCode}
+          size={styles.size}
+          className={styles.textStyle}
+        />
+      </div>
     </div>
   );
 };
