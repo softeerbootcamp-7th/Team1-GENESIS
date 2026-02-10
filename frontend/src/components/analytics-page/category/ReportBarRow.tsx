@@ -12,9 +12,15 @@ interface ReportBarRowProps {
   countryCode: CountryCode;
 }
 
-const ReportBarRow = ({ categoryIndex, me, other, maxLabel, countryCode = 'US' }: ReportBarRowProps) => {
+const ReportBarRow = ({
+  categoryIndex,
+  me,
+  other,
+  maxLabel,
+  countryCode,
+}: ReportBarRowProps) => {
   return (
-    <div className="flex items-center gap-4 h-10">
+    <div className="flex h-10 items-center gap-4">
       <span className="label1-normal-medium text-label-neutral flex w-12 justify-end">
         {getCategoryName(categoryIndex)}
       </span>

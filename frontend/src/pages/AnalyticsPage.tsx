@@ -5,7 +5,7 @@ import { type CountryCode } from '@/data/countryCode';
 import mockData from '../components/analytics-page/mock.json';
 
 const AnalyticsPage = () => {
-  const countryCode = mockData.contryCode as CountryCode;
+  const countryCode = mockData.countryCode as CountryCode;
   const categoryData = mockData.compareByCategory;
 
   return (
