@@ -1,10 +1,9 @@
 package com.genesis.unipocket.expense.command.persistence.entity.expense;
 
-import com.genesis.unipocket.expense.common.enums.Category;
 import com.genesis.unipocket.expense.command.persistence.entity.dto.ExpenseManualCreateArgs;
+import com.genesis.unipocket.expense.common.enums.Category;
 import com.genesis.unipocket.global.common.entity.BaseEntity;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
-import com.genesis.unipocket.user.persistence.entity.UserCardEntity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -56,8 +55,8 @@ public class ExpenseEntity extends BaseEntity {
 	private Category category;
 
 	private String paymentMethod;
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	private UserCardEntity userCardEntity;
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	private UserCardEntity userCardEntity;
 
 	private Long travelId;
 

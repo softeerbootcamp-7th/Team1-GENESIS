@@ -4,6 +4,7 @@ import com.genesis.unipocket.auth.annotation.LoginUser;
 import com.genesis.unipocket.expense.command.application.FileUploadService;
 import com.genesis.unipocket.expense.command.application.TemporaryExpenseConversionService;
 import com.genesis.unipocket.expense.command.application.TemporaryExpenseParsingService;
+import com.genesis.unipocket.expense.command.application.result.TemporaryExpenseResult;
 import com.genesis.unipocket.expense.command.facade.TemporaryExpenseCommandFacade;
 import com.genesis.unipocket.expense.command.presentation.request.BatchConvertRequest;
 import com.genesis.unipocket.expense.command.presentation.request.BatchParseRequest;
@@ -19,9 +20,8 @@ import com.genesis.unipocket.expense.command.presentation.response.ConvertTempor
 import com.genesis.unipocket.expense.command.presentation.response.ParseFileResponse;
 import com.genesis.unipocket.expense.command.presentation.response.PresignedUrlResponse;
 import com.genesis.unipocket.expense.command.presentation.response.RegisterUploadedFileResponse;
-import com.genesis.unipocket.expense.common.validator.AccountBookOwnershipValidator;
-import com.genesis.unipocket.expense.command.application.result.TemporaryExpenseResult;
 import com.genesis.unipocket.expense.command.presentation.response.TemporaryExpenseUpdateResponse;
+import com.genesis.unipocket.expense.common.validator.AccountBookOwnershipValidator;
 import com.genesis.unipocket.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -161,8 +161,7 @@ public class TemporaryExpenseCommandController {
 	@PostMapping("/api/temporary-expenses/upload/register")
 	public ResponseEntity<ApiResponse<RegisterUploadedFileResponse>> registerUploadedFile(
 			@RequestBody @Valid RegisterUploadedFileRequest request, @LoginUser UUID userId) {
-		accountBookOwnershipValidator.validateOwnership(
-				request.accountBookId(), userId.toString());
+		accountBookOwnershipValidator.validateOwnership(request.accountBookId(), userId.toString());
 
 		FileUploadService.FileRegisterResponse result =
 				fileUploadService.registerUploadedFile(
@@ -185,8 +184,8 @@ public class TemporaryExpenseCommandController {
 
 		// Response 생성
 		List<ParseFileResponse.ParsedItemSummary> items = new java.util.ArrayList<>();
-		for (com.genesis.unipocket.expense.command.persistence.entity.expense.TemporaryExpense expense :
-				result.expenses()) {
+		for (com.genesis.unipocket.expense.command.persistence.entity.expense.TemporaryExpense
+				expense : result.expenses()) {
 			items.add(
 					new ParseFileResponse.ParsedItemSummary(
 							expense.getTempExpenseId(),

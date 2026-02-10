@@ -17,7 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AccountBookValidationProvider
-		implements AccountBookOwnershipValidator, AccountBookInfoFetchService, UserAccountBookValidator {
+		implements AccountBookOwnershipValidator,
+				AccountBookInfoFetchService,
+				UserAccountBookValidator {
 
 	private final AccountBookService accountBookService;
 

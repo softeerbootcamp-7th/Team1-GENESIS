@@ -53,9 +53,7 @@ public record ExpenseResult(
 						: null,
 				entity.getOccurredAt(),
 				entity.getMerchant() != null ? entity.getMerchant().getMerchantName() : null,
-				entity.getMerchant() != null
-						? entity.getMerchant().getDisplayMerchantName()
-						: null,
+				entity.getMerchant() != null ? entity.getMerchant().getDisplayMerchantName() : null,
 				entity.getApprovalNumber(),
 				entity.getPaymentMethod(),
 				entity.getExpenseSourceInfo() != null

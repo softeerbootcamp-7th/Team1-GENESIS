@@ -1,12 +1,12 @@
 package com.genesis.unipocket.expense.command.presentation;
 
 import com.genesis.unipocket.auth.annotation.LoginUser;
+import com.genesis.unipocket.expense.command.application.result.ExpenseResult;
 import com.genesis.unipocket.expense.command.facade.ExpenseCommandFacade;
 import com.genesis.unipocket.expense.command.presentation.request.ExpenseManualCreateRequest;
 import com.genesis.unipocket.expense.command.presentation.request.ExpenseUpdateRequest;
 import com.genesis.unipocket.expense.command.presentation.response.ExpenseManualCreateResponse;
 import com.genesis.unipocket.expense.command.presentation.response.ExpenseUpdateResponse;
-import com.genesis.unipocket.expense.command.application.result.ExpenseResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -46,7 +46,8 @@ public class ExpenseCommandController {
 			@PathVariable Long expenseId,
 			@RequestBody @Valid ExpenseUpdateRequest request) {
 
-		ExpenseResult result = expenseFacade.updateExpense(expenseId, accountBookId, userId, request);
+		ExpenseResult result =
+				expenseFacade.updateExpense(expenseId, accountBookId, userId, request);
 		ExpenseUpdateResponse response = ExpenseUpdateResponse.from(result);
 		return ResponseEntity.ok(response);
 	}

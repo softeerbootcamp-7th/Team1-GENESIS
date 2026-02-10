@@ -36,8 +36,7 @@ public class ExpenseCommandService {
 						command.occurredAt());
 
 		ExpenseEntity expenseEntity =
-				ExpenseEntity.manual(
-						ExpenseManualCreateArgs.of(command, baseCurrencyAmount));
+				ExpenseEntity.manual(ExpenseManualCreateArgs.of(command, baseCurrencyAmount));
 
 		var savedEntity = expenseRepository.save(expenseEntity);
 
@@ -46,8 +45,7 @@ public class ExpenseCommandService {
 
 	@Transactional
 	public ExpenseResult updateExpense(ExpenseUpdateCommand command) {
-		ExpenseEntity entity =
-				findAndVerifyOwnership(command.expenseId(), command.accountBookId());
+		ExpenseEntity entity = findAndVerifyOwnership(command.expenseId(), command.accountBookId());
 
 		// 기본 필드 업데이트
 		entity.updateMerchantName(command.merchantName());
@@ -58,8 +56,7 @@ public class ExpenseCommandService {
 		entity.updateTravelId(command.travelId());
 
 		// 통화/금액 변경 시 환율 재계산
-		boolean currencyChanged =
-				!entity.getLocalCurrency().equals(command.localCurrencyCode());
+		boolean currencyChanged = !entity.getLocalCurrency().equals(command.localCurrencyCode());
 		boolean amountChanged =
 				entity.getLocalAmount().compareTo(command.localCurrencyAmount()) != 0;
 
@@ -93,7 +90,8 @@ public class ExpenseCommandService {
 						.findById(expenseId)
 						.orElseThrow(
 								() ->
-										new com.genesis.unipocket.global.exception.BusinessException(
+										new com.genesis.unipocket.global.exception
+												.BusinessException(
 												com.genesis.unipocket.global.exception.ErrorCode
 														.EXPENSE_NOT_FOUND));
 
