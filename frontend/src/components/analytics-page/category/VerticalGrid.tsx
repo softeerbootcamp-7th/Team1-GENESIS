@@ -26,7 +26,6 @@ const VerticalGrid = ({ steps, maxLabel }: VerticalGridProps) => {
           />
         ))}
       </div>
-
       <div className="relative">
         {values.map((value, i) => (
           <div

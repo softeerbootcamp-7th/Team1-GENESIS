@@ -70,7 +70,6 @@ const ReportBar = ({
               className={styles.textStyle}
             />
           )}
-
           <CurrencyAmountDisplay
             amount={value}
             countryCode={countryCode}
