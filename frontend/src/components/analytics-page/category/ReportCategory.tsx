@@ -7,7 +7,7 @@ import ReportBarGraph from './ReportBarGraph';
 interface ReportCategoryProps {
   data: {
     maxDiffCategoryIndex: number;
-    isOverSpent: boolean;
+    isOverSpent: boolean; // @TODO: 텍스트 분기 처리 예정
     maxLabel: string;
     items: {
       categoryIndex: number;
@@ -28,7 +28,7 @@ const ReportCategory = ({ data }: ReportCategoryProps) => {
           <span className="text-primary-normal">{category}</span> 소비가 유독
           많아요
         </h3>
-        <ReportBarGraph maxValue={Number(data.maxLabel)} items={data.items} />
+        <ReportBarGraph maxLabel={Number(data.maxLabel)} items={data.items} />
       </ReportContent>
     </ReportContainer>
   );

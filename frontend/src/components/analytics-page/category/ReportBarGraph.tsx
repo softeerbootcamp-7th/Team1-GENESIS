@@ -1,5 +1,3 @@
-import { getCategoryName } from '@/types/category';
-
 import ReportBarList from './ReportBarList';
 
 interface ReportBarLegendProps {
@@ -19,7 +17,7 @@ const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
 };
 
 interface ReportBarGraphProps {
-  maxValue: number;
+  maxLabel: number;
   items: {
     categoryIndex: number;
     mySpentAmount: string;
@@ -28,9 +26,9 @@ interface ReportBarGraphProps {
 }
 
 
-const ReportBarGraph = ({ maxValue, items }: ReportBarGraphProps) => {
+const ReportBarGraph = ({ maxLabel, items }: ReportBarGraphProps) => {
   const data = items.map((item) => ({
-    category: getCategoryName(item.categoryIndex),
+    categoryIndex: item.categoryIndex,
     me: Number(item.mySpentAmount),
     other: Number(item.averageSpentAmount),
   }));
@@ -41,7 +39,7 @@ const ReportBarGraph = ({ maxValue, items }: ReportBarGraphProps) => {
         <ReportBarLegend label="나" color="primary-normal" />
         <ReportBarLegend label="다른 학생" color="cool-neutral-95" />
       </div>
-      <ReportBarList data={data} maxLabel={maxValue} />
+      <ReportBarList items={data} maxLabel={maxLabel} />
     </div>
   );
 };

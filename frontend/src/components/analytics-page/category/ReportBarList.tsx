@@ -3,20 +3,20 @@ import VerticalGrid from './VerticalGrid';
 
 interface ReportBarListProps {
   maxLabel: number;
-  data: {
-    category: string;
+  items: {
+    categoryIndex: number;
     me: number;
     other: number;
   }[];
 }
-const ReportBarList = ({ data, maxLabel }: ReportBarListProps) => {
+const ReportBarList = ({ items, maxLabel }: ReportBarListProps) => {
   return (
     <div className="relative h-125.25 w-full">
-      <VerticalGrid steps={6} maxValue={maxLabel} />
+      <VerticalGrid steps={6} maxLabel={maxLabel} />
       <div className="relative z-10 flex flex-col gap-4.5">
-        {data.map((item) => (
+        {items.map((item) => (
           <ReportBarRow
-            key={item.category}
+            key={item.categoryIndex}
             {...item}
             maxLabel={maxLabel}
           />
