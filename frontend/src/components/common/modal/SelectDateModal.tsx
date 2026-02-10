@@ -39,7 +39,7 @@ const DatePickItem = ({ label, date, isActive }: DatePickItemProps) => {
 };
 
 export interface SelectDateContentProps extends DateRange {
-  onChange: (startDate: Date | null, endDate: Date | null) => void;
+  onChange: ({ start, end }: { start: Date | null; end: Date | null }) => void;
 }
 
 export const SelectDateContent = ({
@@ -106,8 +106,14 @@ const SelectDateModal = ({
     initialDateRange ?? { startDate: null, endDate: null },
   );
 
-  const handleDatesChange = (startDate: Date | null, endDate: Date | null) => {
-    setDateRange({ startDate, endDate });
+  const handleDatesChange = ({
+    start,
+    end,
+  }: {
+    start: Date | null;
+    end: Date | null;
+  }) => {
+    setDateRange({ startDate: start, endDate: end });
   };
 
   const handleConfirm = () => {
