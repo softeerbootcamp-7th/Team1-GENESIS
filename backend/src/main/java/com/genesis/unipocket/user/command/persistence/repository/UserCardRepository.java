@@ -1,6 +1,6 @@
-package com.genesis.unipocket.user.persistence.repository;
+package com.genesis.unipocket.user.command.persistence.repository;
 
-import com.genesis.unipocket.user.persistence.entity.UserCardEntity;
+import com.genesis.unipocket.user.command.persistence.entity.UserCardEntity;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
