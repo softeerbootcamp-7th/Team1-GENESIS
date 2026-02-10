@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:backend/src/main/java/com/genesis/unipocket/auth/common/dto/oauth/OAuthTokenResponse.java
 package com.genesis.unipocket.auth.common.dto.oauth;
+========
+package com.genesis.unipocket.user.common.dto.oauth;
+>>>>>>>> origin/backend-service:backend/src/main/java/com/genesis/unipocket/user/common/dto/oauth/OAuthTokenResponse.java
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -6,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <b>OAuth Token 응답 DTO</b>
+ *
  * @author 김동균
  * @since 2026-01-30
  */
