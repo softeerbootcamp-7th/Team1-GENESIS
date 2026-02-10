@@ -9,8 +9,8 @@ import com.genesis.unipocket.travel.command.application.command.UpdateWidgetsCom
 import com.genesis.unipocket.travel.command.application.result.CreateTravelResult;
 import com.genesis.unipocket.travel.command.persistence.entity.Travel;
 import com.genesis.unipocket.travel.command.persistence.entity.TravelWidget;
-import com.genesis.unipocket.travel.command.persistence.repository.TravelJpaRepository;
-import com.genesis.unipocket.travel.command.persistence.repository.TravelWidgetJpaRepository;
+import com.genesis.unipocket.travel.command.persistence.repository.TravelCommandRepository;
+import com.genesis.unipocket.travel.command.persistence.repository.TravelWidgetCommandRepository;
 import com.genesis.unipocket.travel.common.enums.WidgetType;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TravelCommandService {
 
-	private final TravelJpaRepository travelRepository;
-	private final TravelWidgetJpaRepository widgetRepository;
+	private final TravelCommandRepository travelRepository;
+	private final TravelWidgetCommandRepository widgetRepository;
 
 	@Transactional
 	public CreateTravelResult createTravel(CreateTravelCommand command) {
