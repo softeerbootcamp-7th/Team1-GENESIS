@@ -14,7 +14,7 @@ const BudgetChart = ({ isLoading = false }: { isLoading?: boolean }) => {
   return (
     <ChartContainer>
       <ChartHeader title="남은 예산">
-        <Button size="xxs">설정</Button>
+        <Button size="2xs">설정</Button>
       </ChartHeader>
       <ChartContent
         className="w-full p-5"
