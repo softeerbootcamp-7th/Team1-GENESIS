@@ -1,6 +1,6 @@
-package com.genesis.unipocket.auth.service;
+package com.genesis.unipocket.auth.command.application;
 
-import com.genesis.unipocket.auth.exception.oauth.OAuthException;
+import com.genesis.unipocket.auth.common.exception.oauth.OAuthException;
 import com.genesis.unipocket.global.config.OAuth2Properties.ProviderType;
 import com.genesis.unipocket.global.exception.ErrorCode;
 import java.time.Duration;

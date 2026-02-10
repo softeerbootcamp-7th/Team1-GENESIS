@@ -1,4 +1,4 @@
-package com.genesis.unipocket.auth.service.oauth;
+package com.genesis.unipocket.auth.command.application.oauth;
 
 import com.genesis.unipocket.global.config.OAuth2Properties;
 import com.genesis.unipocket.global.config.OAuth2Properties.OidcProviderConfig;

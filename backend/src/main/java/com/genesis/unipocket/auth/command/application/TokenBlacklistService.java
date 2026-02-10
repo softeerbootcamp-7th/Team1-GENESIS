@@ -1,4 +1,4 @@
-package com.genesis.unipocket.auth.service;
+package com.genesis.unipocket.auth.command.application;
 
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;

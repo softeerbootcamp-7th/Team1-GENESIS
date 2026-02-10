@@ -1,10 +1,10 @@
-package com.genesis.unipocket.auth.facade;
+package com.genesis.unipocket.auth.command.facade;
 
-import com.genesis.unipocket.auth.service.OAuthLoginStateService;
-import com.genesis.unipocket.auth.service.oauth.OAuthProviderFactory;
-import com.genesis.unipocket.auth.service.oauth.OAuthProviderService;
+import com.genesis.unipocket.auth.command.application.OAuthLoginStateService;
+import com.genesis.unipocket.auth.command.application.oauth.OAuthProviderFactory;
+import com.genesis.unipocket.auth.command.application.oauth.OAuthProviderService;
+import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
 import com.genesis.unipocket.global.config.OAuth2Properties.ProviderType;
-import com.genesis.unipocket.user.dto.response.AuthorizeResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,13 @@ public class OAuthAuthorizeFacade {
 	private final OAuthLoginStateService loginStateService;
 
 	@Transactional
-	public AuthorizeResponse authorize(ProviderType providerType) {
+	public AuthorizeResult authorize(ProviderType providerType) {
 		String state = UUID.randomUUID().toString();
 		loginStateService.saveLoginState(state, providerType);
 
 		OAuthProviderService provider = providerFactory.getProvider(providerType);
 		String authorizationUrl = provider.getAuthorizationUrl(state);
 
-		return new AuthorizeResponse(authorizationUrl, state);
+		return new AuthorizeResult(authorizationUrl, state);
 	}
 }

@@ -1,4 +1,4 @@
-package com.genesis.unipocket.auth.persistence.entity;
+package com.genesis.unipocket.auth.command.persistence.entity;
 
 import com.genesis.unipocket.global.config.OAuth2Properties.ProviderType;
 import com.genesis.unipocket.user.persistence.entity.UserEntity;

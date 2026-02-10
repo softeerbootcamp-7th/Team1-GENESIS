@@ -1,7 +1,7 @@
-package com.genesis.unipocket.auth.service.oauth;
+package com.genesis.unipocket.auth.command.application.oauth;
 
-import com.genesis.unipocket.user.dto.common.oauth.OAuthTokenResponse;
-import com.genesis.unipocket.user.dto.common.oauth.OAuthUserInfo;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthTokenResponse;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthUserInfo;
 
 /**
  * <b>OAuth Provider Service 인터페이스</b>

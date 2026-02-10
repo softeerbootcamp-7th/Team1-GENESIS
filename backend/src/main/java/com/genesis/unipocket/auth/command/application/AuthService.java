@@ -1,4 +1,4 @@
-package com.genesis.unipocket.auth.service;
+package com.genesis.unipocket.auth.command.application;
 
 import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.global.exception.TokenException;

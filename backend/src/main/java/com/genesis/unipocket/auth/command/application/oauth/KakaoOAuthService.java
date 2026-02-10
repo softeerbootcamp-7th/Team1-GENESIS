@@ -1,10 +1,10 @@
-package com.genesis.unipocket.auth.service.oauth;
+package com.genesis.unipocket.auth.command.application.oauth;
 
-import com.genesis.unipocket.auth.exception.oauth.OAuthCommunicationException;
+import com.genesis.unipocket.auth.common.dto.oauth.KakaoUserInfo;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthTokenResponse;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthUserInfo;
+import com.genesis.unipocket.auth.common.exception.oauth.OAuthCommunicationException;
 import com.genesis.unipocket.global.config.OAuth2Properties.OidcProviderConfig;
-import com.genesis.unipocket.user.dto.common.oauth.KakaoUserInfo;
-import com.genesis.unipocket.user.dto.common.oauth.OAuthTokenResponse;
-import com.genesis.unipocket.user.dto.common.oauth.OAuthUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -72,7 +72,7 @@ public class KakaoOAuthService implements OAuthProviderService {
 					.get()
 					.uri(config.getUserInfoUri())
 					.header("Authorization", "Bearer " + accessToken)
-					.header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+					// .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 					.retrieve()
 					.body(KakaoUserInfo.class);
 

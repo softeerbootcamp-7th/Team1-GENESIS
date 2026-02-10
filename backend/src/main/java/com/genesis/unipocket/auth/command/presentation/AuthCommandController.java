@@ -1,26 +1,26 @@
-package com.genesis.unipocket.auth.controller;
+package com.genesis.unipocket.auth.command.presentation;
 
-import com.genesis.unipocket.auth.facade.OAuthAuthorizeFacade;
-import com.genesis.unipocket.auth.facade.UserLoginFacade;
-import com.genesis.unipocket.auth.service.AuthService;
+import com.genesis.unipocket.auth.command.application.AuthService;
+import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
+import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
+import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
+import com.genesis.unipocket.auth.common.dto.LoginResult;
 import com.genesis.unipocket.global.config.OAuth2Properties;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.global.util.CookieUtil;
-import com.genesis.unipocket.user.dto.request.LogoutRequest;
-import com.genesis.unipocket.user.dto.request.ReissueRequest;
-import com.genesis.unipocket.user.dto.response.AuthorizeResponse;
-import com.genesis.unipocket.user.dto.response.LoginResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +37,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthCommandController {
 
 	private final AuthService authService;
 	private final CookieUtil cookieUtil;
@@ -54,11 +54,12 @@ public class AuthController {
 	 * 토큰 재발급 (Refresh Token Rotation)
 	 */
 	@PostMapping("/reissue")
-	public LoginResponse reissue(
-			@RequestBody ReissueRequest request, HttpServletResponse response) {
+	public ResponseEntity<Void> reissue(
+			@Parameter(hidden = true) @CookieValue("refresh_token") String refreshToken,
+			HttpServletResponse response) {
 		log.info("토큰 재발급 요청");
 
-		AuthService.TokenPair tokenPair = authService.reissue(request.getRefreshToken());
+		AuthService.TokenPair tokenPair = authService.reissue(refreshToken);
 
 		// Access Token 쿠키 갱신
 		cookieUtil.addCookie(
@@ -71,21 +72,20 @@ public class AuthController {
 		cookieUtil.addCookie(
 				response, "refresh_token", tokenPair.refreshToken(), 10 * 24 * 60 * 60);
 
-		return LoginResponse.of(
-				tokenPair.accessToken(),
-				tokenPair.refreshToken(),
-				null, // userId는 재발급 시 불필요
-				accessTokenExpiresIn());
+		return ResponseEntity.ok().build();
 	}
 
 	/**
 	 * 로그아웃 (토큰 블랙리스트 등록)
 	 */
 	@PostMapping("/logout")
-	public void logout(@RequestBody LogoutRequest request, HttpServletResponse response) {
+	public void logout(
+			@Parameter(hidden = true) @CookieValue("access_token") String accessToken,
+			@Parameter(hidden = true) @CookieValue("refresh_token") String refreshToken,
+			HttpServletResponse response) {
 		log.info("로그아웃 요청");
 
-		authService.logout(request.getAccessToken(), request.getRefreshToken());
+		authService.logout(accessToken, refreshToken);
 
 		// 쿠키 삭제
 		cookieUtil.deleteCookie(response, "access_token");
@@ -96,14 +96,14 @@ public class AuthController {
 	 * OAuth 인증 시작: 소셜 로그인 페이지로 리다이렉트
 	 */
 	@GetMapping("/oauth2/authorize/{provider}")
-	public void authorize(@PathVariable("provider") String provider, HttpServletResponse response)
+	public void authorize(@PathVariable String provider, HttpServletResponse response)
 			throws IOException {
 
 		log.info("OAuth authorize request for provider: {}", provider);
 		OAuth2Properties.ProviderType providerType = getProviderType(provider);
 
-		AuthorizeResponse authResponse = authorizeFacade.authorize(providerType);
-		response.sendRedirect(authResponse.getAuthorizationUrl());
+		AuthorizeResult authResponse = authorizeFacade.authorize(providerType);
+		response.sendRedirect(authResponse.authorizationUrl());
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class AuthController {
 	 */
 	@GetMapping("/oauth2/callback/{provider}")
 	public void callback(
-			@PathVariable("provider") String provider,
+			@PathVariable String provider,
 			@RequestParam("code") String code,
 			@RequestParam(value = "state", required = false) String state,
 			HttpServletResponse response)
@@ -120,7 +120,7 @@ public class AuthController {
 		log.info("OAuth callback received for provider: {}", provider);
 		OAuth2Properties.ProviderType providerType = getProviderType(provider);
 
-		LoginResponse loginResponse = loginFacade.login(providerType, code, state);
+		LoginResult loginResponse = loginFacade.login(providerType, code, state);
 
 		// Access Token 쿠키 저장
 		cookieUtil.addCookie(

@@ -1,4 +1,4 @@
-package com.genesis.unipocket.auth.exception.oauth;
+package com.genesis.unipocket.auth.common.exception.oauth;
 
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;

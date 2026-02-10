@@ -1,13 +1,13 @@
-package com.genesis.unipocket.auth.facade;
+package com.genesis.unipocket.auth.command.facade;
 
-import com.genesis.unipocket.auth.service.OAuthLoginStateService;
-import com.genesis.unipocket.auth.service.oauth.OAuthProviderFactory;
-import com.genesis.unipocket.auth.service.oauth.OAuthProviderService;
+import com.genesis.unipocket.auth.command.application.OAuthLoginStateService;
+import com.genesis.unipocket.auth.command.application.oauth.OAuthProviderFactory;
+import com.genesis.unipocket.auth.command.application.oauth.OAuthProviderService;
+import com.genesis.unipocket.auth.command.facade.port.UserLoginProcessor;
+import com.genesis.unipocket.auth.common.dto.LoginResult;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthTokenResponse;
+import com.genesis.unipocket.auth.common.dto.oauth.OAuthUserInfo;
 import com.genesis.unipocket.global.config.OAuth2Properties.ProviderType;
-import com.genesis.unipocket.user.dto.common.oauth.OAuthTokenResponse;
-import com.genesis.unipocket.user.dto.common.oauth.OAuthUserInfo;
-import com.genesis.unipocket.user.dto.response.LoginResponse;
-import com.genesis.unipocket.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +23,10 @@ public class UserLoginFacade {
 
 	private final OAuthProviderFactory providerFactory;
 	private final OAuthLoginStateService loginStateService;
-	private final UserService userService;
+	private final UserLoginProcessor userLoginProcessor;
 
 	@Transactional
-	public LoginResponse login(ProviderType providerType, String code, String state) {
+	public LoginResult login(ProviderType providerType, String code, String state) {
 		// 1. State 검증
 		loginStateService.validateState(state, providerType);
 
@@ -40,6 +40,6 @@ public class UserLoginFacade {
 		OAuthUserInfo userInfo = provider.getUserInfo(tokenResponse.getAccessToken());
 
 		// 5. 사용자 생성 또는 조회 및 JWT 발급
-		return userService.loginOrRegister(userInfo, providerType);
+		return userLoginProcessor.loginOrRegister(userInfo, providerType);
 	}
 }
