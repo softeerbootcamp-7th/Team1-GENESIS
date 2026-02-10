@@ -4,6 +4,10 @@ interface VerticalGridProps {
 }
 
 const VerticalGrid = ({ steps, maxLabel }: VerticalGridProps) => {
+  if (steps <= 0) {
+    return null;
+  }
+
   const values = Array.from(
     { length: steps + 1 },
     (_, i) => (maxLabel / steps) * i,

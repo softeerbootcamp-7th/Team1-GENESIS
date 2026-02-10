@@ -1,16 +1,24 @@
+import { useMemo } from 'react';
+import clsx from 'clsx';
+
 import { type CountryCode } from '@/data/countryCode';
 
 import ReportBarList from './ReportBarList';
 
+const LEGEND_COLOR = {
+  me: 'bg-primary-normal',
+  other: 'bg-cool-neutral-95',
+} as const;
+
 interface ReportBarLegendProps {
-  color: string;
+  color: keyof typeof LEGEND_COLOR;
   label: string;
 }
 
 const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
   return (
     <div className="flex items-center gap-1.5">
-      <div className={`bg-${color} h-2.5 w-2.5`} />
+      <div className={clsx('h-2.5 w-2.5', LEGEND_COLOR[color])} />
       <span className="label1-normal-regular text-label-alternative">
         {label}
       </span>
@@ -28,9 +36,7 @@ interface ReportBarGraphProps {
   countryCode: CountryCode;
 }
 
-const transformCategoryData = (
-  items: ReportBarGraphProps['items'],
-) => {
+const transformCategoryData = (items: ReportBarGraphProps['items']) => {
   return items.map((item) => ({
     categoryIndex: item.categoryIndex,
     me: Number(item.mySpentAmount),
@@ -38,16 +44,24 @@ const transformCategoryData = (
   }));
 };
 
-const ReportBarGraph = ({ maxLabel, items, countryCode }: ReportBarGraphProps) => {
-  const data = transformCategoryData(items);
+const ReportBarGraph = ({
+  maxLabel,
+  items,
+  countryCode,
+}: ReportBarGraphProps) => {
+  const data = useMemo(() => transformCategoryData(items), [items]);
 
   return (
     <div className="flex w-145.5 flex-col gap-3.5">
       <div className="flex justify-end gap-4">
-        <ReportBarLegend label="나" color="primary-normal" />
-        <ReportBarLegend label="다른 학생" color="cool-neutral-95" />
+        <ReportBarLegend label="나" color="me" />
+        <ReportBarLegend label="다른 학생" color="other" />
       </div>
-      <ReportBarList items={data} maxLabel={maxLabel} countryCode={countryCode} />
+      <ReportBarList
+        items={data}
+        maxLabel={maxLabel}
+        countryCode={countryCode}
+      />
     </div>
   );
 };
