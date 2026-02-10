@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
@@ -28,6 +29,15 @@ const VARIANT_STYLES = {
 const ReportBar = ({ value, variant, countryCode, maxValue = 100 }: ReportBarProps) => {
   const styles = VARIANT_STYLES[variant];
   const percentage = (value / maxValue) * 100;
+  const [showAmount, setShowAmount] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAmount(true);
+    }, TOTAL_ANIMATION_DURATION * 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="flex flex-1 items-center gap-2">
@@ -41,12 +51,14 @@ const ReportBar = ({ value, variant, countryCode, maxValue = 100 }: ReportBarPro
           animationDuration: `${TOTAL_ANIMATION_DURATION}s`,
         }}
       />
-      <CurrencyAmountDisplay
-        amount={value}
-        countryCode={countryCode}
-        size={styles.size}
-        className={styles.textStyle}
-      />
+      {showAmount && (
+        <CurrencyAmountDisplay
+          amount={value}
+          countryCode={countryCode}
+          size={styles.size}
+          className={styles.textStyle}
+        />
+      )}
     </div>
   );
 };
