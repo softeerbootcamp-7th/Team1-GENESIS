@@ -1,4 +1,4 @@
-package com.genesis.unipocket.user.dto.common.oauth;
+package com.genesis.unipocket.auth.common.dto.oauth;
 
 /**
  * <b>OAuth 사용자 정보 인터페이스</b>
