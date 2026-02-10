@@ -10,7 +10,7 @@ interface ReportBarProps {
   value: number;
   variant: 'me' | 'other';
   countryCode: CountryCode;
-  maxValue?: number;
+  maxValue: number;
 }
 
 const VARIANT_STYLES = {
@@ -30,7 +30,7 @@ const ReportBar = ({
   value,
   variant,
   countryCode,
-  maxValue = 100,
+  maxValue,
 }: ReportBarProps) => {
   const styles = VARIANT_STYLES[variant];
   const percentage = (value / maxValue) * 100;

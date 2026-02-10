@@ -1,6 +1,5 @@
 import { getCategoryName } from '@/types/category';
 
-import mockData from '../mock.json';
 import ReportBarList from './ReportBarList';
 
 interface ReportBarLegendProps {
@@ -19,8 +18,18 @@ const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
   );
 };
 
-const ReportBarGraph = () => {
-  const data = mockData.compareByCategory.items.map((item) => ({
+interface ReportBarGraphProps {
+  maxValue: number;
+  items: {
+    categoryIndex: number;
+    mySpentAmount: string;
+    averageSpentAmount: string;
+  }[];
+}
+
+
+const ReportBarGraph = ({ maxValue, items }: ReportBarGraphProps) => {
+  const data = items.map((item) => ({
     category: getCategoryName(item.categoryIndex),
     me: Number(item.mySpentAmount),
     other: Number(item.averageSpentAmount),
@@ -32,7 +41,7 @@ const ReportBarGraph = () => {
         <ReportBarLegend label="나" color="primary-normal" />
         <ReportBarLegend label="다른 학생" color="cool-neutral-95" />
       </div>
-      <ReportBarList data={data} />
+      <ReportBarList data={data} maxLabel={maxValue} />
     </div>
   );
 };
