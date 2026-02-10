@@ -14,7 +14,7 @@ export const CATEGORY = {
 export type CategoryType = (typeof CATEGORY)[keyof typeof CATEGORY];
 
 export const getCategoryName = (index: number): CategoryType => {
-  return CATEGORY[index as keyof typeof CATEGORY];
+  return CATEGORY[index as keyof typeof CATEGORY] || CATEGORY[0];
 };
 
 export const CATEGORY_STYLE: Record<
