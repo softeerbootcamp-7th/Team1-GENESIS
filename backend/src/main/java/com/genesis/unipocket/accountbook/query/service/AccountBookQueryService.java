@@ -16,23 +16,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AccountBookQueryService {
 
-    private final AccountBookQueryRepository repository;
+	private final AccountBookQueryRepository repository;
 
-    public AccountBookQueryResponse getAccountBook(Long accountBookId) {
-        return repository
-                .findById(accountBookId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_BOOK_NOT_FOUND));
-    }
+	public AccountBookQueryResponse getAccountBook(Long accountBookId) {
+		return repository
+				.findById(accountBookId)
+				.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_BOOK_NOT_FOUND));
+	}
 
-    public AccountBookDetailResponse getAccountBookDetail(Long accountBookId) {
-        return repository
-                .findDetailById(accountBookId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_BOOK_NOT_FOUND));
-    }
+	public AccountBookDetailResponse getAccountBookDetail(Long accountBookId) {
+		return repository
+				.findDetailById(accountBookId)
+				.orElseThrow(() -> new BusinessException(ErrorCode.ACCOUNT_BOOK_NOT_FOUND));
+	}
 
-    public List<AccountBookSummaryResponse> getAccountBooks(String userId) {
-        // TODO: Implement logic to get mainAccountBookId from User setting or similar
-        Long mainAccountBookId = 1L;
-        return repository.findAllByUserId(userId, mainAccountBookId);
-    }
+	public List<AccountBookSummaryResponse> getAccountBooks(String userId) {
+		// TODO: Implement logic to get mainAccountBookId from User setting or similar
+		Long mainAccountBookId = 1L;
+		return repository.findAllByUserId(userId, mainAccountBookId);
+	}
 }

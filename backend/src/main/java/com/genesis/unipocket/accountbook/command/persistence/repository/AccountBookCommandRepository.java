@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface AccountBookCommandRepository extends JpaRepository<AccountBookEntity, Long> {
 
-    @Query("SELECT a.title FROM AccountBookEntity a WHERE a.userId = :userId AND a.title LIKE"
-            + " :titlePrefix%")
-    List<String> findNamesStartingWith(
-            @Param("userId") String userId, @Param("titlePrefix") String titlePrefix);
+	@Query(
+			"SELECT a.title FROM AccountBookEntity a WHERE a.userId = :userId AND a.title LIKE"
+					+ " :titlePrefix%")
+	List<String> findNamesStartingWith(
+			@Param("userId") String userId, @Param("titlePrefix") String titlePrefix);
 }

@@ -34,237 +34,244 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @DisplayName("AccountBookCommandService 단위 테스트")
 public class AccountBookCommandServiceTest {
 
-        @Mock
-        private AccountBookCommandRepository repository;
-        @Mock
-        private AccountBookValidator validator;
+	@Mock private AccountBookCommandRepository repository;
+	@Mock private AccountBookValidator validator;
 
-        @InjectMocks
-        private AccountBookCommandService accountBookCommandService;
+	@InjectMocks private AccountBookCommandService accountBookCommandService;
 
-        private final UUID userId = UUID.randomUUID();
-        private final String username = "testUser";
+	private final UUID userId = UUID.randomUUID();
+	private final String username = "testUser";
 
-        @Test
-        @DisplayName("가계부 생성 - 성공")
-        void create_Success() {
-                // given
-                AccountBookCreateRequest req = new AccountBookCreateRequest(
-                                CountryCode.US, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31));
+	@Test
+	@DisplayName("가계부 생성 - 성공")
+	void create_Success() {
+		// given
+		AccountBookCreateRequest req =
+				new AccountBookCreateRequest(
+						CountryCode.US, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31));
 
-                CreateAccountBookCommand command = CreateAccountBookCommand.of(userId, username, req);
+		CreateAccountBookCommand command = CreateAccountBookCommand.of(userId, username, req);
 
-                given(repository.findNamesStartingWith(any(), any())).willReturn(Collections.emptyList());
-                given(repository.save(any(AccountBookEntity.class)))
-                                .willAnswer(
-                                                invocation -> {
-                                                        AccountBookEntity entity = invocation.getArgument(0);
-                                                        // Simulate ID assignment by repository
-                                                        try {
-                                                                java.lang.reflect.Field idField = AccountBookEntity.class
-                                                                                .getDeclaredField("id");
-                                                                idField.setAccessible(true);
-                                                                idField.set(entity, 1L);
-                                                        } catch (Exception e) {
-                                                                throw new RuntimeException(e);
-                                                        }
-                                                        return entity;
-                                                });
+		given(repository.findNamesStartingWith(any(), any())).willReturn(Collections.emptyList());
+		given(repository.save(any(AccountBookEntity.class)))
+				.willAnswer(
+						invocation -> {
+							AccountBookEntity entity = invocation.getArgument(0);
+							// Simulate ID assignment by repository
+							try {
+								java.lang.reflect.Field idField =
+										AccountBookEntity.class.getDeclaredField("id");
+								idField.setAccessible(true);
+								idField.set(entity, 1L);
+							} catch (Exception e) {
+								throw new RuntimeException(e);
+							}
+							return entity;
+						});
 
-                // when
-                Long resultId = accountBookCommandService.create(command);
+		// when
+		Long resultId = accountBookCommandService.create(command);
 
-                // then
-                assertThat(resultId).isEqualTo(1L);
-                verify(validator).validate(any(AccountBookEntity.class));
-                verify(repository).save(any(AccountBookEntity.class));
-        }
+		// then
+		assertThat(resultId).isEqualTo(1L);
+		verify(validator).validate(any(AccountBookEntity.class));
+		verify(repository).save(any(AccountBookEntity.class));
+	}
 
-        @Test
-        @DisplayName("가계부 생성 - 이름 중복 시 번호 증가")
-        void create_DuplicateName() {
-                // given
-                AccountBookCreateRequest req = new AccountBookCreateRequest(
-                                CountryCode.US, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31));
+	@Test
+	@DisplayName("가계부 생성 - 이름 중복 시 번호 증가")
+	void create_DuplicateName() {
+		// given
+		AccountBookCreateRequest req =
+				new AccountBookCreateRequest(
+						CountryCode.US, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31));
 
-                CreateAccountBookCommand command = CreateAccountBookCommand.of(userId, username, req);
+		CreateAccountBookCommand command = CreateAccountBookCommand.of(userId, username, req);
 
-                String baseTitle = username + "의 가계부";
-                given(repository.findNamesStartingWith(userId.toString(), baseTitle))
-                                .willReturn(List.of(baseTitle + "1", baseTitle + "2"));
+		String baseTitle = username + "의 가계부";
+		given(repository.findNamesStartingWith(userId.toString(), baseTitle))
+				.willReturn(List.of(baseTitle + "1", baseTitle + "2"));
 
-                given(repository.save(any(AccountBookEntity.class)))
-                                .willAnswer(
-                                                invocation -> {
-                                                        AccountBookEntity entity = invocation.getArgument(0);
-                                                        // Simulate ID assignment
-                                                        try {
-                                                                java.lang.reflect.Field idField = AccountBookEntity.class
-                                                                                .getDeclaredField("id");
-                                                                idField.setAccessible(true);
-                                                                idField.set(entity, 1L);
-                                                        } catch (Exception e) {
-                                                                throw new RuntimeException(e);
-                                                        }
-                                                        return entity;
-                                                });
+		given(repository.save(any(AccountBookEntity.class)))
+				.willAnswer(
+						invocation -> {
+							AccountBookEntity entity = invocation.getArgument(0);
+							// Simulate ID assignment
+							try {
+								java.lang.reflect.Field idField =
+										AccountBookEntity.class.getDeclaredField("id");
+								idField.setAccessible(true);
+								idField.set(entity, 1L);
+							} catch (Exception e) {
+								throw new RuntimeException(e);
+							}
+							return entity;
+						});
 
-                // when
-                Long resultId = accountBookCommandService.create(command);
+		// when
+		Long resultId = accountBookCommandService.create(command);
 
-                // then
-                assertThat(resultId).isEqualTo(1L);
-                verify(repository).save(any(AccountBookEntity.class));
-        }
+		// then
+		assertThat(resultId).isEqualTo(1L);
+		verify(repository).save(any(AccountBookEntity.class));
+	}
 
-        @Test
-        @DisplayName("가계부 수정 - 성공")
-        void update_Success() throws Exception {
-                // given
-                Long accountBookId = 1L;
-                AccountBookUpdateRequest req = new AccountBookUpdateRequest(
-                                "New Title",
-                                CountryCode.JP,
-                                CountryCode.KR,
-                                1000L,
-                                LocalDate.of(2023, 2, 1),
-                                LocalDate.of(2023, 11, 30));
+	@Test
+	@DisplayName("가계부 수정 - 성공")
+	void update_Success() throws Exception {
+		// given
+		Long accountBookId = 1L;
+		AccountBookUpdateRequest req =
+				new AccountBookUpdateRequest(
+						"New Title",
+						CountryCode.JP,
+						CountryCode.KR,
+						1000L,
+						LocalDate.of(2023, 2, 1),
+						LocalDate.of(2023, 11, 30));
 
-                UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
+		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 
-                AccountBookEntity entity = AccountBookEntity.create(
-                                new AccountBookCreateArgs(
-                                                userId.toString(),
-                                                "Old Title",
-                                                CountryCode.US,
-                                                CountryCode.KR,
-                                                LocalDate.of(2023, 1, 1),
-                                                LocalDate.of(2023, 12, 31)));
+		AccountBookEntity entity =
+				AccountBookEntity.create(
+						new AccountBookCreateArgs(
+								userId.toString(),
+								"Old Title",
+								CountryCode.US,
+								CountryCode.KR,
+								LocalDate.of(2023, 1, 1),
+								LocalDate.of(2023, 12, 31)));
 
-                // Set ID using reflection
-                java.lang.reflect.Field idField = AccountBookEntity.class.getDeclaredField("id");
-                idField.setAccessible(true);
-                idField.set(entity, accountBookId);
+		// Set ID using reflection
+		java.lang.reflect.Field idField = AccountBookEntity.class.getDeclaredField("id");
+		idField.setAccessible(true);
+		idField.set(entity, accountBookId);
 
-                given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
+		given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
 
-                // when
-                Long resultId = accountBookCommandService.update(command);
+		// when
+		Long resultId = accountBookCommandService.update(command);
 
-                // then
-                assertThat(resultId).isEqualTo(accountBookId);
-                assertThat(entity.getTitle()).isEqualTo(req.title());
-                assertThat(entity.getLocalCountryCode()).isEqualTo(req.localCountryCode());
-                verify(validator).validate(entity);
-        }
+		// then
+		assertThat(resultId).isEqualTo(accountBookId);
+		assertThat(entity.getTitle()).isEqualTo(req.title());
+		assertThat(entity.getLocalCountryCode()).isEqualTo(req.localCountryCode());
+		verify(validator).validate(entity);
+	}
 
-        @Test
-        @DisplayName("가계부 수정 - 실패 (존재하지 않음)")
-        void update_NotFound() {
-                Long accountBookId = 1L;
-                AccountBookUpdateRequest req = new AccountBookUpdateRequest(
-                                "Title",
-                                CountryCode.US,
-                                CountryCode.KR,
-                                1000L,
-                                LocalDate.now(),
-                                LocalDate.now());
-                UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
+	@Test
+	@DisplayName("가계부 수정 - 실패 (존재하지 않음)")
+	void update_NotFound() {
+		Long accountBookId = 1L;
+		AccountBookUpdateRequest req =
+				new AccountBookUpdateRequest(
+						"Title",
+						CountryCode.US,
+						CountryCode.KR,
+						1000L,
+						LocalDate.now(),
+						LocalDate.now());
+		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 
-                given(repository.findById(accountBookId)).willReturn(Optional.empty());
+		given(repository.findById(accountBookId)).willReturn(Optional.empty());
 
-                assertThatThrownBy(() -> accountBookCommandService.update(command))
-                                .isInstanceOf(BusinessException.class)
-                                .hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_NOT_FOUND);
-        }
+		assertThatThrownBy(() -> accountBookCommandService.update(command))
+				.isInstanceOf(BusinessException.class)
+				.hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_NOT_FOUND);
+	}
 
-        @Test
-        @DisplayName("가계부 수정 - 실패 (권한 없음)")
-        void update_Unauthorized() {
-                Long accountBookId = 1L;
-                String otherUserId = "otherUser";
-                AccountBookUpdateRequest req = new AccountBookUpdateRequest(
-                                "Title",
-                                CountryCode.US,
-                                CountryCode.KR,
-                                1000L,
-                                LocalDate.now(),
-                                LocalDate.now());
-                UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
+	@Test
+	@DisplayName("가계부 수정 - 실패 (권한 없음)")
+	void update_Unauthorized() {
+		Long accountBookId = 1L;
+		String otherUserId = "otherUser";
+		AccountBookUpdateRequest req =
+				new AccountBookUpdateRequest(
+						"Title",
+						CountryCode.US,
+						CountryCode.KR,
+						1000L,
+						LocalDate.now(),
+						LocalDate.now());
+		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 
-                AccountBookEntity entity = AccountBookEntity.create(
-                                new AccountBookCreateArgs(
-                                                otherUserId,
-                                                "Title",
-                                                CountryCode.US,
-                                                CountryCode.KR,
-                                                LocalDate.now(),
-                                                LocalDate.now()));
+		AccountBookEntity entity =
+				AccountBookEntity.create(
+						new AccountBookCreateArgs(
+								otherUserId,
+								"Title",
+								CountryCode.US,
+								CountryCode.KR,
+								LocalDate.now(),
+								LocalDate.now()));
 
-                given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
+		given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
 
-                assertThatThrownBy(() -> accountBookCommandService.update(command))
-                                .isInstanceOf(BusinessException.class)
-                                .hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_UNAUTHORIZED_ACCESS);
-        }
+		assertThatThrownBy(() -> accountBookCommandService.update(command))
+				.isInstanceOf(BusinessException.class)
+				.hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_UNAUTHORIZED_ACCESS);
+	}
 
-        @Test
-        @DisplayName("가계부 삭제 - 성공")
-        void delete_Success() {
-                Long accountBookId = 1L;
-                DeleteAccountBookCommand command = DeleteAccountBookCommand.of(accountBookId, userId);
+	@Test
+	@DisplayName("가계부 삭제 - 성공")
+	void delete_Success() {
+		Long accountBookId = 1L;
+		DeleteAccountBookCommand command = DeleteAccountBookCommand.of(accountBookId, userId);
 
-                AccountBookEntity entity = AccountBookEntity.create(
-                                new AccountBookCreateArgs(
-                                                userId.toString(),
-                                                "Title",
-                                                CountryCode.US,
-                                                CountryCode.KR,
-                                                LocalDate.now(),
-                                                LocalDate.now()));
+		AccountBookEntity entity =
+				AccountBookEntity.create(
+						new AccountBookCreateArgs(
+								userId.toString(),
+								"Title",
+								CountryCode.US,
+								CountryCode.KR,
+								LocalDate.now(),
+								LocalDate.now()));
 
-                given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
+		given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
 
-                accountBookCommandService.delete(command);
+		accountBookCommandService.delete(command);
 
-                verify(repository).delete(entity);
-        }
+		verify(repository).delete(entity);
+	}
 
-        @Test
-        @DisplayName("가계부 수정 - 예산(budget)을 null로 업데이트")
-        void update_WithNullBudget_Success() throws Exception {
-                // given
-                Long accountBookId = 1L;
-                AccountBookUpdateRequest req = new AccountBookUpdateRequest(
-                                "New Title",
-                                CountryCode.JP,
-                                CountryCode.KR,
-                                null, // budget is null
-                                LocalDate.of(2023, 2, 1),
-                                LocalDate.of(2023, 11, 30));
-                UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
+	@Test
+	@DisplayName("가계부 수정 - 예산(budget)을 null로 업데이트")
+	void update_WithNullBudget_Success() throws Exception {
+		// given
+		Long accountBookId = 1L;
+		AccountBookUpdateRequest req =
+				new AccountBookUpdateRequest(
+						"New Title",
+						CountryCode.JP,
+						CountryCode.KR,
+						null, // budget is null
+						LocalDate.of(2023, 2, 1),
+						LocalDate.of(2023, 11, 30));
+		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 
-                AccountBookEntity entity = AccountBookEntity.create(
-                                new AccountBookCreateArgs(
-                                                userId.toString(),
-                                                "Old Title",
-                                                CountryCode.US,
-                                                CountryCode.KR,
-                                                LocalDate.of(2023, 1, 1),
-                                                LocalDate.of(2023, 12, 31)));
+		AccountBookEntity entity =
+				AccountBookEntity.create(
+						new AccountBookCreateArgs(
+								userId.toString(),
+								"Old Title",
+								CountryCode.US,
+								CountryCode.KR,
+								LocalDate.of(2023, 1, 1),
+								LocalDate.of(2023, 12, 31)));
 
-                // Set ID using reflection
-                java.lang.reflect.Field idField = AccountBookEntity.class.getDeclaredField("id");
-                idField.setAccessible(true);
-                idField.set(entity, accountBookId);
+		// Set ID using reflection
+		java.lang.reflect.Field idField = AccountBookEntity.class.getDeclaredField("id");
+		idField.setAccessible(true);
+		idField.set(entity, accountBookId);
 
-                given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
+		given(repository.findById(accountBookId)).willReturn(Optional.of(entity));
 
-                // when
-                accountBookCommandService.update(command);
+		// when
+		accountBookCommandService.update(command);
 
-                // then
-                assertThat(entity.getBudget()).isNull();
-                verify(validator).validate(entity);
-        }
+		// then
+		assertThat(entity.getBudget()).isNull();
+		verify(validator).validate(entity);
+	}
 }

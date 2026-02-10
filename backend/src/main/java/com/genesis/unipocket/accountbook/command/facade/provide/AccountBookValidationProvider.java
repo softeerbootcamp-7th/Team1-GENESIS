@@ -17,10 +17,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AccountBookValidationProvider
 		implements AccountBookOwnershipValidator,
-		AccountBookInfoFetchService,
-		UserAccountBookValidator {
+				AccountBookInfoFetchService,
+				UserAccountBookValidator {
 
-	private final com.genesis.unipocket.accountbook.command.persistence.repository.AccountBookCommandRepository accountBookRepository;
+	private final com.genesis.unipocket.accountbook.command.persistence.repository
+					.AccountBookCommandRepository
+			accountBookRepository;
 
 	@Override
 	public void validateOwnership(Long accountBookId, String userId) {
@@ -38,17 +40,22 @@ public class AccountBookValidationProvider
 		findAndValidate(accountBookId, userId);
 	}
 
-	private com.genesis.unipocket.accountbook.command.persistence.entity.AccountBookEntity findAndValidate(
-			Long accountBookId, String userId) {
-		var accountBook = accountBookRepository
-				.findById(accountBookId)
-				.orElseThrow(
-						() -> new com.genesis.unipocket.global.exception.BusinessException(
-								com.genesis.unipocket.global.exception.ErrorCode.ACCOUNT_BOOK_NOT_FOUND));
+	private com.genesis.unipocket.accountbook.command.persistence.entity.AccountBookEntity
+			findAndValidate(Long accountBookId, String userId) {
+		var accountBook =
+				accountBookRepository
+						.findById(accountBookId)
+						.orElseThrow(
+								() ->
+										new com.genesis.unipocket.global.exception
+												.BusinessException(
+												com.genesis.unipocket.global.exception.ErrorCode
+														.ACCOUNT_BOOK_NOT_FOUND));
 
 		if (!accountBook.getUserId().equals(userId)) {
 			throw new com.genesis.unipocket.global.exception.BusinessException(
-					com.genesis.unipocket.global.exception.ErrorCode.ACCOUNT_BOOK_UNAUTHORIZED_ACCESS);
+					com.genesis.unipocket.global.exception.ErrorCode
+							.ACCOUNT_BOOK_UNAUTHORIZED_ACCESS);
 		}
 		return accountBook;
 	}

@@ -3,7 +3,7 @@ package com.genesis.unipocket.accountbook.command.presentation;
 import com.genesis.unipocket.accountbook.command.facade.AccountBookCommandFacade;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookCreateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookUpdateRequest;
-import com.genesis.unipocket.auth.annotation.LoginUser;
+import com.genesis.unipocket.auth.common.annotation.LoginUser;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -24,28 +24,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccountBookCommandController {
 
-    private final AccountBookCommandFacade accountBookCommandFacade;
+	private final AccountBookCommandFacade accountBookCommandFacade;
 
-    @PostMapping
-    public ResponseEntity<Void> createAccountBook(
-            @LoginUser UUID userId, @RequestBody @Valid AccountBookCreateRequest req) {
-        Long id = accountBookCommandFacade.createAccountBook(userId, req);
-        return ResponseEntity.created(URI.create("/api/account-books/" + id)).build();
-    }
+	@PostMapping
+	public ResponseEntity<Void> createAccountBook(
+			@LoginUser UUID userId, @RequestBody @Valid AccountBookCreateRequest req) {
+		Long id = accountBookCommandFacade.createAccountBook(userId, req);
+		return ResponseEntity.created(URI.create("/api/account-books/" + id)).build();
+	}
 
-    @PatchMapping("/{accountBookId}")
-    public ResponseEntity<Void> updateAccountBook(
-            @LoginUser UUID userId,
-            @PathVariable Long accountBookId,
-            @RequestBody @Valid AccountBookUpdateRequest req) {
-        accountBookCommandFacade.updateAccountBook(userId, accountBookId, req);
-        return ResponseEntity.noContent().build();
-    }
+	@PatchMapping("/{accountBookId}")
+	public ResponseEntity<Void> updateAccountBook(
+			@LoginUser UUID userId,
+			@PathVariable Long accountBookId,
+			@RequestBody @Valid AccountBookUpdateRequest req) {
+		accountBookCommandFacade.updateAccountBook(userId, accountBookId, req);
+		return ResponseEntity.noContent().build();
+	}
 
-    @DeleteMapping("/{accountBookId}")
-    public ResponseEntity<Void> deleteAccountBook(
-            @LoginUser UUID userId, @PathVariable Long accountBookId) {
-        accountBookCommandFacade.deleteAccountBook(userId, accountBookId);
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping("/{accountBookId}")
+	public ResponseEntity<Void> deleteAccountBook(
+			@LoginUser UUID userId, @PathVariable Long accountBookId) {
+		accountBookCommandFacade.deleteAccountBook(userId, accountBookId);
+		return ResponseEntity.noContent().build();
+	}
 }
