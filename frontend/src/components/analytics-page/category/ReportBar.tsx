@@ -5,7 +5,7 @@ import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
 import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
 import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
 
-import { useCategoryCountryCode } from './CountryCodeContext';
+import { useCategoryContext } from './CategoryContext';
 
 interface ReportBarProps {
   value: number;
@@ -26,16 +26,13 @@ const VARIANT_STYLES = {
   },
 } as const;
 
-// @TODO: 페이지에서 받아오도록 수정 필요 (필터 사용)
-const currency = 'LOCAL';
-
 const ReportBar = ({ value, variant, maxValue }: ReportBarProps) => {
-  const countryCode = useCategoryCountryCode();
+  const { countryCode, currencyType } = useCategoryContext();
   const styles = VARIANT_STYLES[variant];
   const percentage = (value / maxValue) * 100;
   const [showAmount, setShowAmount] = useState(false);
 
-  const isLocal = currency === 'LOCAL';
+  const isLocal = currencyType === 'LOCAL';
 
   useEffect(() => {
     const timer = setTimeout(() => {
