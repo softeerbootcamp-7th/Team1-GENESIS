@@ -26,7 +26,12 @@ const VARIANT_STYLES = {
   },
 } as const;
 
-const ReportBar = ({ value, variant, countryCode, maxValue = 100 }: ReportBarProps) => {
+const ReportBar = ({
+  value,
+  variant,
+  countryCode,
+  maxValue = 100,
+}: ReportBarProps) => {
   const styles = VARIANT_STYLES[variant];
   const percentage = (value / maxValue) * 100;
   const [showAmount, setShowAmount] = useState(false);

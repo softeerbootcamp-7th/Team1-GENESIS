@@ -15,8 +15,18 @@ const ReportBarRow = ({ category, me, other, maxValue }: ReportBarRowProps) => {
       </span>
 
       <div className="flex h-10 w-full flex-col justify-between">
-        <ReportBar value={me} variant="me" countryCode="US" maxValue={maxValue} />
-        <ReportBar value={other} variant="other" countryCode="US" maxValue={maxValue} />
+        <ReportBar
+          value={me}
+          variant="me"
+          countryCode="US"
+          maxValue={maxValue}
+        />
+        <ReportBar
+          value={other}
+          variant="other"
+          countryCode="US"
+          maxValue={maxValue}
+        />
       </div>
     </div>
   );

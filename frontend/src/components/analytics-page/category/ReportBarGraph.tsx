@@ -18,13 +18,11 @@ const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
 };
 
 const ReportBarGraph = () => {
-  const data = (
-    mockData.compareByCategory.items.map(item => ({
-      category: item.categoryName,
-      me: Number(item.mySpentAmount),
-      other: Number(item.averageSpentAmount),
-    }))
-  );
+  const data = mockData.compareByCategory.items.map((item) => ({
+    category: item.categoryName,
+    me: Number(item.mySpentAmount),
+    other: Number(item.averageSpentAmount),
+  }));
 
   return (
     <div className="flex w-145.5 flex-col gap-3.5">

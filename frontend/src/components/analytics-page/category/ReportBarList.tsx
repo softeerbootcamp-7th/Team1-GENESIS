@@ -10,9 +10,7 @@ interface ReportBarListProps {
   }[];
 }
 const ReportBarList = ({ data }: ReportBarListProps) => {
-  const maxCategoryValue = Number(
-    mockData.compareByCategory.maxCategoryValue,
-  );
+  const maxCategoryValue = Number(mockData.compareByCategory.maxCategoryValue);
 
   return (
     <div className="relative h-125.25 w-full">
