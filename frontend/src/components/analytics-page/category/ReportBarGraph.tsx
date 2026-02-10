@@ -1,4 +1,4 @@
-import { mockData } from '../mock';
+import mockData from '../mock.json';
 import ReportBarList from './ReportBarList';
 
 interface ReportBarLegendProps {
@@ -18,13 +18,21 @@ const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
 };
 
 const ReportBarGraph = () => {
+  const data = (
+    mockData.compareByCategory.items.map(item => ({
+      category: item.categoryName,
+      me: Number(item.mySpentAmount),
+      other: Number(item.averageSpentAmount),
+    }))
+  );
+
   return (
     <div className="flex w-145.5 flex-col gap-3.5">
       <div className="flex justify-end gap-4">
         <ReportBarLegend label="나" color="primary-normal" />
         <ReportBarLegend label="다른 학생" color="cool-neutral-95" />
       </div>
-      <ReportBarList data={mockData} />
+      <ReportBarList data={data} />
     </div>
   );
 };
