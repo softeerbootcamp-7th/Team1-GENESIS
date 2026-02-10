@@ -1,3 +1,5 @@
+import { type CountryCode } from '@/data/countryCode';
+
 import ReportBarRow from './ReportBarRow';
 import VerticalGrid from './VerticalGrid';
 
@@ -8,8 +10,9 @@ interface ReportBarListProps {
     me: number;
     other: number;
   }[];
+  countryCode: CountryCode;
 }
-const ReportBarList = ({ items, maxLabel }: ReportBarListProps) => {
+const ReportBarList = ({ items, maxLabel, countryCode }: ReportBarListProps) => {
   return (
     <div className="relative h-125.25 w-full">
       <VerticalGrid steps={6} maxLabel={maxLabel} />
@@ -19,6 +22,7 @@ const ReportBarList = ({ items, maxLabel }: ReportBarListProps) => {
             key={item.categoryIndex}
             {...item}
             maxLabel={maxLabel}
+            countryCode={countryCode}
           />
         ))}
       </div>

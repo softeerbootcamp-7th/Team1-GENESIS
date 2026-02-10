@@ -3,7 +3,7 @@ interface VerticalGridProps {
   maxLabel: number;
 }
 
-const VerticalGrid = ({ steps, maxLabel = 150 }: VerticalGridProps) => {
+const VerticalGrid = ({ steps, maxLabel }: VerticalGridProps) => {
   const values = Array.from(
     { length: steps + 1 },
     (_, i) => (maxLabel / steps) * i,

@@ -1,3 +1,5 @@
+import { type CountryCode } from '@/data/countryCode';
+
 import ReportBarList from './ReportBarList';
 
 interface ReportBarLegendProps {
@@ -23,10 +25,10 @@ interface ReportBarGraphProps {
     mySpentAmount: string;
     averageSpentAmount: string;
   }[];
+  countryCode: CountryCode;
 }
 
-
-const ReportBarGraph = ({ maxLabel, items }: ReportBarGraphProps) => {
+const ReportBarGraph = ({ maxLabel, items, countryCode }: ReportBarGraphProps) => {
   const data = items.map((item) => ({
     categoryIndex: item.categoryIndex,
     me: Number(item.mySpentAmount),
@@ -39,7 +41,7 @@ const ReportBarGraph = ({ maxLabel, items }: ReportBarGraphProps) => {
         <ReportBarLegend label="나" color="primary-normal" />
         <ReportBarLegend label="다른 학생" color="cool-neutral-95" />
       </div>
-      <ReportBarList items={data} maxLabel={maxLabel} />
+      <ReportBarList items={data} maxLabel={maxLabel} countryCode={countryCode} />
     </div>
   );
 };

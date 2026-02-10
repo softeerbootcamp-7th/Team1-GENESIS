@@ -1,5 +1,7 @@
 import { getCategoryName } from '@/types/category';
 
+import { type CountryCode } from '@/data/countryCode';
+
 import ReportBar from './ReportBar';
 
 interface ReportBarRowProps {
@@ -7,9 +9,10 @@ interface ReportBarRowProps {
   me: number;
   other: number;
   maxLabel: number;
+  countryCode: CountryCode;
 }
 
-const ReportBarRow = ({ categoryIndex, me, other, maxLabel }: ReportBarRowProps) => {
+const ReportBarRow = ({ categoryIndex, me, other, maxLabel, countryCode = 'US' }: ReportBarRowProps) => {
   return (
     <div className="flex items-center gap-4">
       <span className="label1-normal-medium text-label-neutral flex w-12 justify-end">
@@ -20,13 +23,13 @@ const ReportBarRow = ({ categoryIndex, me, other, maxLabel }: ReportBarRowProps)
         <ReportBar
           value={me}
           variant="me"
-          countryCode="US"
+          countryCode={countryCode}
           maxValue={maxLabel}
         />
         <ReportBar
           value={other}
           variant="other"
-          countryCode="US"
+          countryCode={countryCode}
           maxValue={maxLabel}
         />
       </div>
