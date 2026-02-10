@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { dayNames } from '@/components/common/calendar/date.utils';
+import { DAY_NAMES } from '@/components/common/calendar/date.utils';
 
 import { COUNTRY_TIME_REGION, TIME_REGION_CONFIG } from '@/constants/time';
 import type { CountryCode } from '@/data/countryCode';
@@ -53,6 +53,6 @@ export const parseStringToDate = (dateString: string): Date => {
  * @returns 'YYYY.M.D.요일' 형식의 문자열
  */
 export const formatDateWithDay = (date: Date): string => {
-  const weekDay = dayNames[date.getDay()];
+  const weekDay = DAY_NAMES[date.getDay()];
   return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}.${weekDay}`;
 };

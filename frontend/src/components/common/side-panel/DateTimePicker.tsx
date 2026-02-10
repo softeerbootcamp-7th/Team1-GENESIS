@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 import CalendarMonthPopover from '@/components/common/calendar/CalendarMonthPopover';
-import { dayNames, isSameDay } from '@/components/common/calendar/date.utils';
+import { DAY_NAMES, isSameDay } from '@/components/common/calendar/date.utils';
 import DropDown from '@/components/common/dropdown/Dropdown';
 import Icon from '@/components/common/Icon';
 
@@ -165,7 +165,7 @@ const DateTimePicker = ({
       </div>
 
       <div className="label2-medium text-label-neutral grid grid-cols-7 text-center">
-        {dayNames.map((d) => (
+        {DAY_NAMES.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
