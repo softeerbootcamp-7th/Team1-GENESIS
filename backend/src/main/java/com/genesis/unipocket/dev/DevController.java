@@ -1,6 +1,5 @@
 package com.genesis.unipocket.dev;
 
-import com.genesis.unipocket.auth.persistence.entity.SocialAuthEntity;
 import com.genesis.unipocket.auth.persistence.repository.SocialAuthRepository;
 import com.genesis.unipocket.auth.service.TokenService;
 import com.genesis.unipocket.user.dto.response.LoginResponse;
@@ -35,14 +34,12 @@ public class DevController {
 
 	public record DevUserResponse(UUID userId, String email, String name, String status) {}
 
-
 	@Operation(
 			summary = "개발용 회원가입 API",
 			description = "email, name만으로 간편 회원가입을 수행하고 생성된 userId(UUID)를 반환합니다.")
 	@PostMapping("/sign-up")
 	public ResponseEntity<UUID> signUp(@RequestBody DevSignUpRequest request) {
-		UserEntity user =
-				UserEntity.builder().email(request.email()).name(request.name()).build();
+		UserEntity user = UserEntity.builder().email(request.email()).name(request.name()).build();
 		UserEntity saved = userRepository.save(user);
 		return ResponseEntity.ok(saved.getId());
 	}
@@ -70,8 +67,7 @@ public class DevController {
 			description = "userId를 받아 accessToken과 refreshToken을 발급합니다.")
 	@PostMapping("/token")
 	public ResponseEntity<LoginResponse> issueToken(
-			@Parameter(description = "회원가입 시 발급받은 userId (UUID)")
-					@RequestParam UUID userId) {
+			@Parameter(description = "회원가입 시 발급받은 userId (UUID)") @RequestParam UUID userId) {
 		LoginResponse response = tokenService.createTokens(userId);
 		return ResponseEntity.ok(response);
 	}
