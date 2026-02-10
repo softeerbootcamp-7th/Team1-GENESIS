@@ -1,11 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import ReportCategory from '@/components/report-page/category/ReportCategory';
+import Homepage from '@/pages/Homepage';
 
 export const Route = createFileRoute('/_app/home')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <ReportCategory />;
+  return <Homepage />;
 }
