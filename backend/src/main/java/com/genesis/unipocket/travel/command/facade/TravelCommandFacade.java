@@ -23,14 +23,16 @@ public class TravelCommandFacade {
 	private final UserAccountBookValidator userAccountBookValidator;
 
 	public Long createTravel(TravelRequest request, UUID userId) {
-		userAccountBookValidator.validateUserAccountBook(userId.toString(), request.accountBookId());
+		userAccountBookValidator.validateUserAccountBook(
+				userId.toString(), request.accountBookId());
 		CreateTravelCommand command = CreateTravelCommand.from(request);
 		CreateTravelResult result = travelCommandService.createTravel(command);
 		return result.travelId();
 	}
 
 	public void updateTravel(Long travelId, TravelRequest request, UUID userId) {
-		userAccountBookValidator.validateUserAccountBook(userId.toString(), request.accountBookId());
+		userAccountBookValidator.validateUserAccountBook(
+				userId.toString(), request.accountBookId());
 		UpdateTravelCommand command = UpdateTravelCommand.of(travelId, request);
 		travelCommandService.updateTravel(command);
 	}

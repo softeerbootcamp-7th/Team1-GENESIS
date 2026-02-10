@@ -29,9 +29,7 @@ public class TravelCommandController {
 
 	private final TravelCommandFacade travelCommandFacade;
 
-	@Operation(
-			summary = "여행 생성 API",
-			description = "account-bookId 하위에 여행 폴더를 하나 생성합니다.")
+	@Operation(summary = "여행 생성 API", description = "account-bookId 하위에 여행 폴더를 하나 생성합니다.")
 	@PostMapping
 	public ResponseEntity<Void> createTravel(
 			@LoginUser UUID userId, @RequestBody @Valid TravelRequest request) {
@@ -41,9 +39,7 @@ public class TravelCommandController {
 				.build();
 	}
 
-	@Operation(
-			summary = "여행 수정 API",
-			description = "Travel의 메타데이터를 수정합니다.")
+	@Operation(summary = "여행 수정 API", description = "Travel의 메타데이터를 수정합니다.")
 	@PutMapping("/{travelId}")
 	public ResponseEntity<Void> updateTravel(
 			@PathVariable Long travelId,
@@ -53,9 +49,7 @@ public class TravelCommandController {
 		return ResponseEntity.ok().build();
 	}
 
-	@Operation(
-			summary = "여행 수정 API2",
-			description = "Travel의 메타데이터를 수정합니다.")
+	@Operation(summary = "여행 수정 API2", description = "Travel의 메타데이터를 수정합니다.")
 	@org.springframework.web.bind.annotation.PatchMapping("/{travelId}")
 	public ResponseEntity<Void> patchTravel(
 			@PathVariable Long travelId,
@@ -65,19 +59,14 @@ public class TravelCommandController {
 		return ResponseEntity.ok().build();
 	}
 
-	@Operation(
-			summary = "여행 삭제 API",
-			description = "여행과 하위의 요소들을 삭제합니다.")
+	@Operation(summary = "여행 삭제 API", description = "여행과 하위의 요소들을 삭제합니다.")
 	@DeleteMapping("/{travelId}")
-	public ResponseEntity<Void> deleteTravel(
-			@PathVariable Long travelId, @LoginUser UUID userId) {
+	public ResponseEntity<Void> deleteTravel(@PathVariable Long travelId, @LoginUser UUID userId) {
 		travelCommandFacade.deleteTravel(travelId, userId);
 		return ResponseEntity.noContent().build();
 	}
 
-	@Operation(
-			summary = "위젯 순서 수정 API",
-			description = "여행에 대한 위젯의 순서를 수정합니다.")
+	@Operation(summary = "위젯 순서 수정 API", description = "여행에 대한 위젯의 순서를 수정합니다.")
 	@PutMapping("/{travelId}/widgets")
 	public ResponseEntity<Void> updateWidgets(
 			@PathVariable Long travelId,

@@ -9,10 +9,7 @@ public record UpdateWidgetsCommand(Long travelId, List<Widget> widgets) {
 	public record Widget(WidgetType type, Integer order) {}
 
 	public static UpdateWidgetsCommand of(Long travelId, List<WidgetRequest> requests) {
-		List<Widget> widgets =
-				requests.stream()
-						.map(r -> new Widget(r.type(), r.order()))
-						.toList();
+		List<Widget> widgets = requests.stream().map(r -> new Widget(r.type(), r.order())).toList();
 		return new UpdateWidgetsCommand(travelId, widgets);
 	}
 }

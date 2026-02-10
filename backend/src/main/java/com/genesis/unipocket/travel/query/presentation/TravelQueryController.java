@@ -23,23 +23,17 @@ public class TravelQueryController {
 
 	private final TravelQueryService travelQueryService;
 
-	@Operation(
-			summary = "여행 탐색 API",
-			description = "account-bookId 하위의 여행 폴더-메타데이터들을 조회합니다.")
+	@Operation(summary = "여행 탐색 API", description = "account-bookId 하위의 여행 폴더-메타데이터들을 조회합니다.")
 	@GetMapping
 	public ResponseEntity<List<TravelQueryResponse>> getTravels(
 			@PathVariable Long accountBookId, @LoginUser UUID userId) {
 		return ResponseEntity.ok(travelQueryService.getTravels(accountBookId, userId));
 	}
 
-	@Operation(
-			summary = "여행 탐색 API",
-			description = "travelId 여행폴더의 메타 데이터를 단건 조회합니다.")
+	@Operation(summary = "여행 탐색 API", description = "travelId 여행폴더의 메타 데이터를 단건 조회합니다.")
 	@GetMapping("/{travelId}")
 	public ResponseEntity<TravelDetailQueryResponse> getTravelDetail(
-			@PathVariable Long accountBookId,
-			@PathVariable Long travelId,
-			@LoginUser UUID userId) {
+			@PathVariable Long accountBookId, @PathVariable Long travelId, @LoginUser UUID userId) {
 		return ResponseEntity.ok(
 				travelQueryService.getTravelDetail(accountBookId, travelId, userId));
 	}
