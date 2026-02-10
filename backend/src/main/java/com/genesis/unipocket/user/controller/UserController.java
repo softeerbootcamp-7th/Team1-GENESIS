@@ -1,6 +1,6 @@
 package com.genesis.unipocket.user.controller;
 
-import com.genesis.unipocket.auth.annotation.LoginUser;
+import com.genesis.unipocket.auth.common.annotation.LoginUser;
 import com.genesis.unipocket.user.dto.response.UserResponse;
 import com.genesis.unipocket.user.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;

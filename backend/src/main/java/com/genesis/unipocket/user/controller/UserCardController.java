@@ -1,6 +1,6 @@
 package com.genesis.unipocket.user.controller;
 
-import com.genesis.unipocket.auth.annotation.LoginUser;
+import com.genesis.unipocket.auth.common.annotation.LoginUser;
 import com.genesis.unipocket.user.dto.request.UserCardRequest;
 import com.genesis.unipocket.user.dto.response.UserCardResponse;
 import com.genesis.unipocket.user.persistence.entity.enums.CardCompany;
