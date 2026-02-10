@@ -14,7 +14,7 @@ interface ReportBarListProps {
 }
 const ReportBarList = ({ items, maxLabel, countryCode }: ReportBarListProps) => {
   return (
-    <div className="relative h-125.25 w-full">
+    <div className="relative h-125.25 w-full pt-4.75">
       <VerticalGrid steps={6} maxLabel={maxLabel} />
       <div className="relative z-10 flex flex-col gap-4.5">
         {items.map((item) => (
