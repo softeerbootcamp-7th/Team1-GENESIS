@@ -157,7 +157,10 @@ const DataTableSearchFilter = <T extends string>({
         align="start"
         sideOffset={8}
         className="rounded-modal-8 border-line-solid-normal shadow-semantic-subtle bg-background-normal flex min-w-75 flex-col overflow-hidden"
-        onOpenAutoFocus={(e) => e.preventDefault()} // 팝오버 열릴 때 자동 포커스 방지 (인풋 제어 위해)
+        onOpenAutoFocus={(e) => {
+          e.preventDefault(); // Radix의 기본 포커스 동작(첫 번째 요소 찾기 등)을 막음
+          handleContainerClick();
+        }}
       >
         {/* --- 인풋 영역 (태그 모드 vs 일반 모드) --- */}
         <div
