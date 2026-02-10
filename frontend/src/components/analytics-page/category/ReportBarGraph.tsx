@@ -28,12 +28,18 @@ interface ReportBarGraphProps {
   countryCode: CountryCode;
 }
 
-const ReportBarGraph = ({ maxLabel, items, countryCode }: ReportBarGraphProps) => {
-  const data = items.map((item) => ({
+const transformCategoryData = (
+  items: ReportBarGraphProps['items'],
+) => {
+  return items.map((item) => ({
     categoryIndex: item.categoryIndex,
     me: Number(item.mySpentAmount),
     other: Number(item.averageSpentAmount),
   }));
+};
+
+const ReportBarGraph = ({ maxLabel, items, countryCode }: ReportBarGraphProps) => {
+  const data = transformCategoryData(items);
 
   return (
     <div className="flex w-145.5 flex-col gap-3.5">
