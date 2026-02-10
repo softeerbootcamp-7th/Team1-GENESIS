@@ -1,3 +1,5 @@
+import { COUNTRY_CODE } from '@/data/countryCode';
+
 import BudgetAmountSummary from '@/components/chart/budget/BudgetAmountSummary';
 import SemiCircleChart from '@/components/chart/charts/SemiCircleChart';
 import { BUDGET_USAGE_RANGES } from '@/components/chart/chartType';
@@ -10,8 +12,8 @@ interface BudgetChartViewProps {
 }
 
 // 임시용 상수. 해당 값 전역화 시 제거 필요
-const baseCode = countryCode[0];
-const localCode = countryCode[12];
+const baseCode = COUNTRY_CODE.KR;
+const localCode = COUNTRY_CODE.US;
 
 const BudgetChartView = ({ totalBudget, usedBudget }: BudgetChartViewProps) => {
   const rawPercentage = (usedBudget / totalBudget) * 100;
