@@ -1,17 +1,21 @@
 export const CATEGORY = {
-  0: '거주',
-  1: '식비',
-  2: '교통비',
-  3: '생활',
-  4: '여가',
-  5: '쇼핑',
-  6: '통신비',
-  7: '학교',
-  8: '수입',
-  9: '미분류',
+  0: '미분류',
+  1: '거주',
+  2: '식비',
+  3: '교통비',
+  4: '생활',
+  5: '여가',
+  6: '쇼핑',
+  7: '통신비',
+  8: '학교',
+  9: '수입',
 } as const;
 
 export type CategoryType = (typeof CATEGORY)[keyof typeof CATEGORY];
+
+export const getCategoryName = (index: number): CategoryType => {
+  return CATEGORY[index as keyof typeof CATEGORY];
+};
 
 export const CATEGORY_STYLE: Record<
   CategoryType,

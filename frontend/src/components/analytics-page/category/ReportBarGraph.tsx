@@ -1,3 +1,5 @@
+import { getCategoryName } from '@/types/category';
+
 import mockData from '../mock.json';
 import ReportBarList from './ReportBarList';
 
@@ -19,7 +21,7 @@ const ReportBarLegend = ({ color, label }: ReportBarLegendProps) => {
 
 const ReportBarGraph = () => {
   const data = mockData.compareByCategory.items.map((item) => ({
-    category: item.categoryName,
+    category: getCategoryName(item.categoryIndex),
     me: Number(item.mySpentAmount),
     other: Number(item.averageSpentAmount),
   }));
