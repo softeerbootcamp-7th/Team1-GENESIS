@@ -14,8 +14,8 @@ export const CATEGORY = {
 export type CategoryId = keyof typeof CATEGORY;
 export type CategoryType = (typeof CATEGORY)[CategoryId];
 
-export const getCategoryName = (index: number): CategoryType => {
-  return CATEGORY[index as CategoryId] || CATEGORY[0];
+export const getCategoryName = (id: CategoryId): CategoryType => {
+  return CATEGORY[id] || CATEGORY[0];
 };
 
 export const CATEGORY_STYLE: Record<
