@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import ReportCategory from '@/components/report-page/category/ReportCategory';
 import mockData from '@/components/report-page/mock';
+import ReportMonthly from '@/components/report-page/monthly/ReportMonthly';
 import ReportMyself from '@/components/report-page/myself/ReportMyself';
 import ReportProvider from '@/components/report-page/ReportProvider';
 
@@ -13,9 +14,12 @@ const ReportPage = () => {
   const [currencyType, setCurrencyType] = useState<CurrencyType>('LOCAL'); // @TODO: 드롭다운 추가 예정
 
   return (
-    <div className="flex p-3 gap-5">
+    <div className="flex p-3 gap-5 w-283">
       <ReportProvider currencyType={currencyType} onCurrencyTypeChange={setCurrencyType}>
-        <ReportMyself data={myselfData} />
+        <div className="flex flex-col gap-2.75" >
+          <ReportMonthly />
+          <ReportMyself data={myselfData} />
+        </div>
         <ReportCategory data={categoryData} />
       </ReportProvider>
     </div>

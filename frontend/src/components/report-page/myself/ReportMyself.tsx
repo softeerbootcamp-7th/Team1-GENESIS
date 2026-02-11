@@ -21,7 +21,7 @@ interface ReportMyselfProps {
 const ReportMyself = ({ data }: ReportMyselfProps) => {
   return (
     <ReportContainer title="전월 대비 지출 비교">
-      <ReportContent className="h-166.5 w-162.5 gap-7">
+      <ReportContent className="h-86.25 w-109 gap-7">
         <h3 className="heading1-bold text-label-normal">
           지난달 이맘때보다{' '}
           <span className="text-primary-normal">{data.diff}만원 더</span> 쓰는 중이에요
