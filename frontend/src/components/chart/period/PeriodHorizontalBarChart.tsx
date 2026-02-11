@@ -10,7 +10,7 @@ import CurrencyAmountDisplay from '@/components/currency/CurrencyAmountDisplay';
 import type { CountryCode } from '@/data/countryCode';
 import { cn } from '@/lib/utils';
 
-interface HorizontalBarChartProps {
+interface PeriodHorizontalBarChartProps {
   data: PeriodData[];
   className?: string;
   barColor?: string;
@@ -29,14 +29,14 @@ const RADIUS = 0;
  * 주별 지출 차트 — 가로 막대 차트
  * 왼쪽에 라벨, 오른쪽에 가로 막대가 배치됨
  */
-const HorizontalBarChart = ({
+const PeriodHorizontalBarChart = ({
   data,
   className,
   barColor = 'var(--color-primary-normal)',
   bgColor = 'var(--color-fill-disable)',
   animate = true,
   countryCode = 'KR',
-}: HorizontalBarChartProps) => {
+}: PeriodHorizontalBarChartProps) => {
   const clipId = useId();
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
@@ -130,4 +130,4 @@ const HorizontalBarChart = ({
   );
 };
 
-export default HorizontalBarChart;
+export default PeriodHorizontalBarChart;

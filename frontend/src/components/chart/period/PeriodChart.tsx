@@ -8,13 +8,13 @@ import {
 import ChartContainer from '@/components/chart/layout/ChartContainer';
 import ChartContent from '@/components/chart/layout/ChartContent';
 import ChartHeader from '@/components/chart/layout/ChartHeader';
-import HorizontalBarChart from '@/components/chart/period/HorizontalBarChart';
 import {
   MOCK_DAILY_DATA,
   MOCK_MONTHLY_DATA,
   MOCK_WEEKLY_DATA,
 } from '@/components/chart/period/mock';
 import PeriodBarChart from '@/components/chart/period/PeriodBarChart';
+import PeriodHorizontalBarChart from '@/components/chart/period/PeriodHorizontalBarChart';
 import PeriodLineChart from '@/components/chart/period/PeriodLineChart';
 import DropDown from '@/components/common/dropdown/Dropdown';
 
@@ -43,7 +43,7 @@ const PeriodChart = () => {
         return <PeriodLineChart data={MOCK_MONTHLY_DATA} />;
       case PERIOD_ID.WEEKLY:
         return (
-          <HorizontalBarChart
+          <PeriodHorizontalBarChart
             data={MOCK_WEEKLY_DATA}
             countryCode={currentCountryCode ?? 'KR'}
           />
