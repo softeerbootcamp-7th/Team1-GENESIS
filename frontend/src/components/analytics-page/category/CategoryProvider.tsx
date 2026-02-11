@@ -9,7 +9,9 @@ interface CategoryProviderProps {
 
 const CategoryProvider = ({ value, children }: CategoryProviderProps) => {
   return (
-    <CategoryContext.Provider value={value}>{children}</CategoryContext.Provider>
+    <CategoryContext.Provider value={value}>
+      {children}
+    </CategoryContext.Provider>
   );
 };
 

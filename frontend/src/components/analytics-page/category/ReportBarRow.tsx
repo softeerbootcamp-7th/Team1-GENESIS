@@ -22,16 +22,8 @@ const ReportBarRow = ({
       </span>
 
       <div className="flex w-full flex-col justify-between">
-        <ReportBar
-          value={me}
-          variant="me"
-          maxValue={maxLabel}
-        />
-        <ReportBar
-          value={other}
-          variant="other"
-          maxValue={maxLabel}
-        />
+        <ReportBar value={me} variant="me" maxValue={maxLabel} />
+        <ReportBar value={other} variant="other" maxValue={maxLabel} />
       </div>
     </div>
   );
