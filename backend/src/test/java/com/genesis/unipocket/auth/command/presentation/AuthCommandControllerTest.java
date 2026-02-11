@@ -1,16 +1,14 @@
 package com.genesis.unipocket.auth.command.presentation;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.genesis.unipocket.auth.command.application.AuthService;
+import com.genesis.unipocket.auth.command.application.JwtProvider;
+import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
 import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
 import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
@@ -33,20 +31,12 @@ class AuthCommandControllerTest {
 	@Autowired private MockMvc mockMvc;
 
 	@MockBean private AuthService authService;
-
 	@MockBean private CookieUtil cookieUtil;
-
 	@MockBean private OAuthAuthorizeFacade authorizeFacade;
-
 	@MockBean private UserLoginFacade loginFacade;
-
 	@MockBean private JpaMetamodelMappingContext jpaMetamodelMappingContext;
-
-	@MockBean private com.genesis.unipocket.auth.command.application.JwtProvider jwtProvider;
-
-	@MockBean
-	private com.genesis.unipocket.auth.command.application.TokenBlacklistService
-			tokenBlacklistService;
+	@MockBean private JwtProvider jwtProvider;
+	@MockBean private TokenBlacklistService tokenBlacklistService;
 
 	@Test
 	@DisplayName("토큰 재발급 성공")
@@ -55,6 +45,7 @@ class AuthCommandControllerTest {
 		String refreshToken = "valid_refresh_token";
 		String newAccessToken = "new_access_token";
 		String newRefreshToken = "new_refresh_token";
+
 		AuthService.TokenPair tokenPair =
 				new AuthService.TokenPair(newAccessToken, newRefreshToken);
 
@@ -105,6 +96,7 @@ class AuthCommandControllerTest {
 		String provider = "kakao";
 		String authorizationUrl = "https://kauth.kakao.com/oauth/authorize";
 		String state = "state_code";
+
 		AuthorizeResult authorizeResult = new AuthorizeResult(authorizationUrl, state);
 
 		given(authorizeFacade.authorize(OAuth2Properties.ProviderType.KAKAO))
@@ -147,12 +139,14 @@ class AuthCommandControllerTest {
 				.andExpect(status().is3xxRedirection());
 
 		verify(loginFacade).login(eq(OAuth2Properties.ProviderType.KAKAO), eq(code), eq(state));
+
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
 						eq("access_token"),
 						eq(accessToken),
 						eq(expiresIn.intValue()));
+
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
