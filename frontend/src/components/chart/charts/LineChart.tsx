@@ -22,7 +22,7 @@ const PADDING_BOTTOM = 8;
 const DOT_RADIUS = 4;
 
 /**
- * 월별 지출 차트 — 꺾은선 차트 (순수 차트만)
+ * 꺾은선 차트
  * 점을 이은 라인 그래프만 렌더링
  */
 const LineChart = ({

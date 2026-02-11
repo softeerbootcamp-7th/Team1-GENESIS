@@ -23,7 +23,7 @@ const DRAW_WIDTH = MAX_BAR_WIDTH - PADDING_RIGHT;
 const RADIUS = 0;
 
 /**
- * 주별 지출 차트 — 단일 가로 막대
+ * 단일 가로 막대
  */
 const HorizontalBar = ({
   value,

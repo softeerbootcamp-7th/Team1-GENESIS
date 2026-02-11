@@ -23,8 +23,8 @@ const DRAW_HEIGHT = CHART_HEIGHT - PADDING_TOP;
 const RADIUS = 0;
 
 /**
- * 기간별 지출 차트 — 단일 세로 막대
- * 배경 바가 깔려 있고, 그 위에 실제 지출 비율 막대가 올라옴
+ * 단일 세로 막대
+ * 배경 바가 깔려 있고, 그 위에 실제 값 비율 막대가 올라옴
  */
 const VerticalBar = ({
   value,

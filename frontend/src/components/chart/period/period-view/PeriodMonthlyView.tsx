@@ -1,5 +1,5 @@
+import LineChart from '@/components/chart/charts/LineChart';
 import { type PeriodData } from '@/components/chart/chartType';
-import LineChart from '@/components/chart/period/period-chart/LineChart';
 
 interface PeriodMonthlyViewProps {
   data: PeriodData[];

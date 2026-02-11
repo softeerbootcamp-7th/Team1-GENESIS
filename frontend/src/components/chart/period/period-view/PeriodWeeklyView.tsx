@@ -1,5 +1,5 @@
+import HorizontalBar from '@/components/chart/charts/HorizontalBar';
 import { type PeriodData } from '@/components/chart/chartType';
-import HorizontalBar from '@/components/chart/period/period-chart/HorizontalBar';
 import CurrencyAmountDisplay from '@/components/currency/CurrencyAmountDisplay';
 
 import type { CountryCode } from '@/data/countryCode';

@@ -1,5 +1,5 @@
+import VerticalBar from '@/components/chart/charts/VerticalBar';
 import { type PeriodData } from '@/components/chart/chartType';
-import VerticalBar from '@/components/chart/period/period-chart/VerticalBar';
 
 interface PeriodDailyViewProps {
   data: PeriodData[];
