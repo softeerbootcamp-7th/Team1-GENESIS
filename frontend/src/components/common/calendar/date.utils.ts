@@ -1,4 +1,13 @@
-export const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+export const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
+
+export const DATE_PRESETS = [
+  { id: 'last7Days', label: '지난 7일' },
+  { id: 'last14Days', label: '지난 14일' },
+  { id: 'thisMonth', label: '이번 달' },
+  { id: 'lastMonth', label: '지난 달' },
+] as const;
+
+export type DatePresetId = (typeof DATE_PRESETS)[number]['id'];
 
 // 두 Date 객체가 같은 날짜인지 확인
 export const isSameDay = (a: Date | null, b: Date | null) => {
@@ -59,4 +68,39 @@ export const formatDateTime = (date: Date): string => {
   const minute = parts.find((p) => p.type === 'minute')?.value;
 
   return `${year}.${month}.${day}. (${weekday}) ${hour}:${minute}`;
+};
+
+export const getDateRangeFromPreset = (
+  id: DatePresetId,
+): { startDate: Date | null; endDate: Date | null } => {
+  const today = new Date();
+  // 시간 초기화 (00:00:00)
+  today.setHours(0, 0, 0, 0);
+
+  const start = new Date(today);
+  const end = new Date(today); // 기본 종료일은 오늘
+
+  switch (id) {
+    case 'last7Days':
+      start.setDate(today.getDate() - 7);
+      break;
+
+    case 'last14Days':
+      start.setDate(today.getDate() - 14);
+      break;
+
+    case 'thisMonth':
+      start.setDate(1);
+      break;
+
+    case 'lastMonth':
+      start.setMonth(start.getMonth() - 1, 1);
+      end.setMonth(end.getMonth(), 0);
+      break;
+
+    default:
+      return { startDate: null, endDate: null };
+  }
+
+  return { startDate: start, endDate: end };
 };
