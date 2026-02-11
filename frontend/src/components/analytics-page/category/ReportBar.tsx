@@ -8,7 +8,7 @@ import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
 import { type CountryCode } from '@/data/countryCode';
 import { useAccountBookStore } from '@/stores/useAccountBookStore';
 
-import { useCategoryContext } from './CategoryContext';
+import { useAnalyticsContext } from '../AnalyticsContext';
 
 interface ReportBarProps {
   value: number;
@@ -30,7 +30,7 @@ const VARIANT_STYLES = {
 } as const;
 
 const ReportBar = ({ value, variant, maxValue }: ReportBarProps) => {
-  const { currencyType } = useCategoryContext();
+  const { currencyType } = useAnalyticsContext();
   const countryCode = useAccountBookStore((state) => state.accountBook?.localCountryCode) as CountryCode;
   
   const styles = VARIANT_STYLES[variant];
