@@ -116,7 +116,8 @@ class AccountBookQueryServiceTest {
 		Long accountBookId = 1L;
 		given(repository.findDetailById(userId, accountBookId)).willReturn(Optional.empty());
 
-		assertThatThrownBy(() -> accountBookQueryService.getAccountBookDetail(userId, accountBookId))
+		assertThatThrownBy(
+						() -> accountBookQueryService.getAccountBookDetail(userId, accountBookId))
 				.isInstanceOf(BusinessException.class)
 				.hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_NOT_FOUND);
 	}
