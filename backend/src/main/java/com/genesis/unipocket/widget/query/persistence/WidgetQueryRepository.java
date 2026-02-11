@@ -54,4 +54,20 @@ public class WidgetQueryRepository {
 				.setParameter("accountBookId", accountBookId)
 				.getSingleResult();
 	}
+
+	// ── CATEGORY ────────────────────────────────────────
+
+	public List<Object[]> findCategorySpentByAccountBookId(Long accountBookId) {
+		return em.createQuery(
+						"SELECT e.category, SUM(e.exchangeInfo.baseCurrencyAmount)"
+								+ " FROM ExpenseEntity e"
+								+ " WHERE e.accountBookId = :accountBookId"
+								+ " AND e.category <> :income"
+								+ " GROUP BY e.category"
+								+ " ORDER BY SUM(e.exchangeInfo.baseCurrencyAmount) DESC",
+						Object[].class)
+				.setParameter("accountBookId", accountBookId)
+				.setParameter("income", Category.INCOME)
+				.getResultList();
+	}
 }

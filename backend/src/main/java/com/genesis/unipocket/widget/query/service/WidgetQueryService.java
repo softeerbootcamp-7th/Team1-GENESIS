@@ -56,4 +56,47 @@ public class WidgetQueryService {
 								accountBookId, CurrencyType.LOCAL))
 				.build();
 	}
+
+	public CategoryWidgetResponse getCategoryWidget(UUID userId, Long accountBookId) {
+		userAccountBookValidator.validateUserAccountBook(userId, accountBookId);
+
+		CountryCode countryCode =
+				widgetQueryRepository.getAccountBookCountryCode(accountBookId, CurrencyType.BASE);
+
+		List<Object[]> rows = widgetQueryRepository.findCategorySpentByAccountBookId(accountBookId);
+
+		BigDecimal totalAmount =
+				rows.stream().map(r -> toBigDecimal(r[1])).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		BigDecimal unclassifiedAmount =
+				rows.stream()
+						.filter(r -> r[0] == Category.UNCLASSIFIED)
+						.map(r -> toBigDecimal(r[1]))
+						.findFirst()
+						.orElse(BigDecimal.ZERO);
+
+		List<Object[]> classifiedRows =
+				rows.stream().filter(r -> r[0] != Category.UNCLASSIFIED).toList();
+
+		List<Object[]> topRows = classifiedRows.stream().limit(6).toList();
+
+		BigDecimal overflowSum =
+				classifiedRows.stream()
+						.skip(6)
+						.map(r -> toBigDecimal(r[1]))
+						.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		unclassifiedAmount = unclassifiedAmount.add(overflowSum);
+
+		List<Object[]> finalRows = new java.util.ArrayList<>(topRows.size() + 1);
+		finalRows.addAll(topRows);
+
+		if (unclassifiedAmount.compareTo(BigDecimal.ZERO) > 0) {
+			finalRows.add(new Object[] {Category.UNCLASSIFIED, unclassifiedAmount});
+		}
+
+		List<CategoryItem> items = buildCategoryItemsWithPercentFix(finalRows, totalAmount);
+
+		return new CategoryWidgetResponse(totalAmount, countryCode, items);
+	}
 }
