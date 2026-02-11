@@ -1,7 +1,7 @@
 import Button from '@/components/common/Button';
-import { DataTable } from '@/components/common/data-table/DataTable';
-import DataTableProvider from '@/components/common/data-table/DataTableProvider';
 import Divider from '@/components/common/Divider';
+import { DataTable } from '@/components/data-table/DataTable';
+import DataTableProvider from '@/components/data-table/DataTableProvider';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
