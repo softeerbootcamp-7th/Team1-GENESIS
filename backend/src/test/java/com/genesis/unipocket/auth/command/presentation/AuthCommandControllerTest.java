@@ -87,7 +87,8 @@ class AuthCommandControllerTest {
 				.andExpect(status().isOk());
 
 		verify(authService).logout(accessToken, refreshToken);
-		verify(cookieUtil).deleteCookie(any(HttpServletResponse.class), eq("access_token"), eq("/"));
+		verify(cookieUtil)
+				.deleteCookie(any(HttpServletResponse.class), eq("access_token"), eq("/"));
 		verify(cookieUtil)
 				.deleteCookie(any(HttpServletResponse.class), eq("refresh_token"), eq("/api/auth"));
 	}
