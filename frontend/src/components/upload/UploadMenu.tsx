@@ -80,7 +80,7 @@ const UploadMenu = () => {
   return (
     <Popover modal={true}>
       <PopoverTrigger asChild>
-        <Button variant="solid" size="lg">
+        <Button variant="solid" size="md">
           지출 내역 추가하기
         </Button>
       </PopoverTrigger>

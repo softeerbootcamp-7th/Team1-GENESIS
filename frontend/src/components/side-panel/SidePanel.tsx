@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 
 import { formatDateTime } from '@/components/calendar/date.utils';
 import Button from '@/components/common/Button';
-import Category from '@/components/common/Category';
+import Chip from '@/components/common/Chip';
 import Divider from '@/components/common/Divider';
 import Icon from '@/components/common/Icon';
 import TextInput from '@/components/common/TextInput';
@@ -46,7 +46,7 @@ const SidePanel = ({ mode = 'manual' }: SidePanelProps) => {
     },
     {
       label: '카테고리',
-      value: <Category type="생활" />,
+      value: <Chip type="생활" />,
     },
     {
       label: '결제 수단',

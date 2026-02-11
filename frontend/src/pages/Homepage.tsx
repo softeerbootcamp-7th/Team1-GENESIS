@@ -1,10 +1,15 @@
 import Button from '@/components/common/Button';
 import Divider from '@/components/common/Divider';
 import { DataTable } from '@/components/data-table/DataTable';
+import { DataTableFilterProvider } from '@/components/data-table/DataTableFilter';
 import DataTableProvider from '@/components/data-table/DataTableProvider';
+import CategoryFilter from '@/components/data-table/filters/CategoryFilter';
+import DateFilter from '@/components/data-table/filters/DateFilter';
+import MerchantFilter from '@/components/data-table/filters/MerchantFilter';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
+import UploadMenu from '@/components/upload/UploadMenu';
 
 import { mockData } from '@/stores/mock';
 import { useAccountBookStore } from '@/stores/useAccountBookStore';
@@ -49,6 +54,13 @@ const Homepage = () => {
       <div className="bg-background-normal relative rounded-2xl px-2 py-4 shadow">
         {/* <Icons.ChevronBack className="text-label-alternative absolute left-1/2 z-50 size-12 -translate-x-1/2 rotate-90" /> */}
         <DataTableProvider columns={columns} data={data}>
+          <DataTableFilterProvider>
+            <DateFilter />
+            <MerchantFilter />
+            <CategoryFilter />
+            <div className="flex-1" />
+            <UploadMenu />
+          </DataTableFilterProvider>
           <DataTable
             groupBy={(row: Expense) =>
               new Date(row.date).toLocaleDateString('ko-KR', {

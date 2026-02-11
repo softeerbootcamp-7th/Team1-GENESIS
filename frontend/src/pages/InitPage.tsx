@@ -30,8 +30,14 @@ const InitPage = () => {
     setStep('select-date');
   };
 
-  const handleDateChange = (start: Date | null, end: Date | null) => {
-    setDateRange({ startDate: start, endDate: end });
+  const handleDateChange = ({
+    startDate,
+    endDate,
+  }: {
+    startDate: Date | null;
+    endDate: Date | null;
+  }) => {
+    setDateRange({ startDate, endDate });
   };
 
   const handleDateConfirm = async () => {

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import {
-  dayNames,
+  DAY_NAMES,
   getCalendarDateArr,
 } from '@/components/calendar/date.utils';
 
@@ -42,7 +42,7 @@ export const CalendarView = ({
       <div className="flex flex-col gap-1">
         {/* 요일 section */}
         <div className="flex w-91 flex-row items-center justify-around">
-          {dayNames.map((dayName) => (
+          {DAY_NAMES.map((dayName) => (
             <span
               key={dayName}
               className="text-label-neutral label2-medium py-[13.2px]"
