@@ -15,8 +15,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final LoginUserArgumentResolver loginUserArgumentResolver;
 
-	@Value("${app.frontend.allowed-origins:}")
-	private String allowedOrigins;
+	// AuthController와 동일하게 SpEL을 사용하여 주입 시점에 정규화(소문자, trim) 완료
+	@Value("#{'${app.frontend.allowed-origins:}'.split(',').![#this.trim().toLowerCase()]}")
+	private List<String> allowedOriginList;
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -25,20 +26,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
+		if (allowedOriginList.isEmpty()) {
+			return;
+		}
+
 		registry.addMapping("/**")
-				.allowedOrigins(parseAllowedOrigins())
+				.allowedOrigins(allowedOriginList.toArray(String[]::new))
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 				.allowedHeaders("*")
-				.allowCredentials(true);
-	}
-
-	private String[] parseAllowedOrigins() {
-		if (allowedOrigins == null || allowedOrigins.isBlank()) {
-			return new String[0];
-		}
-		return java.util.Arrays.stream(allowedOrigins.split(","))
-				.map(String::trim)
-				.filter(s -> !s.isEmpty())
-				.toArray(String[]::new);
+				.allowCredentials(true)
+				.maxAge(3600); // 브라우저에 CORS 결과 캐싱 시간 추가 (성능 향상)
 	}
 }
