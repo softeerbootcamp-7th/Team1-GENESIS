@@ -1,19 +1,19 @@
 import { Link } from '@tanstack/react-router';
 
 import Button from '@/components/common/Button';
-import { DataTable } from '@/components/common/data-table/DataTable';
-import DataTableProvider from '@/components/common/data-table/DataTableProvider';
 import {
   TabContent,
   TabList,
   TabProvider,
   TabTrigger,
 } from '@/components/common/Tab';
-import LandingUploadBox from '@/components/common/upload/upload-box/LandingUploadBox';
+import { DataTable } from '@/components/data-table/DataTable';
+import DataTableProvider from '@/components/data-table/DataTableProvider';
 import { columns } from '@/components/landing-page/columns';
 import { type Expense, getData } from '@/components/landing-page/dummy';
 import FeatureCard from '@/components/landing-page/FeatureCard';
 import InfiniteCurrency from '@/components/landing-page/InfinityCurrency';
+import LandingUploadBox from '@/components/upload/upload-box/LandingUploadBox';
 
 import { LandingImages } from '@/assets';
 

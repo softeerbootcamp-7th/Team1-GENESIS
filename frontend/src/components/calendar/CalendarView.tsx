@@ -1,0 +1,74 @@
+import { useMemo } from 'react';
+
+import {
+  DAY_NAMES,
+  getCalendarDateArr,
+} from '@/components/calendar/date.utils';
+
+import { CalendarDay } from './CalendarDay';
+import CalendarMonthPopover from './CalendarMonthPopover';
+
+type CalendarViewProps = {
+  displayDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
+  onDateClick: (date: Date) => void;
+  onDisplayDateChange?: (date: Date) => void;
+};
+
+export const CalendarView = ({
+  displayDate,
+  startDate,
+  endDate,
+  onDateClick,
+  onDisplayDateChange,
+}: CalendarViewProps) => {
+  const calendarDays = useMemo(() => {
+    return getCalendarDateArr(displayDate);
+  }, [displayDate]);
+
+  const today = useMemo(() => {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
+
+  return (
+    <section className="flex flex-col items-center gap-4">
+      <CalendarMonthPopover
+        date={displayDate}
+        onDateChange={(newDate) => onDisplayDateChange?.(newDate)}
+      />
+      <div className="flex flex-col gap-1">
+        {/* 요일 section */}
+        <div className="flex w-91 flex-row items-center justify-around">
+          {DAY_NAMES.map((dayName) => (
+            <span
+              key={dayName}
+              className="text-label-neutral label2-medium py-[13.2px]"
+            >
+              {dayName}
+            </span>
+          ))}
+        </div>
+        {/* 날짜 section */}
+        <div className="grid grid-cols-7 gap-y-2.5">
+          {calendarDays.map((dateInfo, index) => {
+            return (
+              <CalendarDay
+                key={`${dateInfo.date.toISOString()}-${index}`}
+                day={dateInfo.day}
+                fullDate={dateInfo.date}
+                isCurrentMonth={dateInfo.isCurrentMonth}
+                today={today}
+                startDate={startDate}
+                endDate={endDate}
+                onDateClick={onDateClick}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};

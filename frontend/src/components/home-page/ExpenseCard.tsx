@@ -1,5 +1,5 @@
-import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
-import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
+import CurrencyAmountDisplay from '@/components/currency/CurrencyAmountDisplay';
+import CurrencyBadge from '@/components/currency/CurrencyBadge';
 
 import { Icons } from '@/assets';
 import type { CountryCode } from '@/data/countryCode';

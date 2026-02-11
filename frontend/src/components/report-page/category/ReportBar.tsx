@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
-import { TOTAL_ANIMATION_DURATION } from '@/components/common/chart/chartType';
-import CurrencyAmountDisplay from '@/components/common/currency/CurrencyAmountDisplay';
-import CurrencyBadge from '@/components/common/currency/CurrencyBadge';
+import { TOTAL_ANIMATION_DURATION } from '@/components/chart/chartType';
+import CurrencyAmountDisplay from '@/components/currency/CurrencyAmountDisplay';
+import CurrencyBadge from '@/components/currency/CurrencyBadge';
 import { useReportContext } from '@/components/report-page/ReportContext';
 
 import { type CountryCode } from '@/data/countryCode';

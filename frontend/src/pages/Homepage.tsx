@@ -1,15 +1,15 @@
 import Button from '@/components/common/Button';
-import { DataTable } from '@/components/common/data-table/DataTable';
-import { DataTableFilterProvider } from '@/components/common/data-table/DataTableFilter';
-import DataTableProvider from '@/components/common/data-table/DataTableProvider';
-import CategoryFilter from '@/components/common/data-table/filters/CategoryFilter';
-import DateFilter from '@/components/common/data-table/filters/DateFilter';
-import MerchantFilter from '@/components/common/data-table/filters/MerchantFilter';
 import Divider from '@/components/common/Divider';
-import UploadMenu from '@/components/common/upload/UploadMenu';
+import { DataTable } from '@/components/data-table/DataTable';
+import { DataTableFilterProvider } from '@/components/data-table/DataTableFilter';
+import DataTableProvider from '@/components/data-table/DataTableProvider';
+import CategoryFilter from '@/components/data-table/filters/CategoryFilter';
+import DateFilter from '@/components/data-table/filters/DateFilter';
+import MerchantFilter from '@/components/data-table/filters/MerchantFilter';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
+import UploadMenu from '@/components/upload/UploadMenu';
 
 import { mockData } from '@/stores/mock';
 import { useAccountBookStore } from '@/stores/useAccountBookStore';

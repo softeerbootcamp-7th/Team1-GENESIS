@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import Header from '@/components/common/Header';
-import Menu from '@/components/common/menu/Menu';
+import Header from '@/components/layout/Header';
+import Menu from '@/components/layout/menu/Menu';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const Route = createFileRoute('/_app')({

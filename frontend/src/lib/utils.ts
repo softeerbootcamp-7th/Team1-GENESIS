@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { DAY_NAMES } from '@/components/common/calendar/date.utils';
+import { DAY_NAMES } from '@/components/calendar/date.utils';
 
 import { COUNTRY_TIME_REGION, TIME_REGION_CONFIG } from '@/constants/time';
 import type { CountryCode } from '@/data/countryCode';
