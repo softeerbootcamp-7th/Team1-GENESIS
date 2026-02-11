@@ -1,5 +1,5 @@
 import { type PeriodData } from '@/components/chart/chartType';
-import PeriodLineChart from '@/components/chart/period/period-chart/PeriodLineChart';
+import LineChart from '@/components/chart/period/period-chart/LineChart';
 
 interface PeriodMonthlyViewProps {
   data: PeriodData[];
@@ -24,7 +24,7 @@ const PeriodMonthlyView = ({
   return (
     <div className="flex w-full flex-col gap-2">
       {/* 차트 */}
-      <PeriodLineChart
+      <LineChart
         values={values}
         lineColor={lineColor}
         dotColor={dotColor}

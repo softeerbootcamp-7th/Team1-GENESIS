@@ -1,5 +1,5 @@
 import { type PeriodData } from '@/components/chart/chartType';
-import PeriodVerticalBar from '@/components/chart/period/period-chart/PeriodVerticalBar';
+import VerticalBar from '@/components/chart/period/period-chart/VerticalBar';
 
 interface PeriodDailyViewProps {
   data: PeriodData[];
@@ -27,7 +27,7 @@ const PeriodDailyView = ({
       <div className="flex w-full items-end justify-between">
         {data.map((item) => (
           <div key={item.label} className="flex flex-1 justify-center">
-            <PeriodVerticalBar
+            <VerticalBar
               value={item.value}
               maxValue={maxValue}
               barColor={barColor}

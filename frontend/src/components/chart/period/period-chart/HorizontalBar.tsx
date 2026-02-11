@@ -5,7 +5,7 @@ import { TOTAL_ANIMATION_DURATION } from '@/components/chart/chartType';
 
 import { cn } from '@/lib/utils';
 
-export interface PeriodHorizontalBarProps {
+export interface HorizontalBarProps {
   /** 현재 막대의 값 */
   value: number;
   /** 최대값 (비율 계산용) */
@@ -25,14 +25,14 @@ const RADIUS = 0;
 /**
  * 주별 지출 차트 — 단일 가로 막대
  */
-const PeriodHorizontalBar = ({
+const HorizontalBar = ({
   value,
   maxValue,
   className,
   barColor = 'var(--color-primary-normal)',
   bgColor = 'var(--color-fill-disable)',
   animate = true,
-}: PeriodHorizontalBarProps) => {
+}: HorizontalBarProps) => {
   const clipId = useId();
   const safeMaxValue = Math.max(maxValue, 1);
   const ratio = value / safeMaxValue;
@@ -96,4 +96,4 @@ const PeriodHorizontalBar = ({
   );
 };
 
-export default PeriodHorizontalBar;
+export default HorizontalBar;

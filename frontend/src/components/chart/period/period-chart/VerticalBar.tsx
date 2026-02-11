@@ -5,7 +5,7 @@ import { TOTAL_ANIMATION_DURATION } from '@/components/chart/chartType';
 
 import { cn } from '@/lib/utils';
 
-export interface PeriodVerticalBarProps {
+export interface VerticalBarProps {
   /** 현재 막대의 값 */
   value: number;
   /** 최대값 (비율 계산용) */
@@ -26,14 +26,14 @@ const RADIUS = 0;
  * 기간별 지출 차트 — 단일 세로 막대
  * 배경 바가 깔려 있고, 그 위에 실제 지출 비율 막대가 올라옴
  */
-const PeriodVerticalBar = ({
+const VerticalBar = ({
   value,
   maxValue,
   className,
   barColor = 'var(--color-primary-normal)',
   bgColor = 'var(--color-fill-disable)',
   animate = true,
-}: PeriodVerticalBarProps) => {
+}: VerticalBarProps) => {
   const clipId = useId();
   const safeMaxValue = Math.max(1, maxValue);
   const ratio = value / safeMaxValue;
@@ -45,11 +45,7 @@ const PeriodVerticalBar = ({
       style={{ width: BAR_WIDTH, height: CHART_HEIGHT }}
     >
       {/* 배경 바 (항상 full height) */}
-      <svg
-        width={BAR_WIDTH}
-        height={CHART_HEIGHT}
-        className="absolute inset-0"
-      >
+      <svg width={BAR_WIDTH} height={CHART_HEIGHT} className="absolute inset-0">
         <rect
           x={0}
           y={0}
@@ -107,4 +103,4 @@ const PeriodVerticalBar = ({
   );
 };
 
-export default PeriodVerticalBar;
+export default VerticalBar;

@@ -1,5 +1,5 @@
 import { type PeriodData } from '@/components/chart/chartType';
-import PeriodHorizontalBar from '@/components/chart/period/period-chart/PeriodHorizontalBar';
+import HorizontalBar from '@/components/chart/period/period-chart/HorizontalBar';
 import CurrencyAmountDisplay from '@/components/currency/CurrencyAmountDisplay';
 
 import type { CountryCode } from '@/data/countryCode';
@@ -44,7 +44,7 @@ const PeriodWeeklyView = ({
 
             <div className="flex items-center gap-2">
               {/* 단일 가로 막대 */}
-              <PeriodHorizontalBar
+              <HorizontalBar
                 value={item.value}
                 maxValue={maxValue}
                 barColor={barColor}

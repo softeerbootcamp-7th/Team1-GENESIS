@@ -4,7 +4,7 @@ import { TOTAL_ANIMATION_DURATION } from '@/components/chart/chartType';
 
 import { cn } from '@/lib/utils';
 
-export interface PeriodLineChartProps {
+export interface LineChartProps {
   /** 각 점의 값 배열 */
   values: number[];
   className?: string;
@@ -25,13 +25,13 @@ const DOT_RADIUS = 4;
  * 월별 지출 차트 — 꺾은선 차트 (순수 차트만)
  * 점을 이은 라인 그래프만 렌더링
  */
-const PeriodLineChart = ({
+const LineChart = ({
   values,
   className,
   lineColor = 'var(--color-primary-normal)',
   dotColor = 'var(--color-primary-normal)',
   animate = true,
-}: PeriodLineChartProps) => {
+}: LineChartProps) => {
   const maxValue = Math.max(...values, 1);
   const drawWidth = CHART_WIDTH - PADDING_X * 2;
   const drawHeight = CHART_HEIGHT - PADDING_TOP - PADDING_BOTTOM;
@@ -122,4 +122,4 @@ const PeriodLineChart = ({
   );
 };
 
-export default PeriodLineChart;
+export default LineChart;
