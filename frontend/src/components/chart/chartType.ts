@@ -74,3 +74,5 @@ export const BUDGET_USAGE_RANGES = [
   { max: 80, label: '경고', color: 'var(--color-status-cautionary)' },
   { max: 100, label: '위험', color: 'var(--color-status-negative)' },
 ] as const;
+
+export const PERIOD_SKELETON_COLOR = 'var(--color-fill-strong)';

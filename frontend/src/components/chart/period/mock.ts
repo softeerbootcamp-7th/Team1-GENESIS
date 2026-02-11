@@ -18,7 +18,7 @@ export const MOCK_MONTHLY_DATA: PeriodData[] = monthlyLabels.map(
 const weeklyLabels = generateWeeklyLabels();
 export const MOCK_WEEKLY_DATA: PeriodData[] = weeklyLabels.map((label, i) => ({
   label,
-  value: [120000, 95000, 0, 210000, 80000][i] ?? 0,
+  value: [120000, 95000, 50000, 210000, 80000][i] ?? 0,
 }));
 
 // ─── 일별 mock (7일) ────────────────────────────
