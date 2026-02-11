@@ -1,5 +1,6 @@
 import ReportContainer from '@/components/report-page/layout/ReportContainer';
 import ReportContent from '@/components/report-page/layout/ReportContent';
+import ReportLineGraph from '@/components/report-page/myself/ReportLineGraph';
 import { useReportContext } from '@/components/report-page/ReportContext';
 
 import { type CountryCode } from '@/data/countryCode';
@@ -39,7 +40,7 @@ const ReportMyself = ({ data }: ReportMyselfProps) => {
 
   return (
     <ReportContainer title="전월 대비 지출 비교">
-      <ReportContent className="h-86.25 w-109 gap-7 pb-5 pl-6.5">
+      <ReportContent className="h-86.25 w-109 pb-5 pl-6.5">
         <div className="flex flex-col gap-2.5">
           <h3 className="heading1-bold text-label-normal">
             지난달 이맘때보다
@@ -55,6 +56,10 @@ const ReportMyself = ({ data }: ReportMyselfProps) => {
             {unit} 썼어요
           </span>
         </div>
+        <ReportLineGraph
+          thisMonthItem={data.thisMonthItem}
+          prevMonthItem={data.prevMonthItem}
+        />
       </ReportContent>
     </ReportContainer>
   );
