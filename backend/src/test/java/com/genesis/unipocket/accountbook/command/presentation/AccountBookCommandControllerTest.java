@@ -27,8 +27,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(AccountBookCommandController.class)
@@ -37,11 +37,12 @@ class AccountBookCommandControllerTest {
 	@Autowired private MockMvc mockMvc;
 	@Autowired private ObjectMapper objectMapper;
 
-	@MockBean private AccountBookCommandFacade accountBookCommandFacade;
-	@MockBean private JwtProvider jwtProvider;
-	@MockBean private TokenBlacklistService tokenBlacklistService;
+	@MockitoBean private AccountBookCommandFacade accountBookCommandFacade;
+	@MockitoBean private JwtProvider jwtProvider;
+	@MockitoBean private TokenBlacklistService tokenBlacklistService;
 
-	@MockBean
+	@SuppressWarnings("unused")
+	@MockitoBean
 	private org.springframework.data.jpa.mapping.JpaMetamodelMappingContext
 			jpaMetamodelMappingContext;
 
