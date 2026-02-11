@@ -25,9 +25,6 @@ spring:
     aws:
       region:
         static: ${AWS_REGION}
-      credentials:
-        access-key: ${AWS_ACCESS_KEY}
-        secret-key: ${AWS_SECRET_KEY}
       s3:
         bucket: ${AWS_S3_BUCKET_NAME}
 
@@ -60,6 +57,9 @@ oauth2:
 
 # Application Configuration (기본값 없음)
 app:
+  media:
+    presigned-get-expiration-seconds: ${MEDIA_GET_EXPIRATION}
+    presigned-put-expiration-seconds: ${MEDIA_PUT_EXPIRATION}
   frontend:
     url: ${FRONTEND_URL}
   cookie:
