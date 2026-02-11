@@ -14,9 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TokenService {
 
 	private final AuthService authService;
-
-	@Value("${jwt.access-token-expiration}")
-	private long accessTokenExpirationMs;
+	private final JwtProvider jwtProvider;
 
 	@Transactional
 	public LoginResponse createTokens(UUID userId) {
@@ -29,6 +27,6 @@ public class TokenService {
 				tokenPair.accessToken(),
 				tokenPair.refreshToken(),
 				userId,
-				accessTokenExpirationMs / 1000);
+				jwtProvider.getAccessTokenExpirationAsSeconds());
 	}
 }
