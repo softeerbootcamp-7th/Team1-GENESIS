@@ -30,7 +30,7 @@ const PeriodBarChart = ({
   data,
   className,
   barColor = 'var(--color-primary-normal)',
-  bgColor = 'var(--color-fill-strong)',
+  bgColor = 'var(--color-fill-disable)',
   animate = true,
 }: PeriodBarChartProps) => {
   const clipId = useId();

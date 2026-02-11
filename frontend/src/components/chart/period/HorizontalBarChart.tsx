@@ -33,7 +33,7 @@ const HorizontalBarChart = ({
   data,
   className,
   barColor = 'var(--color-primary-normal)',
-  bgColor = 'var(--color-fill-strong)',
+  bgColor = 'var(--color-fill-disable)',
   animate = true,
   countryCode = 'KR',
 }: HorizontalBarChartProps) => {
