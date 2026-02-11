@@ -13,6 +13,7 @@ import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import com.genesis.unipocket.global.infrastructure.gemini.GeminiService;
 import com.genesis.unipocket.global.infrastructure.gemini.GeminiService.GeminiParseResponse;
 import com.genesis.unipocket.global.infrastructure.gemini.GeminiService.ParsedExpenseItem;
+import com.genesis.unipocket.global.infrastructure.storage.s3.S3Service;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class TemporaryExpenseParsingService {
 	private final TempExpenseMetaRepository tempExpenseMetaRepository;
 	private final TemporaryExpenseRepository temporaryExpenseRepository;
 	private final GeminiService geminiService;
-	private final com.genesis.unipocket.global.infrastructure.aws.S3Service s3Service;
+	private final S3Service s3Service;
 	private final ParsingProgressPublisher progressPublisher;
 	private final CsvParsingService csvParsingService;
 
