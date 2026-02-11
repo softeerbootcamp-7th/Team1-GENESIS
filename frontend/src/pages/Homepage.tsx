@@ -1,5 +1,6 @@
 import Button from '@/components/common/Button';
 import { DataTable } from '@/components/common/data-table/DataTable';
+import { DataTableFilterProvider } from '@/components/common/data-table/DataTableFilter';
 import DataTableProvider from '@/components/common/data-table/DataTableProvider';
 import CategoryFilter from '@/components/common/data-table/filters/CategoryFilter';
 import DateFilter from '@/components/common/data-table/filters/DateFilter';

@@ -31,13 +31,13 @@ const InitPage = () => {
   };
 
   const handleDateChange = ({
-    start,
-    end,
+    startDate,
+    endDate,
   }: {
-    start: Date | null;
-    end: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
   }) => {
-    setDateRange({ startDate: start, endDate: end });
+    setDateRange({ startDate, endDate });
   };
 
   const handleDateConfirm = async () => {

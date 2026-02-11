@@ -32,22 +32,22 @@ const DateFilter = () => {
   const isActive = !!(dateRange.startDate || dateRange.endDate);
 
   const handleDateChange = ({
-    start,
-    end,
+    startDate,
+    endDate,
   }: {
-    start: Date | null;
-    end: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
   }) => {
-    setDateRange({ startDate: start, endDate: end });
+    setDateRange({ startDate, endDate });
   };
 
   const handlePresetClick = (id: DatePresetId) => {
     const { startDate, endDate } = getDateRangeFromPreset(id);
-    handleDateChange({ start: startDate, end: endDate });
+    handleDateChange({ startDate, endDate });
   };
 
   const handleReset = () => {
-    handleDateChange({ start: null, end: null });
+    handleDateChange({ startDate: null, endDate: null });
   };
 
   const filterLabel = (() => {
@@ -107,7 +107,10 @@ const DateFilter = () => {
                   }
                   onClick={() => setIsCalendarOpen(true)}
                   onClear={() =>
-                    handleDateChange({ start: null, end: dateRange.endDate })
+                    handleDateChange({
+                      startDate: null,
+                      endDate: dateRange.endDate,
+                    })
                   }
                 />
                 <CalendarInput
@@ -119,7 +122,10 @@ const DateFilter = () => {
                   }
                   onClick={() => setIsCalendarOpen(true)}
                   onClear={() =>
-                    handleDateChange({ start: dateRange.startDate, end: null })
+                    handleDateChange({
+                      startDate: dateRange.startDate,
+                      endDate: null,
+                    })
                   }
                 />
               </div>
