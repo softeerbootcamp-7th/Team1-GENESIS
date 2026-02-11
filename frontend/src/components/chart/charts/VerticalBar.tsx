@@ -64,39 +64,27 @@ const VerticalBar = ({
           height={CHART_HEIGHT}
           className="absolute inset-0"
         >
-          <defs>
-            <clipPath id={clipId}>
-              <motion.rect
-                x={0}
-                width={BAR_WIDTH}
-                initial={
-                  animate
-                    ? { y: CHART_HEIGHT, height: 0 }
-                    : { y: 0, height: CHART_HEIGHT }
-                }
-                animate={{ y: 0, height: CHART_HEIGHT }}
-                transition={
-                  animate
-                    ? {
-                        duration: TOTAL_ANIMATION_DURATION,
-                        ease: 'easeOut',
-                      }
-                    : { duration: 0 }
-                }
-              />
-            </clipPath>
-          </defs>
-          <g clipPath={`url(#${clipId})`}>
-            <rect
-              x={0}
-              y={CHART_HEIGHT - barHeight}
-              width={BAR_WIDTH}
-              height={barHeight}
-              rx={RADIUS}
-              ry={RADIUS}
-              fill={barColor}
-            />
-          </g>
+          <motion.rect
+            x={0}
+            width={BAR_WIDTH}
+            rx={RADIUS}
+            ry={RADIUS}
+            fill={barColor}
+            initial={
+              animate
+                ? { y: CHART_HEIGHT, height: 0 }
+                : { y: CHART_HEIGHT - barHeight, height: barHeight }
+            }
+            animate={{ y: CHART_HEIGHT - barHeight, height: barHeight }}
+            transition={
+              animate
+                ? {
+                    duration: TOTAL_ANIMATION_DURATION,
+                    ease: 'easeOut',
+                  }
+                : { duration: 0 }
+            }
+          />
         </svg>
       )}
     </div>
