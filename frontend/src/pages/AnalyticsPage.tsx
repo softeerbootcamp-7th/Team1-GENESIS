@@ -14,7 +14,7 @@ const AnalyticsPage = () => {
 
   return (
     <div className="flex p-3">
-      <CategoryProvider value={{ countryCode, currencyType }}>
+      <CategoryProvider countryCode={countryCode} currencyType={currencyType}>
         <ReportCategory data={categoryData} />
       </CategoryProvider>
     </div>

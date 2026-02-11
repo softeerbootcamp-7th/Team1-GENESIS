@@ -1,13 +1,30 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 
-import { CategoryContext, type CategoryContextValue } from './CategoryContext';
+import type { CurrencyType } from '@/types/currency';
+
+import type { CountryCode } from '@/data/countryCode';
+
+import { CategoryContext } from './CategoryContext';
 
 interface CategoryProviderProps {
-  value: CategoryContextValue;
+  countryCode: CountryCode;
+  currencyType: CurrencyType;
   children: ReactNode;
 }
 
-const CategoryProvider = ({ value, children }: CategoryProviderProps) => {
+const CategoryProvider = ({
+  countryCode,
+  currencyType,
+  children,
+}: CategoryProviderProps) => {
+  const value = useMemo(
+    () => ({
+      countryCode,
+      currencyType,
+    }),
+    [countryCode, currencyType],
+  );
+
   return (
     <CategoryContext.Provider value={value}>
       {children}
