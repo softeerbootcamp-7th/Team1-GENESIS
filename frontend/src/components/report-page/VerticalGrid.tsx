@@ -44,7 +44,7 @@ const VerticalGrid = ({
         {labels.map((label, i) => (
           <div
             key={i}
-            className="text-label-assistive absolute text-xs"
+            className="text-label-assistive absolute text-xs whitespace-nowrap"
             style={{
               left: `${gridPositions[i]}%`,
               transform: 'translateX(-50%)',
