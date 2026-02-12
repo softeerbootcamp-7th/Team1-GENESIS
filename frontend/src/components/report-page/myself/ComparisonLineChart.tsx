@@ -34,7 +34,7 @@ const ComparisonLineChart = ({
   thisMonth,
   prevMonth,
   width = 368,
-  height = 154,
+  height = 145,
 }: ComparisonLineChartProps) => {
   const allValues = [
     ...thisMonth.map((v) => Number(v.cumulatedAmount)),

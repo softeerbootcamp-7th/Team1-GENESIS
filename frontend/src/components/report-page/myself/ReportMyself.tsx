@@ -43,8 +43,7 @@ const ReportMyself = ({ data }: ReportMyselfProps) => {
       <ReportContent className="h-86.25 w-109 pb-5 pl-6.5">
         <div className="flex flex-col gap-2.5">
           <h3 className="heading1-bold text-label-normal">
-            지난달 이맘때보다
-            <br />
+            지난달보다{' '}
             <span className="text-primary-strong">
               {data.diff}
               {unit} 더
