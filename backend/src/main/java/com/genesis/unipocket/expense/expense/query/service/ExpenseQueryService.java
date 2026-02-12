@@ -7,7 +7,6 @@ import com.genesis.unipocket.expense.expense.command.persistence.repository.Expe
 import com.genesis.unipocket.expense.expense.query.presentation.request.ExpenseSearchFilter;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
 import java.util.UUID;
