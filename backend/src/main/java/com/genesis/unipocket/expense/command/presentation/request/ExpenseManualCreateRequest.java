@@ -1,5 +1,6 @@
 package com.genesis.unipocket.expense.command.presentation.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.genesis.unipocket.global.common.enums.Category;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import jakarta.validation.constraints.NotNull;
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 public record ExpenseManualCreateRequest(
 		@NotNull String merchantName,
 		Category category,
-		String paymentMethod,
-		@NotNull LocalDateTime occurredAt,
+		Long userCardId,
+		@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") @NotNull LocalDateTime occurredAt,
 		@NotNull BigDecimal localCurrencyAmount,
 		@NotNull CurrencyCode localCurrencyCode,
 		String memo,
