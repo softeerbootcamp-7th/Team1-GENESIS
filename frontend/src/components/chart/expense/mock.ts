@@ -1,5 +1,5 @@
 import type { CountryCode } from '@/data/countryCode';
-import { countryCode } from '@/data/countryCode';
+import { COUNTRY_CODE } from '@/data/countryCode';
 
 export const mockDataForMethod: {
   label: string;
@@ -32,19 +32,19 @@ export const mockDataForCurrency: {
   percent: number;
 }[] = [
   {
-    countryCode: 'SA',
+    countryCode: COUNTRY_CODE.SA,
     percent: 35,
   },
   {
-    countryCode: countryCode[5],
+    countryCode: COUNTRY_CODE.TW,
     percent: 25,
   },
   {
-    countryCode: countryCode[10],
+    countryCode: COUNTRY_CODE.JP,
     percent: 25,
   },
   {
-    countryCode: countryCode[15],
+    countryCode: COUNTRY_CODE.US,
     percent: 15,
   },
 ];
