@@ -1,15 +1,15 @@
 package com.genesis.unipocket.global.infrastructure.storage.s3.provide;
 
 import com.genesis.unipocket.global.infrastructure.storage.s3.S3Service;
-import com.genesis.unipocket.media.command.facade.port.MediaObjectStoragePort;
-import com.genesis.unipocket.media.command.facade.port.dto.PresignedUrlInfo;
+import com.genesis.unipocket.media.command.application.MediaObjectStorage;
+import com.genesis.unipocket.media.command.application.result.PresignedUrlResult;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class S3MediaObjectStorageProvider implements MediaObjectStoragePort {
+public class S3MediaObjectStorageProvider implements MediaObjectStorage {
 
 	private final S3Service s3Service;
 
@@ -19,7 +19,7 @@ public class S3MediaObjectStorageProvider implements MediaObjectStoragePort {
 	}
 
 	@Override
-	public PresignedUrlInfo getPresignedUrl(String prefix, String originalFileName) {
+	public PresignedUrlResult getPresignedUrl(String prefix, String originalFileName) {
 		return s3Service.getPresignedUrl(prefix, originalFileName);
 	}
 

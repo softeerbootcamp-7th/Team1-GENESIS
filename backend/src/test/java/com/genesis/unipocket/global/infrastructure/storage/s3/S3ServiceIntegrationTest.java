@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.genesis.unipocket.TestcontainersConfiguration;
 import com.genesis.unipocket.global.exception.BusinessException;
-import com.genesis.unipocket.media.command.facade.port.dto.PresignedUrlInfo;
+import com.genesis.unipocket.media.command.application.result.PresignedUrlResult;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +30,7 @@ class S3ServiceIntegrationTest {
 	@Test
 	@DisplayName("Presigned URL 발급 - 지원 확장자")
 	void getPresignedUrl_supportedExtension_success() {
-		PresignedUrlInfo response = s3Service.getPresignedUrl("it-test/images", "sample.jpg");
+		PresignedUrlResult response = s3Service.getPresignedUrl("it-test/images", "sample.jpg");
 
 		assertThat(response.presignedUrl()).isNotBlank();
 		assertThat(response.imageKey()).startsWith("it-test/images/");
@@ -47,7 +47,7 @@ class S3ServiceIntegrationTest {
 	@Test
 	@DisplayName("Presigned PUT 업로드/존재확인/삭제 플로우")
 	void presignedPut_validateExists_delete_success() throws Exception {
-		PresignedUrlInfo putInfo = s3Service.getPresignedUrl("it-test/upload", "upload.png");
+		PresignedUrlResult putInfo = s3Service.getPresignedUrl("it-test/upload", "upload.png");
 
 		putToPresignedUrl(
 				putInfo.presignedUrl(),
@@ -63,7 +63,7 @@ class S3ServiceIntegrationTest {
 	@Test
 	@DisplayName("조회용 Presigned GET URL 발급")
 	void getPresignedGetUrl_success() throws Exception {
-		PresignedUrlInfo putInfo = s3Service.getPresignedUrl("it-test/view", "view.jpg");
+		PresignedUrlResult putInfo = s3Service.getPresignedUrl("it-test/view", "view.jpg");
 		putToPresignedUrl(
 				putInfo.presignedUrl(), "image/jpeg", "view-test".getBytes(StandardCharsets.UTF_8));
 

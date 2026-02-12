@@ -7,7 +7,7 @@ import com.genesis.unipocket.expense.command.persistence.repository.FileReposito
 import com.genesis.unipocket.expense.command.persistence.repository.TempExpenseMetaRepository;
 import com.genesis.unipocket.expense.command.presentation.request.BatchPresignedUrlRequest;
 import com.genesis.unipocket.global.infrastructure.storage.s3.S3Service;
-import com.genesis.unipocket.media.command.facade.port.dto.PresignedUrlInfo;
+import com.genesis.unipocket.media.command.application.result.PresignedUrlResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +39,7 @@ public class FileUploadService {
 
 		// 2. S3 Presigned URL 생성
 		String prefix = "temp-expenses/" + accountBookId;
-		PresignedUrlInfo s3Response = s3Service.getPresignedUrl(prefix, fileName);
+		PresignedUrlResult s3Response = s3Service.getPresignedUrl(prefix, fileName);
 
 		// 3. File 엔티티 생성
 		File file =

@@ -1,7 +1,7 @@
 package com.genesis.unipocket.global.controller;
 
 import com.genesis.unipocket.global.infrastructure.storage.s3.S3Service;
-import com.genesis.unipocket.media.command.facade.port.dto.PresignedUrlInfo;
+import com.genesis.unipocket.media.command.application.result.PresignedUrlResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -30,7 +30,7 @@ class LocalImageTestController {
 					.body(new LocalPresignedIssueResponse(null, null, "fileName is required"));
 		}
 
-		PresignedUrlInfo response = s3Service.getPresignedUrl(prefix, fileName);
+		PresignedUrlResult response = s3Service.getPresignedUrl(prefix, fileName);
 		return ResponseEntity.ok(
 				new LocalPresignedIssueResponse(
 						response.presignedUrl(), response.imageKey(), null));

@@ -1,6 +1,5 @@
 package com.genesis.unipocket.media.command.application;
 
-import com.genesis.unipocket.media.command.facade.port.MediaObjectStoragePort;
 import com.genesis.unipocket.media.command.facade.port.MediaUsedPathProvider;
 import java.util.List;
 import java.util.Set;
@@ -24,12 +23,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MediaOrphanedFileCleanWorker {
 
-	private final MediaObjectStoragePort mediaObjectStoragePort;
+	private final MediaObjectStorage mediaObjectStorage;
 	private final List<MediaUsedPathProvider> mediaUsedPathProviders;
 
 	@Scheduled(cron = "${media.cleanup.cron:0 * * * * *}")
 	public void clean() {
-		List<String> allKeys = mediaObjectStoragePort.listAllKeys();
+		List<String> allKeys = mediaObjectStorage.listAllKeys();
 		Set<String> usedKeys =
 				mediaUsedPathProviders.stream()
 						.map(MediaUsedPathProvider::getUsedPaths)
@@ -42,7 +41,7 @@ public class MediaOrphanedFileCleanWorker {
 			return;
 		}
 
-		mediaObjectStoragePort.deleteObjects(targetKeys);
+		mediaObjectStorage.deleteObjects(targetKeys);
 		log.info("{} 개의 사용되지 않는 미디어 파일을 삭제했습니다.", targetKeys.size());
 	}
 
