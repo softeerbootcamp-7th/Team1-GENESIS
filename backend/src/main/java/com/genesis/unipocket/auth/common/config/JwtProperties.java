@@ -42,12 +42,12 @@ public class JwtProperties {
 
 	/** Access Token 만료 시간 (초) */
 	public int getAccessTokenExpirationSeconds() {
-		return (int) accessTokenExpiration.toSeconds();
+		return Math.toIntExact(accessTokenExpiration.toSeconds());
 	}
 
 	/** Refresh Token 만료 시간 (초) */
 	public int getRefreshTokenExpirationSeconds() {
-		return (int) refreshTokenExpiration.toSeconds();
+		return Math.toIntExact(refreshTokenExpiration.toSeconds());
 	}
 
 	/** OAuth State TTL (Duration) */
