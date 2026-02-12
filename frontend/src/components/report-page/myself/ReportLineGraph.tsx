@@ -21,10 +21,9 @@ const ReportLineGraph = ({
   lastMonthItem,
 }: ReportLineGraphProps) => {
   const maxDays = Math.max(thisMonthCount, lastMonthCount);
-  const thisMonthLastDay = thisMonthCount;
 
-  const positions = [0, ((thisMonthLastDay - 1) / (maxDays - 1)) * 100, 100];
-  const labels = ['1일', `${thisMonthLastDay}일`, `${maxDays}일`];
+  const positions = [0, ((thisMonthCount - 1) / (maxDays - 1)) * 100, 100];
+  const labels = ['1일', `${thisMonthCount}일`, `${maxDays}일`];
 
   return (
     <div className="flex flex-col gap-4">
