@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { useDataTable } from '@/components/data-table/context';
+
 import { Icons } from '@/assets';
 import { cn } from '@/lib/utils';
-
-import { useDataTable } from './context';
 
 const Divider = () => <div className="bg-line-solid-normal/30 h-6 w-px" />;
 

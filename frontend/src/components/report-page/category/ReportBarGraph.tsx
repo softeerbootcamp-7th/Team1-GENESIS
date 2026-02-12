@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
 
-import type { CategoryId } from '@/types/category';
+import ReportBarList from '@/components/report-page/category/ReportBarList';
 
-import ReportBarList from './ReportBarList';
+import type { CategoryId } from '@/types/category';
 
 const LEGEND_COLOR = {
   me: 'bg-primary-normal',

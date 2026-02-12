@@ -1,7 +1,7 @@
-import type { CategoryId } from '@/types/category';
+import ReportBarRow from '@/components/report-page/category/ReportBarRow';
+import VerticalGrid from '@/components/report-page/category/VerticalGrid';
 
-import ReportBarRow from './ReportBarRow';
-import VerticalGrid from './VerticalGrid';
+import type { CategoryId } from '@/types/category';
 
 interface ReportBarListProps {
   maxLabel: number;

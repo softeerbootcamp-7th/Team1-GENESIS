@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import type { Table } from '@tanstack/react-table';
 
-import type { TableUIAction, TableUIState } from './type';
+import type { TableUIAction, TableUIState } from '@/components/data-table/type';
 
 export interface DataTableContextType<TData> {
   table: Table<TData>;

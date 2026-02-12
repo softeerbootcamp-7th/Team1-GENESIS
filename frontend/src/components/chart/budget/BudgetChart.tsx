@@ -1,14 +1,13 @@
 import { useState } from 'react';
 
+import BudgetChartSkeleton from '@/components/chart/budget/BudgetChartSkeleton';
+import BudgetChartView from '@/components/chart/budget/BudgetChartView';
 import { mockData } from '@/components/chart/budget/mock';
 import ChartContainer from '@/components/chart/layout/ChartContainer';
 import ChartContent from '@/components/chart/layout/ChartContent';
 import ChartHeader from '@/components/chart/layout/ChartHeader';
 import Button from '@/components/common/Button';
 import BudgetSetupModal from '@/components/modal/BudgetSetupModal';
-
-import BudgetChartSkeleton from './BudgetChartSkeleton';
-import BudgetChartView from './BudgetChartView';
 
 const BudgetChart = ({ isLoading = false }: { isLoading?: boolean }) => {
   // 렌더링용 데이터. API 연동 시 변경 필요
