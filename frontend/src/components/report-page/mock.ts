@@ -21,13 +21,12 @@ const mockData = {
   },
   compareWithLastMonth: {
     diff: '150',
-    thisMonth: '2026-01',
+    thisMonth: '1월',
     thisMonthCount: 20,
-    lastMonth: '2025-12',
+    lastMonth: '12월',
     lastMonthCount: 31,
     totalSpent: {
       thisMonthToDate: '830',
-      lastMonthToSameDay: '680',
       lastMonthTotal: '2311.46',
     },
     thisMonthItem: [

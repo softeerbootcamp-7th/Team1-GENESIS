@@ -16,7 +16,6 @@ interface ReportMyselfProps {
     lastMonthCount: number;
     totalSpent: {
       thisMonthToDate: string;
-      lastMonthToSameDay: string;
       lastMonthTotal: string;
     };
     thisMonthItem: { date: string; cumulatedAmount: string }[];
@@ -61,6 +60,8 @@ const ReportMyself = ({ data }: ReportMyselfProps) => {
           </span>
         </div>
         <ReportLineGraph
+          thisMonthLabel={data.thisMonth}
+          lastMonthLabel={data.lastMonth}
           thisMonthCount={data.thisMonthCount}
           lastMonthCount={data.lastMonthCount}
           maxValue={maxValue}

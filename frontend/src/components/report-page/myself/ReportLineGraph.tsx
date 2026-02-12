@@ -3,6 +3,8 @@ import ReportLegend from '@/components/report-page/ReportLegend';
 import VerticalGrid from '@/components/report-page/VerticalGrid';
 
 interface ReportLineGraphProps {
+  thisMonthLabel: string;
+  lastMonthLabel: string;
   thisMonthCount: number;
   lastMonthCount: number;
   maxValue: number;
