@@ -1,8 +1,10 @@
-package com.genesis.unipocket.expense.query.presentation.request;
+package com.genesis.unipocket.expense.expense.query.presentation.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.genesis.unipocket.expense.common.enums.Category;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 /**
  * <b>지출내역 검색 필터 DTO</b>
@@ -12,8 +14,8 @@ import java.time.LocalDateTime;
  * @since 2026-02-07
  */
 public record ExpenseSearchFilter(
-		LocalDateTime startDate,
-		LocalDateTime endDate,
+		OffsetDateTime startDate,
+		OffsetDateTime endDate,
 		Category category,
 		BigDecimal minAmount,
 		BigDecimal maxAmount,
