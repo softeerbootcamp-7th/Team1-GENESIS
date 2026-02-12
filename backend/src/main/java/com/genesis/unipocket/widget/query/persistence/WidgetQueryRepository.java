@@ -71,6 +71,21 @@ public class WidgetQueryRepository {
 				.getResultList();
 	}
 
+	// ── PAYMENT ─────────────────────────────────────────
+
+	public List<Object[]> findPaymentMethodSpentByAccountBookId(Long accountBookId) {
+		return em.createQuery(
+						"SELECT e.paymentMethod, SUM(e.exchangeInfo.baseCurrencyAmount)"
+								+ " FROM ExpenseEntity e"
+								+ " WHERE e.accountBookId = :accountBookId"
+								+ " AND e.paymentMethod IS NOT NULL"
+								+ " GROUP BY e.paymentMethod"
+								+ " ORDER BY SUM(e.exchangeInfo.baseCurrencyAmount) DESC",
+						Object[].class)
+				.setParameter("accountBookId", accountBookId)
+				.getResultList();
+	}
+
 	// ── CURRENCY ────────────────────────────────────────
 
 	public List<Object[]> findCurrencySpentByAccountBookId(Long accountBookId) {

@@ -100,6 +100,31 @@ public class WidgetQueryService {
 		return new CategoryWidgetResponse(totalAmount, countryCode, items);
 	}
 
+	public PaymentWidgetResponse getPaymentWidget(UUID userId, Long accountBookId) {
+		userAccountBookValidator.validateUserAccountBook(userId, accountBookId);
+
+		List<Object[]> rows =
+				widgetQueryRepository.findPaymentMethodSpentByAccountBookId(accountBookId);
+
+		BigDecimal totalAmount =
+				rows.stream()
+						.map(row -> toBigDecimal(row[1]))
+						.reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		List<PaymentItem> items =
+				rows.stream()
+						.map(
+								row -> {
+									String name = (String) row[0];
+									BigDecimal amount = toBigDecimal(row[1]);
+									int percent = calculatePercent(amount, totalAmount);
+									return new PaymentItem(name, percent);
+								})
+						.toList();
+
+		return new PaymentWidgetResponse(items.size(), items);
+	}
+
 	public CurrencyWidgetResponse getCurrencyWidget(UUID userId, Long accountBookId) {
 		userAccountBookValidator.validateUserAccountBook(userId, accountBookId);
 
