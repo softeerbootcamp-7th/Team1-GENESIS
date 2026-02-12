@@ -32,7 +32,7 @@ const ReportLineGraph = ({
       </div>
       <div className="relative h-42.5">
         <VerticalGrid positions={positions} labels={labels} />
-        <div className="relative z-10 pt-1.5">
+        <div className="relative z-10 pt-2.5">
           <ComparisonLineChart
             maxValue={maxValue}
             thisMonth={thisMonthItem}
