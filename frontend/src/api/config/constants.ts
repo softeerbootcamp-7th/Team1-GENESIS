@@ -1,4 +1,4 @@
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const DEFAULT_TIMEOUT = 5000; // 5초
 
 export const ERROR_NAMES = {
