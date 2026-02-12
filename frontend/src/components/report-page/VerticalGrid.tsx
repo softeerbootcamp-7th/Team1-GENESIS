@@ -1,13 +1,26 @@
 import { clsx } from 'clsx';
 
 interface VerticalGridProps {
-  steps: number;
+  steps?: number;
   labels: (number | string)[];
+  positions?: number[]; // Custom positions in percentage (0-100)
   className?: string;
 }
 
-const VerticalGrid = ({ steps, labels, className }: VerticalGridProps) => {
-  if (steps <= 0) return null;
+const VerticalGrid = ({
+  steps,
+  labels,
+  positions,
+  className,
+}: VerticalGridProps) => {
+  // Use custom positions if provided, otherwise use equal steps
+  const gridPositions =
+    positions ||
+    (steps !== undefined
+      ? Array.from({ length: steps + 1 }, (_, i) => (i / steps) * 100)
+      : []);
+
+  if (gridPositions.length === 0) return null;
 
   return (
     <div
@@ -17,12 +30,12 @@ const VerticalGrid = ({ steps, labels, className }: VerticalGridProps) => {
       )}
     >
       <div className="relative flex-1">
-        {Array.from({ length: steps + 1 }).map((_, i) => (
+        {gridPositions.map((position, i) => (
           <div
             key={i}
             className="border-line-normal-normal absolute top-0 h-full border-l border-dashed"
             style={{
-              left: `${(i / steps) * 100}%`,
+              left: `${position}%`,
             }}
           />
         ))}
@@ -33,7 +46,7 @@ const VerticalGrid = ({ steps, labels, className }: VerticalGridProps) => {
             key={i}
             className="text-label-assistive absolute text-xs"
             style={{
-              left: `${(i / steps) * 100}%`,
+              left: `${gridPositions[i]}%`,
               transform: 'translateX(-50%)',
             }}
           >

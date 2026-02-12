@@ -33,8 +33,8 @@ const buildLinePath = (
 const ComparisonLineChart = ({
   thisMonth,
   prevMonth,
-  width = 368,
-  height = 145,
+  width = 360,
+  height = 140,
 }: ComparisonLineChartProps) => {
   const allValues = [
     ...thisMonth.map((v) => Number(v.cumulatedAmount)),
