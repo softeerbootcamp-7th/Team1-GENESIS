@@ -1,9 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 
-import Calendar, {
-  type DateRange,
-} from '@/components/calendar/Calendar';
+import Calendar, { type DateRange } from '@/components/calendar/Calendar';
 
 import { formatDateWithDay } from '@/lib/utils';
 

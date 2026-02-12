@@ -2,7 +2,7 @@ import ReportBarGraph from '@/components/report-page/category/ReportBarGraph';
 import ReportContainer from '@/components/report-page/layout/ReportContainer';
 import ReportContent from '@/components/report-page/layout/ReportContent';
 
-import { type CategoryId,getCategoryName } from '@/types/category';
+import { type CategoryId, getCategoryName } from '@/types/category';
 
 interface ReportCategoryProps {
   data: {

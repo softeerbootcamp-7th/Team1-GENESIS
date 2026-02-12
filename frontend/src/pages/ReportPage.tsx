@@ -15,8 +15,11 @@ const ReportPage = () => {
 
   return (
     <div className="flex gap-3.5 p-3">
-      <ReportProvider currencyType={currencyType} onCurrencyTypeChange={setCurrencyType}>
-        <div className="flex flex-col justify-between" >
+      <ReportProvider
+        currencyType={currencyType}
+        onCurrencyTypeChange={setCurrencyType}
+      >
+        <div className="flex flex-col justify-between">
           <ReportMonthly />
           <ReportMyself data={myselfData} />
         </div>

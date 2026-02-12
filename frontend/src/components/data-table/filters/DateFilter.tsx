@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import Calendar, {
-  type DateRange,
-} from '@/components/calendar/Calendar';
+import Calendar, { type DateRange } from '@/components/calendar/Calendar';
 import CalendarInput from '@/components/common/CalendarInput';
 import Divider from '@/components/common/Divider';
 import Filter from '@/components/common/Filter';
