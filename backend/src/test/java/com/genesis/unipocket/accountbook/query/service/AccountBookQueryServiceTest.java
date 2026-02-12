@@ -2,16 +2,23 @@ package com.genesis.unipocket.accountbook.query.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 import com.genesis.unipocket.accountbook.query.persistence.repository.AccountBookQueryRepository;
 import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookDetailResponse;
+import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookExchangeRateResponse;
 import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookQueryResponse;
 import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookSummaryResponse;
+import com.genesis.unipocket.expense.command.application.ExchangeRateService;
 import com.genesis.unipocket.global.common.enums.CountryCode;
+import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class AccountBookQueryServiceTest {
 
 	@Mock private AccountBookQueryRepository repository;
+	@Mock private ExchangeRateService exchangeRateService;
 
 	@InjectMocks private AccountBookQueryService accountBookQueryService;
 
@@ -97,6 +105,7 @@ class AccountBookQueryServiceTest {
 						CountryCode.US,
 						CountryCode.KR,
 						10000L,
+						LocalDateTime.of(2026, 2, 12, 8, 0, 0),
 						List.of(),
 						LocalDate.now(),
 						LocalDate.now());
@@ -120,5 +129,39 @@ class AccountBookQueryServiceTest {
 						() -> accountBookQueryService.getAccountBookDetail(userId, accountBookId))
 				.isInstanceOf(BusinessException.class)
 				.hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_NOT_FOUND);
+	}
+
+	@Test
+	@DisplayName("가계부 기준/상대 국가 환율 조회 - 성공")
+	void getAccountBookExchangeRate_Success() {
+		Long accountBookId = 1L;
+		AccountBookDetailResponse accountBookDetailResponse =
+				new AccountBookDetailResponse(
+						accountBookId,
+						"Title",
+						CountryCode.US,
+						CountryCode.KR,
+						10000L,
+						LocalDateTime.of(2026, 2, 12, 8, 0, 0),
+						List.of(),
+						LocalDate.now(),
+						LocalDate.now());
+
+		given(repository.findDetailById(userId, accountBookId))
+				.willReturn(Optional.of(accountBookDetailResponse));
+		given(
+						exchangeRateService.getExchangeRate(
+								eq(CurrencyCode.KRW),
+								eq(CurrencyCode.USD),
+								any(LocalDateTime.class)))
+				.willReturn(BigDecimal.valueOf(0.00075));
+
+		AccountBookExchangeRateResponse result =
+				accountBookQueryService.getAccountBookExchangeRate(userId, accountBookId);
+
+		assertThat(result.baseCountryCode()).isEqualTo(CountryCode.KR);
+		assertThat(result.localCountryCode()).isEqualTo(CountryCode.US);
+		assertThat(result.exchangeRate()).isEqualByComparingTo("0.00075");
+		assertThat(result.budgetCreatedAt()).isEqualTo(LocalDateTime.of(2026, 2, 12, 8, 0, 0));
 	}
 }
