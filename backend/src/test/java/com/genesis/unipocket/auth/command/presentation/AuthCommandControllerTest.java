@@ -11,6 +11,7 @@ import com.genesis.unipocket.auth.command.application.JwtProvider;
 import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
 import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
+import com.genesis.unipocket.auth.common.config.JwtProperties;
 import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
 import com.genesis.unipocket.auth.common.dto.LoginResult;
 import com.genesis.unipocket.global.config.OAuth2Properties;
@@ -28,15 +29,25 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(AuthCommandController.class)
 class AuthCommandControllerTest {
 
-	@Autowired private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-	@MockBean private AuthService authService;
-	@MockBean private CookieUtil cookieUtil;
-	@MockBean private OAuthAuthorizeFacade authorizeFacade;
-	@MockBean private UserLoginFacade loginFacade;
-	@MockBean private JpaMetamodelMappingContext jpaMetamodelMappingContext;
-	@MockBean private JwtProvider jwtProvider;
-	@MockBean private TokenBlacklistService tokenBlacklistService;
+	@MockBean
+	private AuthService authService;
+	@MockBean
+	private CookieUtil cookieUtil;
+	@MockBean
+	private OAuthAuthorizeFacade authorizeFacade;
+	@MockBean
+	private UserLoginFacade loginFacade;
+	@MockBean
+	private JpaMetamodelMappingContext jpaMetamodelMappingContext;
+	@MockBean
+	private JwtProvider jwtProvider;
+	@MockBean
+	private TokenBlacklistService tokenBlacklistService;
+	@MockBean
+	private JwtProperties jwtProperties;
 
 	@Test
 	@DisplayName("토큰 재발급 성공")
@@ -46,8 +57,7 @@ class AuthCommandControllerTest {
 		String newAccessToken = "new_access_token";
 		String newRefreshToken = "new_refresh_token";
 
-		AuthService.TokenPair tokenPair =
-				new AuthService.TokenPair(newAccessToken, newRefreshToken);
+		AuthService.TokenPair tokenPair = new AuthService.TokenPair(newAccessToken, newRefreshToken);
 
 		given(authService.reissue(refreshToken)).willReturn(tokenPair);
 
@@ -81,9 +91,9 @@ class AuthCommandControllerTest {
 
 		// when & then
 		mockMvc.perform(
-						post("/api/auth/logout")
-								.cookie(new Cookie("access_token", accessToken))
-								.cookie(new Cookie("refresh_token", refreshToken)))
+				post("/api/auth/logout")
+						.cookie(new Cookie("access_token", accessToken))
+						.cookie(new Cookie("refresh_token", refreshToken)))
 				.andExpect(status().isOk());
 
 		verify(authService).logout(accessToken, refreshToken);
@@ -125,21 +135,20 @@ class AuthCommandControllerTest {
 		String refreshToken = "new_refresh_token";
 		Long expiresIn = 3600L;
 
-		LoginResult loginResult =
-				LoginResult.builder()
-						.accessToken(accessToken)
-						.refreshToken(refreshToken)
-						.expiresIn(expiresIn)
-						.build();
+		LoginResult loginResult = LoginResult.builder()
+				.accessToken(accessToken)
+				.refreshToken(refreshToken)
+				.expiresIn(expiresIn)
+				.build();
 
 		given(loginFacade.login(eq(OAuth2Properties.ProviderType.KAKAO), eq(code), eq(state)))
 				.willReturn(loginResult);
 
 		// when & then
 		mockMvc.perform(
-						get("/api/auth/oauth2/callback/{provider}", provider)
-								.param("code", code)
-								.param("state", state))
+				get("/api/auth/oauth2/callback/{provider}", provider)
+						.param("code", code)
+						.param("state", state))
 				.andExpect(status().is3xxRedirection());
 
 		verify(loginFacade).login(eq(OAuth2Properties.ProviderType.KAKAO), eq(code), eq(state));
