@@ -66,7 +66,7 @@ const ReportMyself = ({ data }: ReportMyselfProps) => {
           lastMonthCount={data.lastMonthCount}
           maxValue={maxValue}
           thisMonthItem={data.thisMonthItem}
-          prevMonthItem={data.prevMonthItem}
+          lastMonthItem={data.prevMonthItem}
         />
       </ReportContent>
     </ReportContainer>

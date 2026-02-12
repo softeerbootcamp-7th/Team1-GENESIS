@@ -9,7 +9,7 @@ interface ReportLineGraphProps {
   lastMonthCount: number;
   maxValue: number;
   thisMonthItem: { date: string; cumulatedAmount: string }[];
-  prevMonthItem: { date: string; cumulatedAmount: string }[];
+  lastMonthItem: { date: string; cumulatedAmount: string }[];
 }
 const ReportLineGraph = ({
   thisMonthLabel,
@@ -18,7 +18,7 @@ const ReportLineGraph = ({
   lastMonthCount,
   maxValue,
   thisMonthItem,
-  prevMonthItem,
+  lastMonthItem,
 }: ReportLineGraphProps) => {
   const maxDays = Math.max(thisMonthCount, lastMonthCount);
   const thisMonthLastDay = thisMonthCount;
@@ -40,7 +40,7 @@ const ReportLineGraph = ({
             lastMonthCount={lastMonthCount}
             maxValue={maxValue}
             thisMonth={thisMonthItem}
-            prevMonth={prevMonthItem}
+            lastMonth={lastMonthItem}
           />
         </div>
       </div>

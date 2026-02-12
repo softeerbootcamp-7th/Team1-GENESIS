@@ -6,7 +6,7 @@ import {
 
 interface ComparisonLineChartProps {
   thisMonth: ChartItem[];
-  prevMonth: ChartItem[];
+  lastMonth: ChartItem[];
   thisMonthCount: number;
   lastMonthCount: number;
   maxValue: number;
@@ -18,7 +18,7 @@ const ComparisonLineChart = ({
   thisMonthCount,
   lastMonthCount,
   thisMonth,
-  prevMonth,
+  lastMonth,
   maxValue,
   width = 360,
   height = 140,
@@ -26,8 +26,8 @@ const ComparisonLineChart = ({
   const maxDay = Math.max(thisMonthCount, lastMonthCount);
 
   const thisPath = buildLinePath(thisMonth, width, height, maxValue, maxDay);
-  const prevAreaPath = buildAreaPath(
-    prevMonth,
+  const lastAreaPath = buildAreaPath(
+    lastMonth,
     width,
     height,
     maxValue,
@@ -47,9 +47,9 @@ const ComparisonLineChart = ({
           <stop offset="100%" stopColor="rgba(255, 255, 255, 0.50)" />
         </linearGradient>
       </defs>
-      <path d={prevAreaPath} fill="url(#graphGradient)" stroke="none" />
+      <path d={lastAreaPath} fill="url(#graphGradient)" stroke="none" />
       <path
-        d={buildLinePath(prevMonth, width, height, maxValue, maxDay)}
+        d={buildLinePath(lastMonth, width, height, maxValue, maxDay)}
         fill="none"
         stroke="#C2C4C8"
         strokeWidth={2.5}
