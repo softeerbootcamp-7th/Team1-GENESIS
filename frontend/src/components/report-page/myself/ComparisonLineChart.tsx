@@ -43,9 +43,24 @@ const ComparisonLineChart = ({
   const thisPath = buildLinePath(thisMonth, width, height, maxValue, maxDay);
   const prevPath = buildLinePath(prevMonth, width, height, maxValue, maxDay);
 
+  const thisMonthWidth = (thisMonth.length / maxDay) * width;
+
   return (
     <svg width={width} height={height}>
-      <path d={thisPath} fill="none" stroke="#44A3B6" strokeWidth={2.5} />
+      <defs>
+        <clipPath id="thisMonthClip">
+          <rect x="0" y="0" width={thisMonthWidth} height={height} />
+        </clipPath>
+      </defs>
+      <path
+        d={thisPath}
+        fill="none"
+        stroke="#44A3B6"
+        strokeWidth={2.5}
+        strokeDasharray="1000"
+        className="animate-draw-path"
+        clipPath="url(#thisMonthClip)"
+      />
       <path d={prevPath} fill="none" stroke="#C2C4C8" strokeWidth={2.5} />
     </svg>
   );
