@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genesis.unipocket.exchange.command.persistence.entity.ExchangeRate;
 import com.genesis.unipocket.exchange.command.persistence.repository.ExchangeRateRepository;
 import com.genesis.unipocket.exchange.query.application.ExchangeRateQueryService;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,6 +36,7 @@ class ExchangeRateCommandServiceImplTest {
 	@Mock private ExchangeRateRepository exchangeRateRepository;
 	@Mock private ExchangeRateQueryService exchangeRateQueryService;
 	@Mock private RestTemplate restTemplate;
+	@Spy private ObjectMapper objectMapper = new ObjectMapper();
 
 	@InjectMocks private ExchangeRateCommandServiceImpl exchangeRateCommandService;
 
