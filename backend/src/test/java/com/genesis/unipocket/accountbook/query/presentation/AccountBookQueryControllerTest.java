@@ -87,7 +87,7 @@ class AccountBookQueryControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(accountBookId))
 				.andExpect(jsonPath("$.title").value("메인 가계부"))
-				.andExpect(jsonPath("$.budget").value(300000))
+				.andExpect(jsonPath("$.budget").value("300000.00"))
 				.andExpect(jsonPath("$.budgetCreatedAt").value("2026-01-01T09:00:00"));
 	}
 
@@ -114,7 +114,7 @@ class AccountBookQueryControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.baseCountryCode").value("KR"))
 				.andExpect(jsonPath("$.localCountryCode").value("JP"))
-				.andExpect(jsonPath("$.exchangeRate").value(0.11))
+				.andExpect(jsonPath("$.exchangeRate").value("0.11"))
 				.andExpect(jsonPath("$.budgetCreatedAt").value("2026-02-12T11:30:00"));
 	}
 

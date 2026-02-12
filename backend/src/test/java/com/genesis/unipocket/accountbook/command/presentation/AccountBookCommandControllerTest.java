@@ -200,8 +200,8 @@ class AccountBookCommandControllerTest {
 				.andExpect(jsonPath("$.accountBookId").value(accountBookId))
 				.andExpect(jsonPath("$.baseCountryCode").value("KR"))
 				.andExpect(jsonPath("$.localCountryCode").value("JP"))
-				.andExpect(jsonPath("$.budget").value(1000.5))
-				.andExpect(jsonPath("$.exchangeRate").value(0.11));
+				.andExpect(jsonPath("$.budget").value("1000.50"))
+				.andExpect(jsonPath("$.exchangeRate").value("0.11"));
 	}
 
 	private void mockAuthentication(String accessToken, UUID userId) {
