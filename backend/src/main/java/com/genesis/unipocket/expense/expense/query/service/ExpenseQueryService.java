@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -45,17 +46,33 @@ public class ExpenseQueryService {
 
 		accountBookOwnershipValidator.validateOwnership(accountBookId, userId.toString());
 
-		for (Sort.Order order : pageable.getSort()) {
-			String property = order.getProperty();
-			if (!ALLOWED_SORT_PROPERTIES.contains(property)) {
-				throw new BusinessException(ErrorCode.EXPENSE_INVALID_SORT);
-			}
-		}
+		Sort refinedSort =
+				Sort.by(
+						pageable.getSort().stream()
+								.map(
+										order -> {
+											if (!ALLOWED_SORT_PROPERTIES.contains(
+													order.getProperty())) {
+												throw new BusinessException(
+														ErrorCode.EXPENSE_INVALID_SORT);
+											}
+
+											if ("baseCurrencyAmount".equals(order.getProperty())) {
+												return new Sort.Order(
+														order.getDirection(),
+														"exchangeInfo.baseCurrencyAmount");
+											}
+											return order;
+										})
+								.toList());
+
+		Pageable refinedPageable =
+				PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), refinedSort);
 
 		Page<ExpenseEntity> entities;
 
 		if (filter == null || isFilterEmpty(filter)) {
-			entities = expenseRepository.findByAccountBookId(accountBookId, pageable);
+			entities = expenseRepository.findByAccountBookId(accountBookId, refinedPageable);
 		} else {
 			entities =
 					expenseRepository.findByFilters(
@@ -71,7 +88,7 @@ public class ExpenseQueryService {
 							filter.maxAmount(),
 							filter.merchantName(),
 							filter.travelId(),
-							pageable);
+							refinedPageable);
 		}
 
 		return entities.map(ExpenseDto::from);
