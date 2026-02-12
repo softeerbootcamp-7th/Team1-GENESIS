@@ -1,13 +1,21 @@
+import { clsx } from 'clsx';
+
 interface VerticalGridProps {
   steps: number;
   labels: (number | string)[];
+  className?: string;
 }
 
-const VerticalGrid = ({ steps, labels }: VerticalGridProps) => {
+const VerticalGrid = ({ steps, labels, className }: VerticalGridProps) => {
   if (steps <= 0) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-0 left-14.75 flex h-full flex-col gap-4 pr-5">
+    <div
+      className={clsx(
+        'pointer-events-none absolute inset-0 left-14.75 flex h-full flex-col gap-4 pr-5',
+        className,
+      )}
+    >
       <div className="relative flex-1">
         {Array.from({ length: steps + 1 }).map((_, i) => (
           <div
