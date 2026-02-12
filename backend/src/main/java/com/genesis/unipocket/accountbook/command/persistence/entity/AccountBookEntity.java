@@ -60,9 +60,6 @@ public class AccountBookEntity extends BaseEntity {
 	@Column(name = "budget_created_at")
 	private LocalDateTime budgetCreatedAt;
 
-	@Column(name = "budget_created_at")
-	private LocalDateTime budgetCreatedAt;
-
 	@Column(name = "start_date", nullable = false, columnDefinition = "DATE")
 	private LocalDate startDate;
 
