@@ -56,7 +56,7 @@
     }
   }
 
-  @keyframes drawPath {
+  @keyframes draw-path {
     from {
       stroke-dashoffset: 1000;
     }
@@ -71,5 +71,5 @@
   --animate-ripple: ripple 2s ease-in-out infinite;
   --animate-grow: scale-up 0.3s ease-in-out forwards;
   --animate-expand-width: expand-width ease-out forwards;
-  --animate-draw-path: drawPath 2s ease-in-out forwards;
+  --animate-draw-path: draw-path 2s ease-in-out forwards;
 }
