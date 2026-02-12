@@ -1,12 +1,13 @@
-package com.genesis.unipocket.expense.command.presentation;
+package com.genesis.unipocket.expense.expense.command.presentation;
 
 import com.genesis.unipocket.auth.common.annotation.LoginUser;
-import com.genesis.unipocket.expense.command.application.result.ExpenseResult;
-import com.genesis.unipocket.expense.command.facade.ExpenseCommandFacade;
-import com.genesis.unipocket.expense.command.presentation.request.ExpenseManualCreateRequest;
-import com.genesis.unipocket.expense.command.presentation.request.ExpenseUpdateRequest;
-import com.genesis.unipocket.expense.command.presentation.response.ExpenseManualCreateResponse;
-import com.genesis.unipocket.expense.command.presentation.response.ExpenseUpdateResponse;
+import com.genesis.unipocket.expense.expense.command.application.result.ExpenseResult;
+import com.genesis.unipocket.expense.expense.command.facade.ExpenseCommandFacade;
+import com.genesis.unipocket.expense.expense.command.presentation.request.ExpenseManualCreateRequest;
+import com.genesis.unipocket.expense.expense.command.presentation.request.ExpenseUpdateRequest;
+import com.genesis.unipocket.expense.expense.command.presentation.response.ExpenseManualCreateResponse;
+import com.genesis.unipocket.expense.expense.command.presentation.response.ExpenseUpdateResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class ExpenseCommandController {
 
 	private final ExpenseCommandFacade expenseFacade;
 
+	@Operation(summary = "지출내역 수기작성 생성 API", description = "지출내역을 accountBookId 하위에 수기 작성하여 하나 생성합니다.")
 	@PostMapping("/account-books/{accountBookId}/expenses/manual")
 	public ResponseEntity<ExpenseManualCreateResponse> createExpenseManual(
 			@LoginUser UUID userId,
@@ -39,6 +41,7 @@ public class ExpenseCommandController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
+	@Operation(summary = "지출내역 수정 API", description = "지출내역 하나에 대한 전체 데이터 수정을 합니다. 전체 데이터가 덮어씌워지며, 기존의 데이터는 남지 않습니다.")
 	@PutMapping("/account-books/{accountBookId}/expenses/{expenseId}")
 	public ResponseEntity<ExpenseUpdateResponse> updateExpense(
 			@LoginUser UUID userId,
@@ -52,6 +55,7 @@ public class ExpenseCommandController {
 		return ResponseEntity.ok(response);
 	}
 
+	@Operation(summary = "지출내역 삭제 API", description = "accountBookId 하위의 지출내역 하나를 삭제합니다.")
 	@DeleteMapping("/account-books/{accountBookId}/expenses/{expenseId}")
 	public ResponseEntity<Void> deleteExpense(
 			@LoginUser UUID userId,
