@@ -29,7 +29,10 @@ public class OAuthLoginStateService {
 	public void saveLoginState(String state, ProviderType providerType) {
 		redisTemplate
 				.opsForValue()
-				.set(KEY_PREFIX + state, providerType.name(), jwtProperties.getOauthStateTtlDuration());
+				.set(
+						KEY_PREFIX + state,
+						providerType.name(),
+						jwtProperties.getOauthStateTtlDuration());
 	}
 
 	public void validateState(String state, ProviderType providerType) {

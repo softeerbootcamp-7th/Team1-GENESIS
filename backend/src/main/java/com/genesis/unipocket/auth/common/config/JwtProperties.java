@@ -19,39 +19,39 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
 
-    private String secret;
+	private String secret;
 
-    /** Access Token 만료 시간 (예: 30m) */
-    private Duration accessTokenExpiration;
+	/** Access Token 만료 시간 (예: 30m) */
+	private Duration accessTokenExpiration;
 
-    /** Refresh Token 만료 시간 (예: 10d) */
-    private Duration refreshTokenExpiration;
+	/** Refresh Token 만료 시간 (예: 10d) */
+	private Duration refreshTokenExpiration;
 
-    /** OAuth State TTL (예: 10m) */
-    private Duration oauthStateTtl;
+	/** OAuth State TTL (예: 10m) */
+	private Duration oauthStateTtl;
 
-    /** Access Token 만료 시간 (밀리초) */
-    public long getAccessTokenExpirationMs() {
-        return accessTokenExpiration.toMillis();
-    }
+	/** Access Token 만료 시간 (밀리초) */
+	public long getAccessTokenExpirationMs() {
+		return accessTokenExpiration.toMillis();
+	}
 
-    /** Refresh Token 만료 시간 (밀리초) */
-    public long getRefreshTokenExpirationMs() {
-        return refreshTokenExpiration.toMillis();
-    }
+	/** Refresh Token 만료 시간 (밀리초) */
+	public long getRefreshTokenExpirationMs() {
+		return refreshTokenExpiration.toMillis();
+	}
 
-    /** Access Token 만료 시간 (초) */
-    public int getAccessTokenExpirationSeconds() {
-        return (int) accessTokenExpiration.toSeconds();
-    }
+	/** Access Token 만료 시간 (초) */
+	public int getAccessTokenExpirationSeconds() {
+		return (int) accessTokenExpiration.toSeconds();
+	}
 
-    /** Refresh Token 만료 시간 (초) */
-    public int getRefreshTokenExpirationSeconds() {
-        return (int) refreshTokenExpiration.toSeconds();
-    }
+	/** Refresh Token 만료 시간 (초) */
+	public int getRefreshTokenExpirationSeconds() {
+		return (int) refreshTokenExpiration.toSeconds();
+	}
 
-    /** OAuth State TTL (Duration) */
-    public Duration getOauthStateTtlDuration() {
-        return oauthStateTtl;
-    }
+	/** OAuth State TTL (Duration) */
+	public Duration getOauthStateTtlDuration() {
+		return oauthStateTtl;
+	}
 }

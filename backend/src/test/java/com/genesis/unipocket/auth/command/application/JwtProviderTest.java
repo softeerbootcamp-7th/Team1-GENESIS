@@ -19,7 +19,8 @@ import org.junit.jupiter.api.Test;
 class JwtProviderTest {
 
 	private JwtProvider jwtProvider;
-	private final String testSecret = "test-secret-key-must-be-at-least-32-characters-long-for-hs256";
+	private final String testSecret =
+			"test-secret-key-must-be-at-least-32-characters-long-for-hs256";
 	private final long accessTokenExpirationMs = 1800000L; // 30분
 
 	@BeforeEach
