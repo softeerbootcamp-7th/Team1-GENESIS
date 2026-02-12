@@ -3,6 +3,7 @@ package com.genesis.unipocket.auth.command.presentation;
 import com.genesis.unipocket.auth.command.application.AuthService;
 import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
+import com.genesis.unipocket.auth.common.config.JwtProperties;
 import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
 import com.genesis.unipocket.auth.common.dto.LoginResult;
 import com.genesis.unipocket.global.config.OAuth2Properties;
@@ -35,17 +36,18 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Tag(name = "인증 기능")
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthCommandController {
+
+	private static final String ACCESS_TOKEN_COOKIE_PATH = "/";
+	private static final String REFRESH_TOKEN_COOKIE_PATH = "/auth";
 
 	private final AuthService authService;
 	private final CookieUtil cookieUtil;
 	private final OAuthAuthorizeFacade authorizeFacade;
 	private final UserLoginFacade loginFacade;
-
-	@Value("${jwt.access-token-expiration}")
-	private long accessTokenExpirationMs;
+	private final JwtProperties jwtProperties;
 
 	@Value("${app.frontend.url}")
 	private String frontendUrl;
@@ -66,11 +68,16 @@ public class AuthCommandController {
 				response,
 				"access_token",
 				tokenPair.accessToken(),
-				(int) (accessTokenExpirationMs / 1000));
+				jwtProperties.getAccessTokenExpirationSeconds(),
+				ACCESS_TOKEN_COOKIE_PATH);
 
 		// Refresh Token 쿠키 갱신
 		cookieUtil.addCookie(
-				response, "refresh_token", tokenPair.refreshToken(), 10 * 24 * 60 * 60);
+				response,
+				"refresh_token",
+				tokenPair.refreshToken(),
+				jwtProperties.getRefreshTokenExpirationSeconds(),
+				REFRESH_TOKEN_COOKIE_PATH);
 
 		return ResponseEntity.ok().build();
 	}
@@ -88,8 +95,8 @@ public class AuthCommandController {
 		authService.logout(accessToken, refreshToken);
 
 		// 쿠키 삭제
-		cookieUtil.deleteCookie(response, "access_token");
-		cookieUtil.deleteCookie(response, "refresh_token");
+		cookieUtil.deleteCookie(response, "access_token", ACCESS_TOKEN_COOKIE_PATH);
+		cookieUtil.deleteCookie(response, "refresh_token", REFRESH_TOKEN_COOKIE_PATH);
 	}
 
 	/**
@@ -127,21 +134,19 @@ public class AuthCommandController {
 				response,
 				"access_token",
 				loginResponse.getAccessToken(),
-				loginResponse.getExpiresIn().intValue());
+				loginResponse.getExpiresIn().intValue(),
+				ACCESS_TOKEN_COOKIE_PATH);
 
-		// Refresh Token 쿠키 저장 (10일)
+		// Refresh Token 쿠키 저장
 		cookieUtil.addCookie(
-				response, "refresh_token", loginResponse.getRefreshToken(), 10 * 24 * 60 * 60);
+				response,
+				"refresh_token",
+				loginResponse.getRefreshToken(),
+				jwtProperties.getRefreshTokenExpirationSeconds(),
+				REFRESH_TOKEN_COOKIE_PATH);
 
 		String redirectUrl = createRedirectUrl();
 		response.sendRedirect(redirectUrl);
-	}
-
-	/**
-	 * Access Token 만료 시간 (초) 계산
-	 */
-	private long accessTokenExpiresIn() {
-		return accessTokenExpirationMs / 1000;
 	}
 
 	/**
