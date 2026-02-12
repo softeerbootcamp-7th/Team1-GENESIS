@@ -25,7 +25,7 @@ const FolderCard = ({
     'M12.3657 1.52247C12.5283 1.90441 12.9032 2.15234 13.3183 2.15234H21.9217C22.4935 2.15234 22.957 2.61586 22.957 3.18764V20.9647C22.957 21.5365 22.4935 22 21.9217 22H1.03529C0.463516 22 0 21.5365 0 20.9647V1.03529C0 0.463517 0.463517 0 1.03529 0H11.0332C11.4483 0 11.8233 0.247929 11.9858 0.629873L12.3657 1.52247Z';
 
   return (
-    <div className="flex w-46.5 flex-col items-center gap-3">
+    <div className="flex w-46.5 flex-col items-center gap-[4.5]">
       <div className="hover:animate-grow rounded-modal-16 bg-cool-neutral-99 border-line-normal-neutral relative cursor-pointer border p-2 transition-transform">
         <svg
           viewBox="0 0 23 22"
