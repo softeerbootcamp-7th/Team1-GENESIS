@@ -138,6 +138,39 @@ public class WidgetQueryRepository {
 				.getResultList();
 	}
 
+	// ── 웗별 지출내역 검색 메서드 ──────────────────────
+
+	public BigDecimal findMonthlyTotalByAccountBookIdAndMonth(
+			Long accountBookId, int year, int month) {
+		return em.createQuery(
+						"SELECT COALESCE(SUM(e.exchangeInfo.baseCurrencyAmount), 0)"
+								+ " FROM ExpenseEntity e"
+								+ " WHERE e.accountBookId = :accountBookId"
+								+ " AND YEAR(e.occurredAt) = :year"
+								+ " AND MONTH(e.occurredAt) = :month",
+						BigDecimal.class)
+				.setParameter("accountBookId", accountBookId)
+				.setParameter("year", year)
+				.setParameter("month", month)
+				.getSingleResult();
+	}
+
+	public BigDecimal findAverageMonthlySpentByMonth(int year, int month) {
+		Object result =
+				em.createNativeQuery(
+								"SELECT COALESCE(AVG(sub.total), 0) FROM ("
+										+ "SELECT SUM(e.base_currency_amount) AS total"
+										+ " FROM expenses e"
+										+ " WHERE YEAR(e.occurred_at) = :year"
+										+ " AND MONTH(e.occurred_at) = :month"
+										+ " GROUP BY e.account_book_id"
+										+ ") sub")
+						.setParameter("year", year)
+						.setParameter("month", month)
+						.getSingleResult();
+		return result instanceof BigDecimal bd ? bd : new BigDecimal(result.toString());
+	}
+
 	// ── PAYMENT ─────────────────────────────────────────
 
 	public List<Object[]> findPaymentMethodSpentByAccountBookId(Long accountBookId) {

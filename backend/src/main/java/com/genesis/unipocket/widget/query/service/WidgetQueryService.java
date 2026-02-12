@@ -16,7 +16,6 @@ import com.genesis.unipocket.widget.query.persistence.response.CategoryWidgetRes
 import com.genesis.unipocket.widget.query.persistence.response.CategoryWidgetResponse.CategoryItem;
 import com.genesis.unipocket.widget.query.persistence.response.CurrencyWidgetResponse;
 import com.genesis.unipocket.widget.query.persistence.response.CurrencyWidgetResponse.CurrencyItem;
-import com.genesis.unipocket.widget.query.persistence.response.MonthlyWidgetResponse;
 import com.genesis.unipocket.widget.query.persistence.response.PaymentWidgetResponse;
 import com.genesis.unipocket.widget.query.persistence.response.PaymentWidgetResponse.PaymentItem;
 import com.genesis.unipocket.widget.query.persistence.response.PeriodWidgetResponse;
