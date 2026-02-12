@@ -22,7 +22,6 @@ import com.genesis.unipocket.widget.query.persistence.response.PeriodWidgetRespo
 import com.genesis.unipocket.widget.query.persistence.response.PeriodWidgetResponse.PeriodItem;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
