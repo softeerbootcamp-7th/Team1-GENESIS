@@ -22,6 +22,9 @@ public interface FileRepository extends JpaRepository<File, Long> {
 	 */
 	boolean existsByS3Key(String s3Key);
 
+	@Query("SELECT f.s3Key FROM File f WHERE f.s3Key IS NOT NULL")
+	List<String> findAllS3Keys();
+
 	/**
 	 * 메타 ID로 파일 목록 조회
 	 */
