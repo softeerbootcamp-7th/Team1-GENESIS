@@ -25,17 +25,13 @@ interface ReportMyselfProps {
 
 const ReportMyself = ({ data }: ReportMyselfProps) => {
   const { currencyType } = useReportContext();
-  const localCountryCode = useAccountBookStore(
-    (state) => state.accountBook?.localCountryCode,
-  ) as CountryCode;
-  const baseCountryCode = useAccountBookStore(
-    (state) => state.accountBook?.baseCountryCode,
+  const countryCode = useAccountBookStore((state) =>
+    currencyType === 'LOCAL'
+      ? state.accountBook?.localCountryCode
+      : state.accountBook?.baseCountryCode,
   ) as CountryCode;
 
-  const unit =
-    currencyType === 'LOCAL'
-      ? getCountryInfo(localCountryCode)?.currencyUnitKor || ''
-      : getCountryInfo(baseCountryCode)?.currencyUnitKor || '';
+  const unit = getCountryInfo(countryCode)?.currencyUnitKor || '';
 
   const maxValue = Math.max(
     Number(data.totalSpent.lastMonthTotal),
