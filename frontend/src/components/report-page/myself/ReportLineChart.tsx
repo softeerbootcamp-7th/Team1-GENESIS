@@ -4,7 +4,7 @@ import {
   type ChartItem,
 } from '@/components/report-page/myself/buildPath';
 
-interface ComparisonLineChartProps {
+interface ReportLineChartProps {
   thisMonth: ChartItem[];
   lastMonth: ChartItem[];
   thisMonthCount: number;
@@ -14,7 +14,7 @@ interface ComparisonLineChartProps {
   height?: number;
 }
 
-const ComparisonLineChart = ({
+const ReportLineChart = ({
   thisMonthCount,
   lastMonthCount,
   thisMonth,
@@ -22,7 +22,7 @@ const ComparisonLineChart = ({
   maxValue,
   width = 360,
   height = 140,
-}: ComparisonLineChartProps) => {
+}: ReportLineChartProps) => {
   const maxDay = Math.max(thisMonthCount, lastMonthCount);
 
   const thisPath = buildLinePath(thisMonth, width, height, maxValue, maxDay);
@@ -67,4 +67,4 @@ const ComparisonLineChart = ({
   );
 };
 
-export default ComparisonLineChart;
+export default ReportLineChart;
