@@ -23,6 +23,7 @@ const ReportPage = () => {
           <ReportMonthly />
           <ReportMyself data={myselfData} />
         </div>
+
         <ReportCategory data={categoryData} />
       </ReportProvider>
     </div>

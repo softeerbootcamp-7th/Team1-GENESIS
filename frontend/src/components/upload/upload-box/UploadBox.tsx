@@ -3,9 +3,12 @@ import { clsx } from 'clsx';
 
 import { useDragAndDrop } from '@/hooks/useDragAndDrop';
 
-import { Icons } from '@/assets';
+import {
+  uploadPolicy,
+  useFileValidator,
+} from '@/components/upload/upload-box/useFileValidator';
 
-import { uploadPolicy, useFileValidator } from './useFileValidator';
+import { Icons } from '@/assets';
 
 interface UploadBoxProps {
   type: 'image' | 'file';

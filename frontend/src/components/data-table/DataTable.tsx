@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { type Cell, flexRender, type Row } from '@tanstack/react-table';
 
+import { useDataTable } from '@/components/data-table/context';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
@@ -10,8 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-import { useDataTable } from './context';
 
 interface DataTableProps<TData> {
   groupBy?: (row: TData) => string;

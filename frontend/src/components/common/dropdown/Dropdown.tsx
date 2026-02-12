@@ -3,8 +3,8 @@ import { clsx } from 'clsx';
 
 import { useClickOutside } from '@/hooks/useClickOutside';
 
-import Filter from '../Filter';
-import OptionItem from './OptionItem';
+import OptionItem from '@/components/common/dropdown/OptionItem';
+import Filter from '@/components/common/Filter';
 
 interface Option {
   id: number;
@@ -50,7 +50,12 @@ const DropDown = ({
 
   return (
     <div ref={dropdownRef} className="relative inline-block w-full">
-      <Filter isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} size={size}>
+      <Filter
+        isOpen={isOpen}
+        onClick={() => setIsOpen((v) => !v)}
+        size={size}
+        className="w-full"
+      >
         {selectedName || options?.[0].name}
       </Filter>
 

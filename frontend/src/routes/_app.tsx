@@ -15,7 +15,7 @@ function AppLayout() {
       <Menu />
       <div className="flex flex-1 flex-col">
         <Header />
-        <main className="flex-1 overflow-hidden">
+        <main className="flex flex-1 flex-col overflow-hidden">
           <Outlet />
         </main>
       </div>

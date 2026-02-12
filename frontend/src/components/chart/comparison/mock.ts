@@ -1,4 +1,4 @@
-import { type CountryCode, countryCode } from '@/data/countryCode';
+import { COUNTRY_CODE, type CountryCode } from '@/data/countryCode';
 
 type ComparisonData = {
   countryCode: CountryCode;
@@ -15,12 +15,12 @@ export type ComparisonStatisticsResponse = {
 export const mockData: ComparisonStatisticsResponse = {
   month: 12,
   base: {
-    countryCode: countryCode[0] as CountryCode, // 'KR'
+    countryCode: COUNTRY_CODE.KR,
     average: 2311465,
     me: 2002876,
   },
   local: {
-    countryCode: countryCode[12] as CountryCode, // 'US'
+    countryCode: COUNTRY_CODE.US,
     average: 2234,
     me: 2000,
   },

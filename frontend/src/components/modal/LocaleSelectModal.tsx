@@ -7,7 +7,7 @@ import LocaleConfirmModal from '@/components/modal/LocaleConfirmModal';
 
 import type { CurrencyType } from '@/types/currency';
 
-import { type CountryCode, countryCode } from '@/data/countryCode';
+import { COUNTRY_CODE, type CountryCode } from '@/data/countryCode';
 import { getCountryInfo } from '@/lib/country';
 
 interface CountryItemProps {
@@ -122,21 +122,20 @@ const LocaleSelectModal = ({
           className="bg-fill-normal rounded-modal-10 h-15 w-full"
         />
         <div className="flex flex-1 flex-col overflow-y-auto pb-50 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {countryCode.map((code, index) => {
-            const data = getCountryInfo(code);
-
+          {Object.values(COUNTRY_CODE).map((countryCode, index, arr) => {
+            const data = getCountryInfo(countryCode);
             if (!data) return null;
 
             return (
               <CountryItem
-                key={code}
-                value={code}
+                key={countryCode}
+                value={countryCode}
                 flagImg={data.imageUrl}
                 country={data.countryName}
                 currency={`${data.currencySign} ${data.currencyName}`}
-                checked={selectedCode === code}
+                checked={selectedCode === countryCode}
                 onChange={handleSelect}
-                isLast={index === countryCode.length - 1}
+                isLast={index === arr.length - 1}
               />
             );
           })}

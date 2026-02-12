@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
 
+import { CalendarDay } from '@/components/calendar/CalendarDay';
+import CalendarMonthPopover from '@/components/calendar/CalendarMonthPopover';
 import {
   DAY_NAMES,
   getCalendarDateArr,
 } from '@/components/calendar/date.utils';
-
-import { CalendarDay } from './CalendarDay';
-import CalendarMonthPopover from './CalendarMonthPopover';
 
 type CalendarViewProps = {
   displayDate: Date;

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useDataTable } from './context';
-import type { ActiveCell } from './type';
+import { useDataTable } from '@/components/data-table/context';
+import type { ActiveCell } from '@/components/data-table/type';
 
 const DataTableCellEditor = () => {
   const { tableState } = useDataTable();

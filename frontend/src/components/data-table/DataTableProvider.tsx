@@ -8,8 +8,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-import { DataTableContext, type DataTableContextType } from './context';
-import type { TableUIAction, TableUIState } from './type';
+import {
+  DataTableContext,
+  type DataTableContextType,
+} from '@/components/data-table/context';
+import type { TableUIAction, TableUIState } from '@/components/data-table/type';
 
 const applyUpdater = <T,>(updater: Updater<T>, old: T) => {
   return typeof updater === 'function'
