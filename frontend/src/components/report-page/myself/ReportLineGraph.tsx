@@ -20,12 +20,14 @@ const ReportLineGraph = ({
         <ReportLegend label="1월" color="me" variant="line" />
         <ReportLegend label="2월" color="other" variant="line" />
       </div>
-      <div className="relative">
-        <ComparisonLineChart
-          thisMonth={thisMonthItem}
-          prevMonth={prevMonthItem}
-        />
+      <div className="relative h-38.5">
         <VerticalGrid steps={2} labels={labels} />
+        <div className="relative z-10">
+          <ComparisonLineChart
+            thisMonth={thisMonthItem}
+            prevMonth={prevMonthItem}
+          />
+        </div>
       </div>
     </div>
   );

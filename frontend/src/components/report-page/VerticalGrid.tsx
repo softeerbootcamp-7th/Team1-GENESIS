@@ -12,7 +12,7 @@ const VerticalGrid = ({ steps, labels, className }: VerticalGridProps) => {
   return (
     <div
       className={clsx(
-        'pointer-events-none absolute inset-0 left-14.75 flex h-full flex-col gap-4 pr-5',
+        'pointer-events-none absolute inset-0 flex h-full flex-col gap-4 pr-5',
         className,
       )}
     >
