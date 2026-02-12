@@ -1,4 +1,4 @@
-package com.genesis.unipocket.expense.query.presentation.response;
+package com.genesis.unipocket.expense.tempexpense.query.presentation.response;
 
 /**
  * <b>가계부 전체 이미지 처리 현황 응답 DTO</b>

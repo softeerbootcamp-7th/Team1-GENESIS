@@ -1,4 +1,4 @@
-package com.genesis.unipocket.expense.query.presentation.response;
+package com.genesis.unipocket.expense.tempexpense.query.presentation.response;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public record FileProcessingSummaryResponse(
 		List<FileSummary> files, int totalFiles, int processedFiles, int unprocessedFiles) {
 
 	public record FileSummary(
-			Long fileId,
+			Long tempExpenseMetaId,
 			String s3Key,
 			String fileType,
 			int totalExpenses,

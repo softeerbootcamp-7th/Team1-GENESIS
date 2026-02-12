@@ -1,7 +1,7 @@
-package com.genesis.unipocket.expense.query.presentation.response;
+package com.genesis.unipocket.expense.tempexpense.query.presentation.response;
 
-import com.genesis.unipocket.expense.command.persistence.entity.expense.TemporaryExpense;
 import com.genesis.unipocket.expense.common.enums.Category;
+import com.genesis.unipocket.expense.tempexpense.command.persistence.entity.TemporaryExpense;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public record TemporaryExpenseResponse(
 		Long tempExpenseId,
-		Long fileId,
+		Long tempExpenseMetaId,
 		String merchantName,
 		Category category,
 		CurrencyCode localCountryCode,
@@ -34,7 +34,7 @@ public record TemporaryExpenseResponse(
 	public static TemporaryExpenseResponse from(TemporaryExpense entity) {
 		return new TemporaryExpenseResponse(
 				entity.getTempExpenseId(),
-				entity.getFileId(),
+				entity.getTempExpenseMetaId(),
 				entity.getMerchantName(),
 				entity.getCategory(),
 				entity.getLocalCountryCode(),
