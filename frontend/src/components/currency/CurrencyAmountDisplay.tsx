@@ -27,6 +27,18 @@ const SIZE_VARIANTS = {
     integer: 'title3-semibold',
     decimal: 'text-md font-medium',
   },
+  folder_sm: {
+    containerGap: 'gap-1',
+    symbol: 'figure-label2-small-medium',
+    integer: 'figure-label2-small-medium',
+    decimal: '',
+  },
+  folder_lg: {
+    containerGap: 'gap-1',
+    symbol: 'figure-body2-18-semibold',
+    integer: 'figure-body2-18-semibold',
+    decimal: '',
+  },
 };
 
 interface CurrencyAmountDisplayProps {
@@ -34,7 +46,8 @@ interface CurrencyAmountDisplayProps {
   amount: number;
   className?: string;
   decimalOffset?: number;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'folder_sm' | 'folder_lg';
+  variant?: 'default' | 'inverse' | 'muted';
 }
 
 const CurrencyAmountDisplay = ({
