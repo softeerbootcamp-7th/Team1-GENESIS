@@ -1,8 +1,8 @@
 import { type ReactNode } from 'react';
 
-import type { CurrencyType } from '@/types/currency';
+import { ReportContext } from '@/components/report-page/ReportContext';
 
-import { ReportContext } from './ReportContext';
+import type { CurrencyType } from '@/types/currency';
 
 interface ReportProviderProps {
   currencyType: CurrencyType;

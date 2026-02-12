@@ -1,9 +1,8 @@
 import { useState } from 'react';
 
+import { CalendarView } from '@/components/calendar/CalendarView';
 import { isSameDay } from '@/components/calendar/date.utils';
 import Icon from '@/components/common/Icon';
-
-import { CalendarView } from './CalendarView';
 
 export interface DateRange {
   startDate: Date | null;

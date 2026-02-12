@@ -4,8 +4,8 @@ import {
   ERROR_NAMES,
   getDefaultErrorMessage,
   HTTP_STATUS,
-} from './constants';
-import { ApiError } from './error';
+} from '@/api/config/constants';
+import { ApiError } from '@/api/config/error';
 
 interface customFetchParams {
   endpoint: string;

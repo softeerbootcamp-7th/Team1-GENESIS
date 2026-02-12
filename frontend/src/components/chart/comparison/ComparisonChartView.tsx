@@ -1,9 +1,10 @@
+import ComparisonCard from '@/components/chart/comparison/ComparisonCard';
+import { mockData } from '@/components/chart/comparison/mock';
+
 import { type CurrencyType } from '@/types/currency';
 
 import { formatCurrencyAmount, getCountryInfo } from '@/lib/country';
 
-import ComparisonCard from './ComparisonCard';
-import { mockData } from './mock';
 interface ComparisonChartViewProps {
   selectedId: number;
 }

@@ -3,8 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import Button, { type ButtonProps } from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
-
-import { ModalContext } from './useModalContext';
+import { ModalContext } from '@/components/modal/useModalContext';
 
 type ActionType = 'confirm' | 'next' | 'delete';
 

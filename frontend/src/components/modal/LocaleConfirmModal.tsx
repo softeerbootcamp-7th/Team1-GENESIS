@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 
+import type { ModalProps } from '@/components/modal/Modal';
+import Modal from '@/components/modal/Modal';
+
 import type { CountryCode } from '@/data/countryCode';
 import { getCountryInfo } from '@/lib/country';
-
-import type { ModalProps } from './Modal';
-import Modal from './Modal';
 
 type LocaleChangeSource = 'country' | 'currency';
 

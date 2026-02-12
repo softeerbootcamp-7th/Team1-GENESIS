@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table';
 
-import type { Expense } from './dummy';
+import type { Expense } from '@/components/landing-page/dummy';
 
 export const columns: ColumnDef<Expense>[] = [
   {

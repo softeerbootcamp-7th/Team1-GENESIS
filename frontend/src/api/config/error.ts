@@ -1,4 +1,4 @@
-import { getDefaultErrorMessage } from './constants';
+import { getDefaultErrorMessage } from '@/api/config/constants';
 
 export class ApiError extends Error {
   status: number;
