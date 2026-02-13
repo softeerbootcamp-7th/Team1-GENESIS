@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행 폴더 기능")
 @RestController
-@RequestMapping("/api/account-books/{accountBookId}/travels")
+@RequestMapping("/account-books/{accountBookId}/travels")
 @RequiredArgsConstructor
 public class TravelCommandController {
 
@@ -35,7 +35,7 @@ public class TravelCommandController {
 			@LoginUser UUID userId, @RequestBody @Valid TravelRequest request) {
 		Long travelId = travelCommandFacade.createTravel(request, userId);
 		return ResponseEntity.created(
-						URI.create("/api/account-books/{account-bookId}/travels/" + travelId))
+						URI.create("/account-books/{account-bookId}/travels/" + travelId))
 				.build();
 	}
 
