@@ -135,7 +135,6 @@ class AccountBookQueryServiceTest {
 	@DisplayName("가계부 기준/상대 국가 환율 조회 - 성공")
 	void getAccountBookExchangeRate_Success() {
 		Long accountBookId = 1L;
-		LocalDateTime before = LocalDateTime.now().minusSeconds(1);
 		AccountBookDetailResponse accountBookDetailResponse =
 				new AccountBookDetailResponse(
 						accountBookId,
@@ -163,9 +162,7 @@ class AccountBookQueryServiceTest {
 		assertThat(result.baseCountryCode()).isEqualTo(CountryCode.KR);
 		assertThat(result.localCountryCode()).isEqualTo(CountryCode.US);
 		assertThat(result.exchangeRate()).isEqualByComparingTo("0.00075");
-		assertThat(result.quotedAt())
-				.isAfterOrEqualTo(before)
-				.isBeforeOrEqualTo(LocalDateTime.now().plusSeconds(1));
+		assertThat(result.budgetCreatedAt()).isEqualTo(LocalDateTime.of(2026, 2, 12, 8, 0, 0));
 	}
 
 	@Test
@@ -199,6 +196,6 @@ class AccountBookQueryServiceTest {
 		assertThat(result.baseCountryCode()).isEqualTo(CountryCode.KR);
 		assertThat(result.localCountryCode()).isEqualTo(CountryCode.US);
 		assertThat(result.exchangeRate()).isEqualByComparingTo("0.00075");
-		assertThat(result.quotedAt()).isNotNull();
+		assertThat(result.budgetCreatedAt()).isNull();
 	}
 }

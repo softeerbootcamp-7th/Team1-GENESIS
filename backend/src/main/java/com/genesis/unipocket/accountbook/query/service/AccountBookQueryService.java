@@ -53,7 +53,7 @@ public class AccountBookQueryService {
 				accountBookDetail.baseCountryCode(),
 				accountBookDetail.localCountryCode(),
 				exchangeRate,
-				quotedAt);
+				accountBookDetail.budgetCreatedAt());
 	}
 
 	public List<AccountBookSummaryResponse> getAccountBooks(String userId) {
