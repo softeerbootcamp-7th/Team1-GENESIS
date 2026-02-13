@@ -63,6 +63,7 @@ app:
     presigned-put-expiration-seconds: ${MEDIA_PUT_EXPIRATION}
   frontend:
     url: ${FRONTEND_URL}
+    allowed-origins: ${FRONTEND_ALLOWED_ORIGINS}
   cookie:
     domain: ${COOKIE_DOMAIN}
     secure: true

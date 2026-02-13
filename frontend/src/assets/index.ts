@@ -1,11 +1,11 @@
 // 1. Bank Logos (한글 파일명 -> 영어 변수명 매핑)
-import NHBank from './bankLogos/농협.svg';
-import ShinhanBank from './bankLogos/신한.svg';
-import KakaoBank from './bankLogos/카카오뱅크.svg';
-import TossBank from './bankLogos/토스.svg';
-import TravelWallet from './bankLogos/트레블월렛.svg';
-import HanaBank from './bankLogos/하나.svg';
-import HyundaiCard from './bankLogos/현대카드.svg';
+import NHBank from '@/assets/bankLogos/농협.svg';
+import ShinhanBank from '@/assets/bankLogos/신한.svg';
+import KakaoBank from '@/assets/bankLogos/카카오뱅크.svg';
+import TossBank from '@/assets/bankLogos/토스.svg';
+import TravelWallet from '@/assets/bankLogos/트레블월렛.svg';
+import HanaBank from '@/assets/bankLogos/하나.svg';
+import HyundaiCard from '@/assets/bankLogos/현대카드.svg';
 
 export const BankLogos = {
   NH: NHBank,
@@ -17,18 +17,20 @@ export const BankLogos = {
   Hyundai: HyundaiCard,
 } as const;
 
-import Google from './authLogos/google.svg';
-import Kakao from './authLogos/kakao.svg';
+import Google from '@/assets/authLogos/google.svg';
+import Kakao from '@/assets/authLogos/kakao.svg';
+import Mingyu from '@/assets/authLogos/mingyu.svg';
 
 export const AuthLogos = {
   Google,
   Kakao,
+  Mingyu,
 } as const;
 
 // 2. Cards
-import CardDefault from './cards/Default.svg';
-import CardDefault2 from './cards/Variant2.svg';
-import CardDefault3 from './cards/Variant3.svg';
+import CardDefault from '@/assets/cards/Default.svg';
+import CardDefault2 from '@/assets/cards/Variant2.svg';
+import CardDefault3 from '@/assets/cards/Variant3.svg';
 
 export const Cards = {
   Default: CardDefault,
@@ -37,39 +39,45 @@ export const Cards = {
 } as const;
 
 // 3. Icons
-import AlertCircle from './Icons/alert-circle.svg';
-import Analytics from './Icons/analytics.svg';
-import Camera from './Icons/camera.svg';
-import CaretDown from './Icons/caret-down.svg';
-import CheckmarkCircle from './Icons/checkmark-circle.svg';
-import ChevronBack from './Icons/chevron-back.svg';
-import ChevronForward from './Icons/chevron-forward.svg';
-import Close from './Icons/close.svg';
-import CloseCircle from './Icons/close-circle.svg';
-import Edit from './Icons/edit.svg';
-import FileBox from './Icons/file-box.svg';
-import Home from './Icons/home.svg';
-import Information from './Icons/information.svg';
-import Loading from './Icons/loading.svg';
-import Logo from './Icons/logo.svg';
-import LogoText from './Icons/logo-text.svg';
-import Phone from './Icons/phone.svg';
-import Refresh from './Icons/refresh.svg';
-import Swap from './Icons/swap.svg';
-import Travel from './Icons/travel.svg';
-import UploadFile from './Icons/upload-file.svg';
+import AlertCircle from '@/assets/Icons/alert-circle.svg';
+import Analytics from '@/assets/Icons/analytics.svg';
+import Calendar from '@/assets/Icons/calendar.svg';
+import Camera from '@/assets/Icons/camera.svg';
+import CaretDown from '@/assets/Icons/caret-down.svg';
+import CheckmarkCircle from '@/assets/Icons/checkmark-circle.svg';
+import ChevronBack from '@/assets/Icons/chevron-back.svg';
+import ChevronForward from '@/assets/Icons/chevron-forward.svg';
+import Close from '@/assets/Icons/close.svg';
+import CloseButton from '@/assets/Icons/close-button.svg';
+import CloseCircle from '@/assets/Icons/close-circle.svg';
+import Edit from '@/assets/Icons/edit.svg';
+import FileBox from '@/assets/Icons/file-box.svg';
+import Home from '@/assets/Icons/home.svg';
+import Information from '@/assets/Icons/information.svg';
+import Loading from '@/assets/Icons/loading.svg';
+import Logo from '@/assets/Icons/logo.svg';
+import LogoText from '@/assets/Icons/logo-text.svg';
+import Phone from '@/assets/Icons/phone.svg';
+import Refresh from '@/assets/Icons/refresh.svg';
+import Swap from '@/assets/Icons/swap.svg';
+import SwapVertical from '@/assets/Icons/swap-vertical.svg';
+import Travel from '@/assets/Icons/travel.svg';
+import UploadFile from '@/assets/Icons/upload-file.svg';
 
 export const Icons = {
   AlertCircle,
   CloseCircle,
+  Calendar,
   ChevronBack,
   ChevronForward,
   CheckmarkCircle,
+  CloseButton,
   Logo,
   Loading,
   Analytics,
   Home,
   Travel,
+  SwapVertical,
   CaretDown,
   Close,
   Refresh,
