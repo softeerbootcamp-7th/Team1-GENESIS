@@ -33,8 +33,7 @@ class WidgetLayoutQueryServiceTest {
 		Long accountBookId = 1L;
 		List<WidgetItemQueryRes> expected =
 				List.of(
-						new WidgetItemQueryRes(
-								0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
+						new WidgetItemQueryRes(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
 						new WidgetItemQueryRes(
 								1, WidgetType.CATEGORY, CurrencyType.LOCAL, Period.MONTHLY));
 

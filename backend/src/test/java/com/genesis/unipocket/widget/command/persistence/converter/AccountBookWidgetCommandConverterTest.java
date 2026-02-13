@@ -77,7 +77,6 @@ class AccountBookWidgetCommandConverterTest {
 				.isEqualTo(new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
 		assertThat(items.get(1))
 				.isEqualTo(
-						new WidgetItem(
-								1, WidgetType.CATEGORY, CurrencyType.LOCAL, Period.MONTHLY));
+						new WidgetItem(1, WidgetType.CATEGORY, CurrencyType.LOCAL, Period.MONTHLY));
 	}
 }

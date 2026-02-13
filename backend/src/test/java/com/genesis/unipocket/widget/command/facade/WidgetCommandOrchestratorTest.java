@@ -36,9 +36,7 @@ class WidgetCommandOrchestratorTest {
 		// given
 		Long accountBookId = 1L;
 		List<WidgetItemRequest> requests =
-				List.of(
-						new WidgetItemRequest(
-								0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
+				List.of(new WidgetItemRequest(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
 
 		List<WidgetItem> expectedItems =
 				List.of(new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
@@ -48,8 +46,7 @@ class WidgetCommandOrchestratorTest {
 								cmd ->
 										cmd.accountBookId().equals(accountBookId)
 												&& cmd.items().equals(expectedItems))))
-				.thenReturn(
-						new UpdateAccountBookWidgetsResult(accountBookId, expectedItems));
+				.thenReturn(new UpdateAccountBookWidgetsResult(accountBookId, expectedItems));
 
 		// when
 		AccountBookWidgetsRes result =
@@ -58,8 +55,9 @@ class WidgetCommandOrchestratorTest {
 		// then
 		assertThat(result.items()).hasSize(1);
 		assertThat(result.items().get(0).widgetType()).isEqualTo(WidgetType.BUDGET);
-		verify(widgetCommandService).updateAccountBookWidgets(argThat(
-				cmd -> cmd.accountBookId().equals(accountBookId)));
+		verify(widgetCommandService)
+				.updateAccountBookWidgets(
+						argThat(cmd -> cmd.accountBookId().equals(accountBookId)));
 	}
 
 	@Test
@@ -88,7 +86,7 @@ class WidgetCommandOrchestratorTest {
 		// then
 		assertThat(result.items()).hasSize(1);
 		assertThat(result.items().get(0).widgetType()).isEqualTo(WidgetType.CURRENCY);
-		verify(widgetCommandService).updateTravelWidgets(argThat(
-				cmd -> cmd.travelId().equals(travelId)));
+		verify(widgetCommandService)
+				.updateTravelWidgets(argThat(cmd -> cmd.travelId().equals(travelId)));
 	}
 }

@@ -128,7 +128,8 @@ class WidgetLayoutValidatorTest {
 							new WidgetItem(0, WidgetType.CATEGORY, CurrencyType.BASE, Period.ALL),
 							new WidgetItem(1, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
 							new WidgetItem(2, WidgetType.PERIOD, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(3, WidgetType.COMPARISON, CurrencyType.BASE, Period.ALL));
+							new WidgetItem(
+									3, WidgetType.COMPARISON, CurrencyType.BASE, Period.ALL));
 
 			List<WidgetItem> result = WidgetLayoutValidator.validateAndNormalize(items);
 

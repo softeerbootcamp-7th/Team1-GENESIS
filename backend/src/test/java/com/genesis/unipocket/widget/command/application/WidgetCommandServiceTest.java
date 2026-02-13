@@ -3,8 +3,6 @@ package com.genesis.unipocket.widget.command.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.genesis.unipocket.global.common.enums.WidgetType;
@@ -49,8 +47,7 @@ class WidgetCommandServiceTest {
 			Long accountBookId = 1L;
 			List<WidgetItem> items =
 					List.of(
-							new WidgetItem(
-									0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
 							new WidgetItem(
 									1, WidgetType.CATEGORY, CurrencyType.LOCAL, Period.MONTHLY));
 
@@ -77,9 +74,7 @@ class WidgetCommandServiceTest {
 			// given
 			Long accountBookId = 1L;
 			List<WidgetItem> items =
-					List.of(
-							new WidgetItem(
-									0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
+					List.of(new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
 
 			UpdateAccountBookWidgetsCommand command =
 					new UpdateAccountBookWidgetsCommand(accountBookId, items);
@@ -92,8 +87,7 @@ class WidgetCommandServiceTest {
 
 			// then
 			InOrder inOrder = Mockito.inOrder(accountBookWidgetJpaRepository);
-			inOrder.verify(accountBookWidgetJpaRepository)
-					.deleteAllByAccountBookId(accountBookId);
+			inOrder.verify(accountBookWidgetJpaRepository).deleteAllByAccountBookId(accountBookId);
 			inOrder.verify(accountBookWidgetJpaRepository).flush();
 			inOrder.verify(accountBookWidgetJpaRepository).saveAll(any());
 		}
@@ -105,10 +99,8 @@ class WidgetCommandServiceTest {
 			Long accountBookId = 1L;
 			List<WidgetItem> items =
 					List.of(
-							new WidgetItem(
-									0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(
-									0, WidgetType.PERIOD, CurrencyType.BASE, Period.ALL));
+							new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(0, WidgetType.PERIOD, CurrencyType.BASE, Period.ALL));
 
 			UpdateAccountBookWidgetsCommand command =
 					new UpdateAccountBookWidgetsCommand(accountBookId, items);
@@ -126,16 +118,11 @@ class WidgetCommandServiceTest {
 			Long accountBookId = 1L;
 			List<WidgetItem> items =
 					List.of(
-							new WidgetItem(
-									0, WidgetType.CATEGORY, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(
-									1, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(
-									2, WidgetType.PERIOD, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(
-									3, WidgetType.COMPARISON, CurrencyType.BASE, Period.ALL),
-							new WidgetItem(
-									4, WidgetType.PAYMENT, CurrencyType.BASE, Period.ALL));
+							new WidgetItem(0, WidgetType.CATEGORY, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(1, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(2, WidgetType.PERIOD, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(3, WidgetType.COMPARISON, CurrencyType.BASE, Period.ALL),
+							new WidgetItem(4, WidgetType.PAYMENT, CurrencyType.BASE, Period.ALL));
 
 			UpdateAccountBookWidgetsCommand command =
 					new UpdateAccountBookWidgetsCommand(accountBookId, items);
@@ -151,8 +138,7 @@ class WidgetCommandServiceTest {
 		void updateAccountBookWidgets_nullDefaults_applied() {
 			// given
 			Long accountBookId = 1L;
-			List<WidgetItem> items =
-					List.of(new WidgetItem(0, WidgetType.BUDGET, null, null));
+			List<WidgetItem> items = List.of(new WidgetItem(0, WidgetType.BUDGET, null, null));
 
 			UpdateAccountBookWidgetsCommand command =
 					new UpdateAccountBookWidgetsCommand(accountBookId, items);
@@ -183,18 +169,15 @@ class WidgetCommandServiceTest {
 					List.of(
 							new WidgetItem(
 									0, WidgetType.CURRENCY, CurrencyType.LOCAL, Period.DAILY),
-							new WidgetItem(
-									1, WidgetType.PAYMENT, CurrencyType.BASE, Period.ALL));
+							new WidgetItem(1, WidgetType.PAYMENT, CurrencyType.BASE, Period.ALL));
 
-			UpdateTravelWidgetsCommand command =
-					new UpdateTravelWidgetsCommand(travelId, items);
+			UpdateTravelWidgetsCommand command = new UpdateTravelWidgetsCommand(travelId, items);
 
 			when(travelWidgetJpaRepository.saveAll(any()))
 					.thenAnswer(invocation -> invocation.getArgument(0));
 
 			// when
-			UpdateTravelWidgetsResult result =
-					widgetCommandService.updateTravelWidgets(command);
+			UpdateTravelWidgetsResult result = widgetCommandService.updateTravelWidgets(command);
 
 			// then
 			assertThat(result.travelId()).isEqualTo(travelId);
@@ -207,12 +190,9 @@ class WidgetCommandServiceTest {
 			// given
 			Long travelId = 10L;
 			List<WidgetItem> items =
-					List.of(
-							new WidgetItem(
-									0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
+					List.of(new WidgetItem(0, WidgetType.BUDGET, CurrencyType.BASE, Period.ALL));
 
-			UpdateTravelWidgetsCommand command =
-					new UpdateTravelWidgetsCommand(travelId, items);
+			UpdateTravelWidgetsCommand command = new UpdateTravelWidgetsCommand(travelId, items);
 
 			when(travelWidgetJpaRepository.saveAll(any()))
 					.thenAnswer(invocation -> invocation.getArgument(0));
