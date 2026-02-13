@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router';
+
 import Button from '@/components/common/Button';
 import FolderCard from '@/components/travel-page/FolderCard';
 
@@ -42,16 +44,18 @@ const TravelPage = () => {
       </div>
       <div className="bg-background-normal rounded-modal-8 shadow-semantic-subtle flex min-h-0 flex-1 flex-wrap gap-9 overflow-y-auto p-16">
         {folderMap.map((folder, index) => (
-          <FolderCard
-            key={index}
-            label={folder.label}
-            dateRange={folder.dateRange}
-            localCountryCode={folder.localCountryCode}
-            localCountryAmount={folder.localCountryAmount}
-            baseCountryCode={folder.baseCountryCode}
-            baseCountryAmount={folder.baseCountryAmount}
-            imageUrl={folder.imageUrl}
-          />
+          <Link to={'/travel/$id'} params={{ id: index.toString() }}>
+            <FolderCard
+              key={index}
+              label={folder.label}
+              dateRange={folder.dateRange}
+              localCountryCode={folder.localCountryCode}
+              localCountryAmount={folder.localCountryAmount}
+              baseCountryCode={folder.baseCountryCode}
+              baseCountryAmount={folder.baseCountryAmount}
+              imageUrl={folder.imageUrl}
+            />
+          </Link>
         ))}
       </div>
     </div>

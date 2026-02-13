@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import BottomSheet from '@/components/common/BottomSheet';
 import Button from '@/components/common/Button';
 import Divider from '@/components/common/Divider';
 import { DataTable } from '@/components/data-table/DataTable';
@@ -9,17 +12,28 @@ import MerchantFilter from '@/components/data-table/filters/MerchantFilter';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
-import UploadMenu from '@/components/upload/UploadMenu';
 
 import { useAccountBookStore } from '@/stores/useAccountBookStore';
 
 const TravelDetailPage = () => {
   const title = useAccountBookStore((state) => state.accountBook?.title);
+  const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
 
   const data = getData();
   return (
     <div className="flex flex-col px-30 pt-8">
       <div className="mb-10 flex items-end gap-4">
+        <div className="flex flex-col gap-4">
+          <h2 className="heading2-bold text-label-normal">뉴욕 보스턴</h2>
+          <div className="flex gap-1.5">
+            <span className="body1-normal-medium text-label-normal">
+              2026.01.21 - 2026.01.26
+            </span>
+            <span className="body1-normal-medium text-label-alternative">
+              5박 6일
+            </span>
+          </div>
+        </div>
         <Divider style="vertical" className="h-15" />
         <ExpenseCard
           label="총 지출"
@@ -46,7 +60,13 @@ const TravelDetailPage = () => {
             <MerchantFilter />
             <CategoryFilter />
             <div className="flex-1" />
-            <UploadMenu />
+            <Button
+              variant="solid"
+              size="md"
+              onClick={() => setBottomSheetOpen(true)}
+            >
+              지출 내역 추가하기
+            </Button>
           </DataTableFilterProvider>
           <DataTable
             groupBy={(row: Expense) =>
@@ -59,6 +79,12 @@ const TravelDetailPage = () => {
           />
         </DataTableProvider>
       </div>
+      <BottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={() => setBottomSheetOpen(false)}
+      >
+        <div className="p-4">Bottom Sheet Content</div>
+      </BottomSheet>
     </div>
   );
 };
