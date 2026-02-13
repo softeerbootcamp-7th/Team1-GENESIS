@@ -60,9 +60,9 @@ import LogoText from '@/assets/Icons/logo-text.svg';
 import Phone from '@/assets/Icons/phone.svg';
 import Refresh from '@/assets/Icons/refresh.svg';
 import Swap from '@/assets/Icons/swap.svg';
+import SwapVertical from '@/assets/Icons/swap-vertical.svg';
 import Travel from '@/assets/Icons/travel.svg';
 import UploadFile from '@/assets/Icons/upload-file.svg';
-import SwapVertical from '@/assets/Icons/swap-vertical.svg';
 
 export const Icons = {
   AlertCircle,
