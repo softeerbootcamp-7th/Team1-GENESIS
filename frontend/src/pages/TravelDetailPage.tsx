@@ -9,14 +9,13 @@ import DataTableProvider from '@/components/data-table/DataTableProvider';
 import CategoryFilter from '@/components/data-table/filters/CategoryFilter';
 import DateFilter from '@/components/data-table/filters/DateFilter';
 import MerchantFilter from '@/components/data-table/filters/MerchantFilter';
+import MethodFilter from '@/components/data-table/filters/MethodFilter';
+import SelectionActionProvider from '@/components/data-table/SelectionActionProvider';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
 
-import { useAccountBookStore } from '@/stores/useAccountBookStore';
-
 const TravelDetailPage = () => {
-  const title = useAccountBookStore((state) => state.accountBook?.title);
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
 
   const data = getData();
@@ -47,18 +46,19 @@ const TravelDetailPage = () => {
           위젯 편집하기
         </Button>
       </div>
-      <div className="border-label-alternative mb-5 flex h-70 items-center justify-center rounded-lg border border-dashed">
+      {/* <div className="border-label-alternative mb-5 flex h-70 items-center justify-center rounded-lg border border-dashed">
         Widget area
         <br />
         {title && `가계부 명: ${title}가계부`}
-      </div>
+      </div> */}
       <div className="bg-background-normal relative rounded-2xl px-2 py-4 shadow">
         {/* <Icons.ChevronBack className="text-label-alternative absolute left-1/2 z-50 size-12 -translate-x-1/2 rotate-90" /> */}
-        <DataTableProvider columns={columns} data={data}>
+        <DataTableProvider columns={columns} data={[]}>
           <DataTableFilterProvider>
             <DateFilter />
             <MerchantFilter />
             <CategoryFilter />
+            <MethodFilter />
             <div className="flex-1" />
             <Button
               variant="solid"
@@ -76,6 +76,7 @@ const TravelDetailPage = () => {
                 day: '2-digit',
               })
             }
+            blankFallbackText={'여행 지출 내역을 추가해주세요'}
           />
         </DataTableProvider>
       </div>
@@ -83,7 +84,26 @@ const TravelDetailPage = () => {
         isOpen={isBottomSheetOpen}
         onClose={() => setBottomSheetOpen(false)}
       >
-        <div className="p-4">Bottom Sheet Content</div>
+        <DataTableProvider columns={columns} data={data}>
+          <DataTableFilterProvider>
+            <DateFilter />
+            <MerchantFilter />
+            <CategoryFilter />
+            <MethodFilter />
+            <div className="flex-1" />
+          </DataTableFilterProvider>
+          <DataTable
+            groupBy={(row: Expense) =>
+              new Date(row.date).toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              })
+            }
+            blankFallbackText={'여행 지출 내역을 추가해주세요'}
+          />
+          <SelectionActionProvider />
+        </DataTableProvider>
       </BottomSheet>
     </div>
   );
