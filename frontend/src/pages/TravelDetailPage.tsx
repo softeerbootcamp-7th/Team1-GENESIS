@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import BottomSheet from '@/components/common/BottomSheet';
 import Button from '@/components/common/Button';
 import Divider from '@/components/common/Divider';
 import { DataTable } from '@/components/data-table/DataTable';
@@ -15,11 +14,9 @@ import SelectionActionBar from '@/components/data-table/SelectionActionBar';
 import { columns } from '@/components/home-page/columns';
 import ExpenseCard from '@/components/home-page/ExpenseCard';
 import { type Expense, getData } from '@/components/landing-page/dummy';
-
-import { useAccountBookStore } from '@/stores/useAccountBookStore';
+import BottomSheet from '@/components/layout/BottomSheet';
 
 const TravelDetailPage = () => {
-  const title = useAccountBookStore((state) => state.accountBook?.title);
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
 
   const data = getData();
