@@ -135,6 +135,7 @@ class AccountBookQueryServiceTest {
 	@DisplayName("가계부 기준/상대 국가 환율 조회 - 성공")
 	void getAccountBookExchangeRate_Success() {
 		Long accountBookId = 1L;
+		LocalDateTime before = LocalDateTime.now().minusSeconds(1);
 		AccountBookDetailResponse accountBookDetailResponse =
 				new AccountBookDetailResponse(
 						accountBookId,
@@ -162,12 +163,14 @@ class AccountBookQueryServiceTest {
 		assertThat(result.baseCountryCode()).isEqualTo(CountryCode.KR);
 		assertThat(result.localCountryCode()).isEqualTo(CountryCode.US);
 		assertThat(result.exchangeRate()).isEqualByComparingTo("0.00075");
-		assertThat(result.budgetCreatedAt()).isEqualTo(LocalDateTime.of(2026, 2, 12, 8, 0, 0));
+		assertThat(result.budgetCreatedAt())
+				.isAfterOrEqualTo(before)
+				.isBeforeOrEqualTo(LocalDateTime.now().plusSeconds(1));
 	}
 
 	@Test
-	@DisplayName("가계부 기준/상대 국가 환율 조회 - 실패 (예산 미설정)")
-	void getAccountBookExchangeRate_Fail_WhenBudgetNotSet() {
+	@DisplayName("가계부 기준/상대 국가 환율 조회 - 예산 미설정이어도 조회 성공")
+	void getAccountBookExchangeRate_Success_WhenBudgetNotSet() {
 		Long accountBookId = 1L;
 		AccountBookDetailResponse accountBookDetailResponse =
 				new AccountBookDetailResponse(
@@ -183,12 +186,19 @@ class AccountBookQueryServiceTest {
 
 		given(repository.findDetailById(UUID.fromString(userId), accountBookId))
 				.willReturn(Optional.of(accountBookDetailResponse));
+		given(
+						exchangeRateService.getExchangeRate(
+								eq(CurrencyCode.KRW),
+								eq(CurrencyCode.USD),
+								any(LocalDateTime.class)))
+				.willReturn(BigDecimal.valueOf(0.00075));
 
-		assertThatThrownBy(
-						() ->
-								accountBookQueryService.getAccountBookExchangeRate(
-										userId, accountBookId))
-				.isInstanceOf(BusinessException.class)
-				.hasFieldOrPropertyWithValue("code", ErrorCode.ACCOUNT_BOOK_BUDGET_NOT_SET);
+		AccountBookExchangeRateResponse result =
+				accountBookQueryService.getAccountBookExchangeRate(userId, accountBookId);
+
+		assertThat(result.baseCountryCode()).isEqualTo(CountryCode.KR);
+		assertThat(result.localCountryCode()).isEqualTo(CountryCode.US);
+		assertThat(result.exchangeRate()).isEqualByComparingTo("0.00075");
+		assertThat(result.budgetCreatedAt()).isNotNull();
 	}
 }
