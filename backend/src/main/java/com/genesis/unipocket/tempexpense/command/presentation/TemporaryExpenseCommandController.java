@@ -55,7 +55,7 @@ public class TemporaryExpenseCommandController {
 	 *
 	 * TODO: media 도메인 포트 연동 구현 시 controller -> facade 호출로 교체
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/uploads/presigned-url")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/uploads/presigned-url")
 	public ResponseEntity<ApiResponse<PresignedUrlResponse>> createPresignedUrl(
 			@PathVariable Long accountBookId,
 			@RequestBody @Valid PresignedUrlRequest request,
@@ -71,7 +71,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * S3 업로드 파일 등록 (s3Key 기반)
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/uploads/register")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/uploads/register")
 	public ResponseEntity<ApiResponse<RegisterUploadedFileResponse>> registerUploadedFile(
 			@PathVariable Long accountBookId,
 			@RequestBody @Valid RegisterUploadedFileRequest request,
@@ -89,7 +89,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * 단일 임시지출내역 변환
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/{tempExpenseId}/convert")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/{tempExpenseId}/convert")
 	public ResponseEntity<ApiResponse<ConvertTemporaryExpenseResponse>> convertToExpense(
 			@PathVariable Long accountBookId,
 			@PathVariable Long tempExpenseId,
@@ -108,7 +108,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * Batch 변환
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/convert-batch")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/convert-batch")
 	public ResponseEntity<ApiResponse<BatchConvertResponse>> convertBatch(
 			@PathVariable Long accountBookId,
 			@RequestBody @Valid BatchConvertRequest request,
@@ -139,7 +139,7 @@ public class TemporaryExpenseCommandController {
 	}
 
 	@PostMapping(
-			"/api/account-books/{accountBookId}/temporary-expense-metas/{tempExpenseMetaId}/confirm")
+			"/account-books/{accountBookId}/temporary-expense-metas/{tempExpenseMetaId}/confirm")
 	public ResponseEntity<ApiResponse<BatchConvertResponse>> confirmByMeta(
 			@PathVariable Long accountBookId,
 			@PathVariable Long tempExpenseMetaId,
@@ -177,7 +177,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * 비동기 파싱 시작
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/parse-async")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/parse-async")
 	public ResponseEntity<ApiResponse<BatchParseResponse>> parseAsync(
 			@PathVariable Long accountBookId,
 			@RequestBody @Valid BatchParseRequest request,
@@ -190,7 +190,7 @@ public class TemporaryExpenseCommandController {
 				new BatchParseResponse(
 						taskId,
 						request.s3Keys().size(),
-						"/api/account-books/"
+						"/account-books/"
 								+ accountBookId
 								+ "/temporary-expenses/parse-status/"
 								+ taskId);
@@ -201,7 +201,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * 파일 파싱 실행
 	 */
-	@PostMapping("/api/account-books/{accountBookId}/temporary-expenses/parse")
+	@PostMapping("/account-books/{accountBookId}/temporary-expenses/parse")
 	public ResponseEntity<ApiResponse<ParseFileResponse>> parseFile(
 			@PathVariable Long accountBookId,
 			@RequestBody @Valid ParseFileRequest request,
@@ -263,7 +263,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * 임시지출내역 삭제
 	 */
-	@DeleteMapping("/api/account-books/{accountBookId}/temporary-expense-metas/{tempExpenseMetaId}")
+	@DeleteMapping("/account-books/{accountBookId}/temporary-expense-metas/{tempExpenseMetaId}")
 	public ResponseEntity<Void> deleteMeta(
 			@PathVariable Long accountBookId,
 			@PathVariable Long tempExpenseMetaId,

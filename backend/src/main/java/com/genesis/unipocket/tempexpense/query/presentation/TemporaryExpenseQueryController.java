@@ -42,7 +42,7 @@ public class TemporaryExpenseQueryController {
 	 * @param status        필터링할 상태 (선택, 없으면 전체 조회)
 	 * @return 임시지출내역 목록
 	 */
-	@GetMapping("/api/account-books/{accountBookId}/temporary-expenses")
+	@GetMapping("/account-books/{accountBookId}/temporary-expenses")
 	public ResponseEntity<ApiResponse<TemporaryExpenseListResponse>> getTemporaryExpenses(
 			@PathVariable Long accountBookId,
 			@RequestParam(required = false) TemporaryExpense.TemporaryExpenseStatus status,
@@ -57,7 +57,7 @@ public class TemporaryExpenseQueryController {
 	/**
 	 * 임시지출내역 단건 조회
 	 */
-	@GetMapping("/api/account-books/{accountBookId}/temporary-expenses/{tempExpenseId}")
+	@GetMapping("/account-books/{accountBookId}/temporary-expenses/{tempExpenseId}")
 	public ResponseEntity<ApiResponse<TemporaryExpenseResponse>> getTemporaryExpense(
 			@PathVariable Long accountBookId,
 			@PathVariable Long tempExpenseId,
@@ -71,7 +71,7 @@ public class TemporaryExpenseQueryController {
 	/**
 	 * 파일(이미지) 단위 처리 현황 조회
 	 */
-	@GetMapping("/api/account-books/{accountBookId}/temporary-expense-metas/summary")
+	@GetMapping("/account-books/{accountBookId}/temporary-expense-metas/summary")
 	public ResponseEntity<ApiResponse<FileProcessingSummaryResponse>> getFileProcessingSummary(
 			@PathVariable Long accountBookId, @LoginUser UUID userId) {
 		FileProcessingSummaryResponse response =
@@ -82,8 +82,7 @@ public class TemporaryExpenseQueryController {
 	/**
 	 * 가계부 전체 이미지 처리 현황 요약 조회
 	 */
-	@GetMapping(
-			"/api/account-books/{accountBookId}/temporary-expense-metas/image-processing-summary")
+	@GetMapping("/account-books/{accountBookId}/temporary-expense-metas/image-processing-summary")
 	public ResponseEntity<ApiResponse<ImageProcessingSummaryResponse>> getImageProcessingSummary(
 			@PathVariable Long accountBookId, @LoginUser UUID userId) {
 		ImageProcessingSummaryResponse response =
@@ -95,7 +94,7 @@ public class TemporaryExpenseQueryController {
 	 * SSE 진행 상황 스트림
 	 */
 	@GetMapping(
-			value = "/api/account-books/{accountBookId}/temporary-expenses/parse-status/{taskId}",
+			value = "/account-books/{accountBookId}/temporary-expenses/parse-status/{taskId}",
 			produces = org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE)
 	public org.springframework.web.servlet.mvc.method.annotation.SseEmitter streamParsingProgress(
 			@PathVariable Long accountBookId, @PathVariable String taskId) {

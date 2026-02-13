@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "로컬 이미지 업로드 테스트")
 @RestController
 @Profile("local")
-@RequestMapping("/api/images/test")
+@RequestMapping("/images/test")
 @RequiredArgsConstructor
 class LocalImageTestController {
 

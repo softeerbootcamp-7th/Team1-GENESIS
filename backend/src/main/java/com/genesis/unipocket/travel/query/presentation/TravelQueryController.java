@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "여행 폴더 기능")
 @RestController
-@RequestMapping("/api/account-books/{accountBookId}/travels")
+@RequestMapping("/account-books/{accountBookId}/travels")
 @RequiredArgsConstructor
 public class TravelQueryController {
 
