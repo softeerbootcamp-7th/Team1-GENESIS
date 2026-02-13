@@ -1,11 +1,19 @@
-import './styles/index.css';
+import '@/styles/index.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 
-import { queryClient } from './lib/queryClient';
-import { routeTree } from './routeTree.gen';
+import { routeTree } from '@/routeTree.gen';
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 const router = createRouter({
   routeTree,
@@ -22,6 +30,8 @@ declare module '@tanstack/react-router' {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );

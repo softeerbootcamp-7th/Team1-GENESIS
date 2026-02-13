@@ -1,14 +1,14 @@
+import type { ComponentProps } from 'react';
 import clsx from 'clsx';
 
 import { Icons } from '@/assets';
 
-interface FilterProps {
+interface FilterProps extends ComponentProps<'button'> {
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   active?: boolean;
   isOpen?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  children: React.ReactNode;
+  onReset?: () => void;
 }
 
 const Filter = ({
@@ -17,10 +17,17 @@ const Filter = ({
   active = false,
   isOpen = false,
   onClick,
+  onReset,
   children,
+  ref,
+  className,
+  ...props
 }: FilterProps) => {
   const FilterClass = clsx(
-    'w-full max-w-37.5 flex items-center justify-between gap-0.5 box-border transition-colors',
+    // asChild로 사용 시 넘어온 스타일이 override 않도록 하기 위해 className 분리
+    className,
+
+    'w-fit flex items-center justify-between gap-0.5 box-border transition-colors',
     'border cursor-pointer',
 
     /* --- disabled --- */
@@ -53,14 +60,27 @@ const Filter = ({
   );
 
   return (
-    <button className={FilterClass} disabled={disabled} onClick={onClick}>
-      <span className="max-w-25 overflow-hidden px-0.5">{children}</span>
+    <button
+      className={FilterClass}
+      disabled={disabled}
+      onClick={onClick}
+      ref={ref}
+      {...props}
+    >
+      <span className="px-0.5 whitespace-nowrap">{children}</span>
       {active ? (
-        <Icons.Close className="h-3.5 w-3.5" />
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            onReset?.();
+          }}
+        >
+          <Icons.Close className="size-3.5" />
+        </div>
       ) : (
         <Icons.CaretDown
           className={clsx(
-            'h-2 w-2 transition-transform duration-300',
+            'size-2 transition-transform duration-300',
             isOpen && 'rotate-180',
           )}
         />

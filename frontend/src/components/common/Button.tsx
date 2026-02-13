@@ -1,10 +1,9 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 import clsx from 'clsx';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ComponentProps<'button'> {
   variant?: 'outlined' | 'solid' | 'danger';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  ref?: React.Ref<HTMLButtonElement>;
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg';
 }
 
 const Button = ({
@@ -14,9 +13,13 @@ const Button = ({
   onClick,
   children,
   ref,
+  className,
   ...props
 }: ButtonProps) => {
   const buttonClass = clsx(
+    // asChild로 사용 시 넘어온 스타일이 override 않도록 하기 위해 className 분리
+    className,
+
     'w-fit flex items-center justify-center box-border transition-colors truncate',
 
     /* --- disabled --- */
@@ -44,6 +47,7 @@ const Button = ({
     disabled && variant === 'danger' && 'bg-status-negative/10',
 
     /* --- size --- */
+    size === '2xs' && 'px-[5px] py-1 h-6 caption1-medium rounded-modal-6',
     size === 'xs' && 'px-[5px] py-1 h-[26px] label2-medium rounded-modal-6',
     size === 'sm' && 'px-[14px] py-[7px] h-8 label2-medium rounded-modal-8',
     size === 'md' && 'px-5 py-[9px] h-10 body2-normal-medium rounded-modal-10',
