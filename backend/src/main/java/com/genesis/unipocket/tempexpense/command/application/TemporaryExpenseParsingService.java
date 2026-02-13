@@ -16,10 +16,21 @@ import com.genesis.unipocket.tempexpense.command.persistence.repository.FileRepo
 import com.genesis.unipocket.tempexpense.command.persistence.repository.TempExpenseMetaRepository;
 import com.genesis.unipocket.tempexpense.command.persistence.repository.TemporaryExpenseRepository;
 import com.genesis.unipocket.tempexpense.common.infrastructure.ParsingProgressPublisher;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @AllArgsConstructor
 public class TemporaryExpenseParsingService {
+	// ... (lines omitted)
 
 	private final FileRepository fileRepository;
 	private final TempExpenseMetaRepository tempExpenseMetaRepository;
@@ -40,33 +52,36 @@ public class TemporaryExpenseParsingService {
 	private final GeminiService geminiService;
 	private final S3Service s3Service;
 	private final ParsingProgressPublisher progressPublisher;
-	private final CsvParsingService csvParsingService;
 
 	/**
 	 * 파일 파싱 및 TemporaryExpense 생성
 	 */
 	@Transactional
 	public ParsingResult parseFile(Long accountBookId, String s3Key) {
-		File file =
-				fileRepository
-						.findByS3Key(s3Key)
-						.orElseThrow(
-								() ->
-										new IllegalArgumentException(
-												"파일을 찾을 수 없습니다. s3Key: " + s3Key));
+		File file = fileRepository
+				.findByS3Key(s3Key)
+				.orElseThrow(
+						() -> new IllegalArgumentException(
+								"파일을 찾을 수 없습니다. s3Key: " + s3Key));
 
 		Long tempExpenseMetaId = file.getTempExpenseMetaId();
-		TempExpenseMeta meta =
-				tempExpenseMetaRepository
-						.findById(tempExpenseMetaId)
-						.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
+		TempExpenseMeta meta = tempExpenseMetaRepository
+				.findById(tempExpenseMetaId)
+				.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
 		if (!meta.getAccountBookId().equals(accountBookId)) {
 			throw new IllegalArgumentException("가계부와 파일 메타가 일치하지 않습니다.");
 		}
 
-		String s3Url =
-				s3Service.getPresignedGetUrl(file.getS3Key(), java.time.Duration.ofMinutes(10));
-		GeminiParseResponse geminiResponse = geminiService.parseReceiptImage(s3Url);
+		GeminiService.GeminiParseResponse geminiResponse;
+
+		if (file.getFileType() == File.FileType.IMAGE) {
+			String s3Url = s3Service.getPresignedGetUrl(file.getS3Key(), java.time.Duration.ofMinutes(10));
+			geminiResponse = geminiService.parseReceiptImage(s3Url);
+		} else {
+			// Document Parsing (CSV, EXCEL)
+			String content = extractContent(file);
+			geminiResponse = geminiService.parseDocument(content);
+		}
 
 		if (!geminiResponse.success()) {
 			throw new RuntimeException("파싱 실패: " + geminiResponse.errorMessage());
@@ -76,27 +91,35 @@ public class TemporaryExpenseParsingService {
 		int normalCount = 0;
 		int incompleteCount = 0;
 
-		for (ParsedExpenseItem item : geminiResponse.items()) {
+		for (GeminiService.ParsedExpenseItem item : geminiResponse.items()) {
 			TemporaryExpenseStatus status = determineStatus(item);
-			if (status == TemporaryExpenseStatus.NORMAL) normalCount++;
-			else if (status == TemporaryExpenseStatus.INCOMPLETE) incompleteCount++;
+			if (status == TemporaryExpenseStatus.NORMAL)
+				normalCount++;
+			else if (status == TemporaryExpenseStatus.INCOMPLETE)
+				incompleteCount++;
 
-			TemporaryExpense expense =
-					TemporaryExpense.builder()
-							.tempExpenseMetaId(tempExpenseMetaId)
-							.merchantName(item.merchantName())
-							.category(parseCategory(item.category()))
-							.localCountryCode(parseCurrencyCode(item.localCurrency()))
-							.localCurrencyAmount(item.localAmount())
-							.baseCountryCode(
-									parseCurrencyCode(item.localCurrency())) // same as local
-							.baseCurrencyAmount(item.localAmount()) // same as local
-							.paymentsMethod("카드") // default
-							.memo(item.memo())
-							.occurredAt(item.occurredAt())
-							.status(status)
-							.cardLastFourDigits(item.cardLastFourDigits())
-							.build();
+			TemporaryExpense expense = TemporaryExpense.builder()
+					.tempExpenseMetaId(tempExpenseMetaId)
+					.merchantName(item.merchantName())
+					.category(parseCategory(item.category()))
+					.localCountryCode(parseCurrencyCode(item.localCurrency()))
+					.localCurrencyAmount(item.localAmount())
+					.baseCountryCode(
+							parseCurrencyCode(
+									item.baseCurrency() != null
+											? item.baseCurrency()
+											: item.localCurrency())) // baseCurrency가 없으면 localCurrency 사용
+					.baseCurrencyAmount(
+							item.baseAmount() != null
+									? item.baseAmount()
+									: item.localAmount()) // baseAmount가 없으면 localAmount 사용
+					.paymentsMethod("카드") // default
+					.memo(item.memo())
+					.occurredAt(item.occurredAt())
+					.status(status)
+					.cardLastFourDigits(item.cardLastFourDigits())
+					.approvalNumber(item.approvalNumber())
+					.build();
 
 			createdExpenses.add(expense);
 		}
@@ -112,17 +135,76 @@ public class TemporaryExpenseParsingService {
 				savedExpenses);
 	}
 
+	private String extractContent(File file) {
+		byte[] fileBytes = s3Service.downloadFile(file.getS3Key());
+
+		if (file.getFileType() == File.FileType.CSV) {
+			return new String(fileBytes, java.nio.charset.StandardCharsets.UTF_8);
+		} else if (file.getFileType() == File.FileType.EXCEL) {
+			return extractExcelContent(fileBytes);
+		} else {
+			throw new IllegalArgumentException("지원하지 않는 파일 타입입니다: " + file.getFileType());
+		}
+	}
+
+	private String extractExcelContent(byte[] fileBytes) {
+		try (java.io.InputStream is = new java.io.ByteArrayInputStream(fileBytes);
+				org.apache.poi.ss.usermodel.Workbook workbook = org.apache.poi.ss.usermodel.WorkbookFactory
+						.create(is)) {
+
+			StringBuilder sb = new StringBuilder();
+			org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(0); // 첫 번째 시트만 처리
+
+			for (org.apache.poi.ss.usermodel.Row row : sheet) {
+				List<String> cells = new ArrayList<>();
+				for (org.apache.poi.ss.usermodel.Cell cell : row) {
+					cells.add(getCellValue(cell));
+				}
+				sb.append(String.join(",", cells)).append("\n");
+			}
+			return sb.toString();
+
+		} catch (java.io.IOException e) {
+			throw new RuntimeException("Excel 파일 읽기 실패", e);
+		}
+	}
+
+	private String getCellValue(org.apache.poi.ss.usermodel.Cell cell) {
+		if (cell == null)
+			return "";
+		switch (cell.getCellType()) {
+			case STRING:
+				return cell.getStringCellValue();
+			case NUMERIC:
+				if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
+					return cell.getLocalDateTimeCellValue().toString();
+				}
+				return String.valueOf(cell.getNumericCellValue());
+			case BOOLEAN:
+				return String.valueOf(cell.getBooleanCellValue());
+			case FORMULA:
+				try {
+					return cell.getStringCellValue();
+				} catch (IllegalStateException e) {
+					return String.valueOf(cell.getNumericCellValue());
+				}
+			default:
+				return "";
+		}
+	}
+
 	/**
 	 * 파싱 항목의 상태 결정
 	 */
-	private TemporaryExpenseStatus determineStatus(ParsedExpenseItem item) {
+	private TemporaryExpenseStatus determineStatus(GeminiService.ParsedExpenseItem item) {
 		// 필수 필드 체크
 		if (item.merchantName() == null || item.localAmount() == null) {
 			return TemporaryExpenseStatus.INCOMPLETE;
 		}
 
-		// 선택 필드 누락 체크
-		if (item.category() == null || item.occurredAt() == null) {
+		// 선택 필드 누락 체크 (Category is now often null from document, so maybe rely less on
+		// it or default it?)
+		if (item.occurredAt() == null) {
 			return TemporaryExpenseStatus.INCOMPLETE;
 		}
 
@@ -133,7 +215,8 @@ public class TemporaryExpenseParsingService {
 	 * 카테고리 문자열 → Enum 변환
 	 */
 	private Category parseCategory(String categoryStr) {
-		if (categoryStr == null) return null;
+		if (categoryStr == null)
+			return Category.UNCLASSIFIED;
 		try {
 			return Category.valueOf(categoryStr.toUpperCase());
 		} catch (IllegalArgumentException e) {
@@ -145,9 +228,12 @@ public class TemporaryExpenseParsingService {
 	 * 통화 코드 문자열 → Enum 변환
 	 */
 	private CurrencyCode parseCurrencyCode(String currencyStr) {
-		if (currencyStr == null) return CurrencyCode.KRW; // default
+		if (currencyStr == null)
+			return CurrencyCode.KRW; // default
 		try {
-			return CurrencyCode.valueOf(currencyStr.toUpperCase());
+			// Clean up validation
+			String clean = currencyStr.replaceAll("[^A-Za-z]", "").toUpperCase();
+			return CurrencyCode.valueOf(clean);
 		} catch (IllegalArgumentException e) {
 			return CurrencyCode.KRW;
 		}
@@ -201,8 +287,8 @@ public class TemporaryExpenseParsingService {
 			}
 		}
 
-		BatchParsingResult finalResult =
-				new BatchParsingResult(firstMetaId, totalParsed, totalNormal, totalIncomplete, 0);
+		BatchParsingResult finalResult = new BatchParsingResult(firstMetaId, totalParsed, totalNormal, totalIncomplete,
+				0);
 
 		// 완료 이벤트 publish
 		progressPublisher.complete(taskId, finalResult);
