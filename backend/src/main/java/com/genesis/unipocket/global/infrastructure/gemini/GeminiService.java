@@ -59,25 +59,27 @@ public class GeminiService {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
 			// Gemini API request body
-			Map<String, Object> requestBody = Map.of(
-					"contents",
-					List.of(
-							Map.of(
-									"parts",
-									List.of(
-											Map.of("text", prompt),
-											Map.of(
-													"fileData",
+			Map<String, Object> requestBody =
+					Map.of(
+							"contents",
+							List.of(
+									Map.of(
+											"parts",
+											List.of(
+													Map.of("text", prompt),
 													Map.of(
-															"mimeType",
-															"image/jpeg",
-															"fileUri",
-															imageUrl))))));
+															"fileData",
+															Map.of(
+																	"mimeType",
+																	"image/jpeg",
+																	"fileUri",
+																	imageUrl))))));
 
 			HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
 			log.debug("Calling Gemini API: {}", url);
-			ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+			ResponseEntity<String> response =
+					restTemplate.postForEntity(url, request, String.class);
 
 			if (!response.getStatusCode().is2xxSuccessful()) {
 				log.error("Gemini API call failed with status: {}", response.getStatusCode());
@@ -124,13 +126,14 @@ public class GeminiService {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
-			Map<String, Object> requestBody = Map.of("contents",
-					List.of(Map.of("parts", List.of(Map.of("text", prompt)))));
+			Map<String, Object> requestBody =
+					Map.of("contents", List.of(Map.of("parts", List.of(Map.of("text", prompt)))));
 
 			HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
 			log.debug("Calling Gemini API: {}", url);
-			ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+			ResponseEntity<String> response =
+					restTemplate.postForEntity(url, request, String.class);
 
 			if (!response.getStatusCode().is2xxSuccessful()) {
 				log.error("Gemini API call failed with status: {}", response.getStatusCode());
@@ -192,13 +195,14 @@ public class GeminiService {
 			JsonNode root = objectMapper.readTree(responseBody);
 
 			// Extract text from response
-			String text = root.path("candidates")
-					.get(0)
-					.path("content")
-					.path("parts")
-					.get(0)
-					.path("text")
-					.asText();
+			String text =
+					root.path("candidates")
+							.get(0)
+							.path("content")
+							.path("parts")
+							.get(0)
+							.path("text")
+							.asText();
 
 			log.debug("Gemini response text: {}", text);
 
@@ -221,25 +225,26 @@ public class GeminiService {
 			List<ParsedExpenseItem> expenseItems = new ArrayList<>();
 
 			for (JsonNode item : items) {
-				ParsedExpenseItem expenseItem = new ParsedExpenseItem(
-						item.path("merchantName").asText(null),
-						item.path("category").asText(null),
-						item.has("localAmount")
-								? new BigDecimal(item.path("localAmount").asText())
-								: null,
-						item.path("localCurrency").asText(null),
-						item.has("baseAmount")
-								? new BigDecimal(item.path("baseAmount").asText())
-								: null,
-						item.path("baseCurrency").asText(null),
-						item.has("occurredAt")
-								? LocalDateTime.parse(
-										item.path("occurredAt").asText(),
-										DateTimeFormatter.ISO_DATE_TIME)
-								: null,
-						item.path("cardLastFourDigits").asText(null),
-						item.path("approvalNumber").asText(null),
-						item.path("memo").asText(null));
+				ParsedExpenseItem expenseItem =
+						new ParsedExpenseItem(
+								item.path("merchantName").asText(null),
+								item.path("category").asText(null),
+								item.has("localAmount")
+										? new BigDecimal(item.path("localAmount").asText())
+										: null,
+								item.path("localCurrency").asText(null),
+								item.has("baseAmount")
+										? new BigDecimal(item.path("baseAmount").asText())
+										: null,
+								item.path("baseCurrency").asText(null),
+								item.has("occurredAt")
+										? LocalDateTime.parse(
+												item.path("occurredAt").asText(),
+												DateTimeFormatter.ISO_DATE_TIME)
+										: null,
+								item.path("cardLastFourDigits").asText(null),
+								item.path("approvalNumber").asText(null),
+								item.path("memo").asText(null));
 
 				expenseItems.add(expenseItem);
 			}
@@ -293,8 +298,7 @@ public class GeminiService {
 	 * Gemini API 파싱 응답 (영수증)
 	 */
 	public record GeminiParseResponse(
-			boolean success, List<ParsedExpenseItem> items, String errorMessage) {
-	}
+			boolean success, List<ParsedExpenseItem> items, String errorMessage) {}
 
 	/**
 	 * 파싱된 지출 항목
@@ -309,7 +313,5 @@ public class GeminiService {
 			LocalDateTime occurredAt,
 			String cardLastFourDigits,
 			String approvalNumber,
-			String memo) {
-	}
-
+			String memo) {}
 }

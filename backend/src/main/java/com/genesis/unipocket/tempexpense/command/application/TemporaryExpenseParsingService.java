@@ -3,8 +3,6 @@ package com.genesis.unipocket.tempexpense.command.application;
 import com.genesis.unipocket.global.common.enums.Category;
 import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import com.genesis.unipocket.global.infrastructure.gemini.GeminiService;
-import com.genesis.unipocket.global.infrastructure.gemini.GeminiService.GeminiParseResponse;
-import com.genesis.unipocket.global.infrastructure.gemini.GeminiService.ParsedExpenseItem;
 import com.genesis.unipocket.global.infrastructure.storage.s3.S3Service;
 import com.genesis.unipocket.tempexpense.command.application.result.BatchParsingResult;
 import com.genesis.unipocket.tempexpense.command.application.result.ParsingResult;
@@ -16,21 +14,10 @@ import com.genesis.unipocket.tempexpense.command.persistence.repository.FileRepo
 import com.genesis.unipocket.tempexpense.command.persistence.repository.TempExpenseMetaRepository;
 import com.genesis.unipocket.tempexpense.command.persistence.repository.TemporaryExpenseRepository;
 import com.genesis.unipocket.tempexpense.common.infrastructure.ParsingProgressPublisher;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,16 +45,19 @@ public class TemporaryExpenseParsingService {
 	 */
 	@Transactional
 	public ParsingResult parseFile(Long accountBookId, String s3Key) {
-		File file = fileRepository
-				.findByS3Key(s3Key)
-				.orElseThrow(
-						() -> new IllegalArgumentException(
-								"파일을 찾을 수 없습니다. s3Key: " + s3Key));
+		File file =
+				fileRepository
+						.findByS3Key(s3Key)
+						.orElseThrow(
+								() ->
+										new IllegalArgumentException(
+												"파일을 찾을 수 없습니다. s3Key: " + s3Key));
 
 		Long tempExpenseMetaId = file.getTempExpenseMetaId();
-		TempExpenseMeta meta = tempExpenseMetaRepository
-				.findById(tempExpenseMetaId)
-				.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
+		TempExpenseMeta meta =
+				tempExpenseMetaRepository
+						.findById(tempExpenseMetaId)
+						.orElseThrow(() -> new IllegalArgumentException("메타데이터를 찾을 수 없습니다."));
 		if (!meta.getAccountBookId().equals(accountBookId)) {
 			throw new IllegalArgumentException("가계부와 파일 메타가 일치하지 않습니다.");
 		}
@@ -75,7 +65,8 @@ public class TemporaryExpenseParsingService {
 		GeminiService.GeminiParseResponse geminiResponse;
 
 		if (file.getFileType() == File.FileType.IMAGE) {
-			String s3Url = s3Service.getPresignedGetUrl(file.getS3Key(), java.time.Duration.ofMinutes(10));
+			String s3Url =
+					s3Service.getPresignedGetUrl(file.getS3Key(), java.time.Duration.ofMinutes(10));
 			geminiResponse = geminiService.parseReceiptImage(s3Url);
 		} else {
 			// Document Parsing (CSV, EXCEL)
@@ -93,33 +84,33 @@ public class TemporaryExpenseParsingService {
 
 		for (GeminiService.ParsedExpenseItem item : geminiResponse.items()) {
 			TemporaryExpenseStatus status = determineStatus(item);
-			if (status == TemporaryExpenseStatus.NORMAL)
-				normalCount++;
-			else if (status == TemporaryExpenseStatus.INCOMPLETE)
-				incompleteCount++;
+			if (status == TemporaryExpenseStatus.NORMAL) normalCount++;
+			else if (status == TemporaryExpenseStatus.INCOMPLETE) incompleteCount++;
 
-			TemporaryExpense expense = TemporaryExpense.builder()
-					.tempExpenseMetaId(tempExpenseMetaId)
-					.merchantName(item.merchantName())
-					.category(parseCategory(item.category()))
-					.localCountryCode(parseCurrencyCode(item.localCurrency()))
-					.localCurrencyAmount(item.localAmount())
-					.baseCountryCode(
-							parseCurrencyCode(
-									item.baseCurrency() != null
-											? item.baseCurrency()
-											: item.localCurrency())) // baseCurrency가 없으면 localCurrency 사용
-					.baseCurrencyAmount(
-							item.baseAmount() != null
-									? item.baseAmount()
-									: item.localAmount()) // baseAmount가 없으면 localAmount 사용
-					.paymentsMethod("카드") // default
-					.memo(item.memo())
-					.occurredAt(item.occurredAt())
-					.status(status)
-					.cardLastFourDigits(item.cardLastFourDigits())
-					.approvalNumber(item.approvalNumber())
-					.build();
+			TemporaryExpense expense =
+					TemporaryExpense.builder()
+							.tempExpenseMetaId(tempExpenseMetaId)
+							.merchantName(item.merchantName())
+							.category(parseCategory(item.category()))
+							.localCountryCode(parseCurrencyCode(item.localCurrency()))
+							.localCurrencyAmount(item.localAmount())
+							.baseCountryCode(
+									parseCurrencyCode(
+											item.baseCurrency() != null
+													? item.baseCurrency()
+													: item.localCurrency())) // baseCurrency가 없으면
+							// localCurrency 사용
+							.baseCurrencyAmount(
+									item.baseAmount() != null
+											? item.baseAmount()
+											: item.localAmount()) // baseAmount가 없으면 localAmount 사용
+							.paymentsMethod("카드") // default
+							.memo(item.memo())
+							.occurredAt(item.occurredAt())
+							.status(status)
+							.cardLastFourDigits(item.cardLastFourDigits())
+							.approvalNumber(item.approvalNumber())
+							.build();
 
 			createdExpenses.add(expense);
 		}
@@ -149,8 +140,8 @@ public class TemporaryExpenseParsingService {
 
 	private String extractExcelContent(byte[] fileBytes) {
 		try (java.io.InputStream is = new java.io.ByteArrayInputStream(fileBytes);
-				org.apache.poi.ss.usermodel.Workbook workbook = org.apache.poi.ss.usermodel.WorkbookFactory
-						.create(is)) {
+				org.apache.poi.ss.usermodel.Workbook workbook =
+						org.apache.poi.ss.usermodel.WorkbookFactory.create(is)) {
 
 			StringBuilder sb = new StringBuilder();
 			org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(0); // 첫 번째 시트만 처리
@@ -170,8 +161,7 @@ public class TemporaryExpenseParsingService {
 	}
 
 	private String getCellValue(org.apache.poi.ss.usermodel.Cell cell) {
-		if (cell == null)
-			return "";
+		if (cell == null) return "";
 		switch (cell.getCellType()) {
 			case STRING:
 				return cell.getStringCellValue();
@@ -215,8 +205,7 @@ public class TemporaryExpenseParsingService {
 	 * 카테고리 문자열 → Enum 변환
 	 */
 	private Category parseCategory(String categoryStr) {
-		if (categoryStr == null)
-			return Category.UNCLASSIFIED;
+		if (categoryStr == null) return Category.UNCLASSIFIED;
 		try {
 			return Category.valueOf(categoryStr.toUpperCase());
 		} catch (IllegalArgumentException e) {
@@ -228,8 +217,7 @@ public class TemporaryExpenseParsingService {
 	 * 통화 코드 문자열 → Enum 변환
 	 */
 	private CurrencyCode parseCurrencyCode(String currencyStr) {
-		if (currencyStr == null)
-			return CurrencyCode.KRW; // default
+		if (currencyStr == null) return CurrencyCode.KRW; // default
 		try {
 			// Clean up validation
 			String clean = currencyStr.replaceAll("[^A-Za-z]", "").toUpperCase();
@@ -287,8 +275,8 @@ public class TemporaryExpenseParsingService {
 			}
 		}
 
-		BatchParsingResult finalResult = new BatchParsingResult(firstMetaId, totalParsed, totalNormal, totalIncomplete,
-				0);
+		BatchParsingResult finalResult =
+				new BatchParsingResult(firstMetaId, totalParsed, totalNormal, totalIncomplete, 0);
 
 		// 완료 이벤트 publish
 		progressPublisher.complete(taskId, finalResult);
