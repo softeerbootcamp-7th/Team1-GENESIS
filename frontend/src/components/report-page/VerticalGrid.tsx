@@ -40,20 +40,25 @@ const VerticalGrid = ({
         ))}
       </div>
       <div className="relative">
-        {labels.map((label, i) => (
-          <div
-            key={i}
-            className="text-label-assistive absolute text-xs whitespace-nowrap"
-            style={{
-              left: `${gridPositions[i]}%`,
-              transform: 'translateX(-50%)',
-            }}
-          >
-            {typeof label === 'number'
-              ? Math.round(label).toLocaleString()
-              : label}
-          </div>
-        ))}
+        {gridPositions.map((position, i) => {
+          const label = labels[i];
+          if (label === undefined || label === null) return null;
+
+          return (
+            <div
+              key={i}
+              className="text-label-assistive absolute text-xs whitespace-nowrap"
+              style={{
+                left: `${position}%`,
+                transform: 'translateX(-50%)',
+              }}
+            >
+              {typeof label === 'number'
+                ? Math.round(label).toLocaleString()
+                : label}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
