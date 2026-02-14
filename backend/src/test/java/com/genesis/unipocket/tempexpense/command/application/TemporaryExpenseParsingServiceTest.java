@@ -68,12 +68,16 @@ class TemporaryExpenseParsingServiceTest {
 						.s3Key(s3Key)
 						.build();
 		TempExpenseMeta meta =
-				TempExpenseMeta.builder().tempExpenseMetaId(10L).accountBookId(accountBookId).build();
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(10L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(fileRepository.findByS3Key(s3Key)).thenReturn(Optional.of(file));
 		when(tempExpenseMetaRepository.findById(10L)).thenReturn(Optional.of(meta));
 		when(accountBookRepository.findById(accountBookId))
-				.thenReturn(Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
+				.thenReturn(
+						Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
 
 		when(s3Service.getPresignedGetUrl(s3Key, java.time.Duration.ofMinutes(10)))
 				.thenReturn("https://signed-url");
@@ -146,12 +150,16 @@ class TemporaryExpenseParsingServiceTest {
 						.s3Key(s3Key)
 						.build();
 		TempExpenseMeta meta =
-				TempExpenseMeta.builder().tempExpenseMetaId(11L).accountBookId(accountBookId).build();
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(11L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(fileRepository.findByS3Key(s3Key)).thenReturn(Optional.of(file));
 		when(tempExpenseMetaRepository.findById(11L)).thenReturn(Optional.of(meta));
 		when(accountBookRepository.findById(accountBookId))
-				.thenReturn(Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
+				.thenReturn(
+						Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
 
 		when(s3Service.getPresignedGetUrl(s3Key, java.time.Duration.ofMinutes(10)))
 				.thenReturn("https://signed-url-2");
@@ -219,10 +227,10 @@ class TemporaryExpenseParsingServiceTest {
 						.build();
 
 		when(accountBookRepository.findById(accountBookId))
-				.thenReturn(Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
+				.thenReturn(
+						Optional.of(accountBook(accountBookId, CountryCode.KR, CountryCode.JP)));
 		when(fileRepository.findByS3KeyIn(s3Keys)).thenReturn(List.of(fileA, fileB));
-		when(tempExpenseMetaRepository.findAllById(any()))
-				.thenReturn(List.of(metaA, metaB));
+		when(tempExpenseMetaRepository.findAllById(any())).thenReturn(List.of(metaA, metaB));
 		when(s3Service.downloadFile(anyString())).thenReturn("h1,h2\nv1,v2".getBytes());
 		when(geminiService.parseDocument(anyString()))
 				.thenReturn(new GeminiService.GeminiParseResponse(true, List.of(), null));

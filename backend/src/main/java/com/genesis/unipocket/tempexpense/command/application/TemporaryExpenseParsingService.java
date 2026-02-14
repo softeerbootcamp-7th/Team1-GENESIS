@@ -89,7 +89,10 @@ public class TemporaryExpenseParsingService {
 
 		List<NormalizedParsedExpenseItem> normalizedItems =
 				geminiResponse.items().stream()
-						.map(item -> normalizeParsedItem(item, rateContext.defaultLocalCurrencyCode()))
+						.map(
+								item ->
+										normalizeParsedItem(
+												item, rateContext.defaultLocalCurrencyCode()))
 						.toList();
 
 		Map<ExchangeRateKey, BigDecimal> exchangeRateMap =
@@ -117,9 +120,7 @@ public class TemporaryExpenseParsingService {
 							.baseCountryCode(rateContext.baseCurrencyCode())
 							.baseCurrencyAmount(
 									calculateBaseAmount(
-											item,
-											rateContext.baseCurrencyCode(),
-											exchangeRateMap))
+											item, rateContext.baseCurrencyCode(), exchangeRateMap))
 							.paymentsMethod("카드")
 							.memo(item.memo())
 							.occurredAt(item.occurredAt())
@@ -194,7 +195,9 @@ public class TemporaryExpenseParsingService {
 			}
 			BigDecimal rate =
 					exchangeRateService.getExchangeRate(
-							key.fromCurrencyCode(), key.toCurrencyCode(), key.date().atStartOfDay());
+							key.fromCurrencyCode(),
+							key.toCurrencyCode(),
+							key.date().atStartOfDay());
 			rateMap.put(key, rate);
 		}
 		return rateMap;
@@ -209,7 +212,9 @@ public class TemporaryExpenseParsingService {
 		}
 		ExchangeRateKey key =
 				new ExchangeRateKey(
-						item.localCurrencyCode(), baseCurrencyCode, item.occurredAt().toLocalDate());
+						item.localCurrencyCode(),
+						baseCurrencyCode,
+						item.occurredAt().toLocalDate());
 		BigDecimal rate = exchangeRateMap.get(key);
 		if (rate == null) {
 			return null;
@@ -343,14 +348,19 @@ public class TemporaryExpenseParsingService {
 		if (categoryStr == null || categoryStr.isBlank()) return Category.UNCLASSIFIED;
 		String trimmed = categoryStr.trim();
 		if (trimmed.matches("\\d+")) {
+			int ordinal;
 			try {
-				return Category.fromOrdinal(Integer.parseInt(trimmed));
-			} catch (Exception e) {
+				ordinal = Integer.parseInt(trimmed);
+			} catch (NumberFormatException e) {
+				return Category.UNCLASSIFIED;
+			}
+			try {
+				return Category.fromOrdinal(ordinal);
+			} catch (IllegalArgumentException e) {
 				return Category.UNCLASSIFIED;
 			}
 		}
-		String normalized =
-				trimmed.replaceAll("[\\s_-]", "").toUpperCase(Locale.ROOT);
+		String normalized = trimmed.replaceAll("[\\s_-]", "").toUpperCase(Locale.ROOT);
 		switch (normalized) {
 			case "TRANSPORTATION":
 				return Category.TRANSPORT;
@@ -404,7 +414,7 @@ public class TemporaryExpenseParsingService {
 		AccountBookRateContext rateContext = resolveRateContext(accountBookId);
 		Map<String, File> filesByS3Key =
 				fileRepository.findByS3KeyIn(s3Keys).stream()
-						.collect(Collectors.toMap(File::getS3Key, Function.identity(), (a, b) -> a));
+						.collect(Collectors.toMap(File::getS3Key, Function.identity()));
 		Map<Long, TempExpenseMeta> metaById =
 				tempExpenseMetaRepository
 						.findAllById(
