@@ -176,7 +176,10 @@ public class TemporaryExpenseParsingService {
 	private Map<ExchangeRateKey, BigDecimal> buildExchangeRateMap(
 			List<NormalizedParsedExpenseItem> items, CurrencyCode baseCurrencyCode) {
 		Set<ExchangeRateKey> lookupKeys = items.stream()
-				.filter(item -> item.localAmount() != null && item.occurredAt() != null)
+				.filter(
+						item -> item.localAmount() != null
+								&& item.occurredAt() != null
+								&& item.baseAmount() == null)
 				.map(
 						item -> new ExchangeRateKey(
 								item.localCurrencyCode(),
