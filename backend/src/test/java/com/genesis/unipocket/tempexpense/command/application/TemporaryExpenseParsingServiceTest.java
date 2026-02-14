@@ -44,41 +44,34 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TemporaryExpenseParsingServiceTest {
 
-	@Mock
-	private FileRepository fileRepository;
-	@Mock
-	private TempExpenseMetaRepository tempExpenseMetaRepository;
-	@Mock
-	private TemporaryExpenseRepository temporaryExpenseRepository;
-	@Mock
-	private AccountBookCommandRepository accountBookRepository;
-	@Mock
-	private ExchangeRateService exchangeRateService;
-	@Mock
-	private GeminiService geminiService;
-	@Mock
-	private S3Service s3Service;
-	@Mock
-	private ParsingProgressPublisher progressPublisher;
+	@Mock private FileRepository fileRepository;
+	@Mock private TempExpenseMetaRepository tempExpenseMetaRepository;
+	@Mock private TemporaryExpenseRepository temporaryExpenseRepository;
+	@Mock private AccountBookCommandRepository accountBookRepository;
+	@Mock private ExchangeRateService exchangeRateService;
+	@Mock private GeminiService geminiService;
+	@Mock private S3Service s3Service;
+	@Mock private ParsingProgressPublisher progressPublisher;
 
-	@InjectMocks
-	private TemporaryExpenseParsingService service;
+	@InjectMocks private TemporaryExpenseParsingService service;
 
 	@Test
 	@DisplayName("파싱 시 카테고리 숫자/별칭을 변환하고 환율 조회는 키별 1회만 수행")
 	void parseFile_mapsCategoryAndDeduplicatesExchangeRateLookup() {
 		Long accountBookId = 1L;
 		String s3Key = "temp/image-1.jpg";
-		File file = File.builder()
-				.fileId(1L)
-				.tempExpenseMetaId(10L)
-				.fileType(File.FileType.IMAGE)
-				.s3Key(s3Key)
-				.build();
-		TempExpenseMeta meta = TempExpenseMeta.builder()
-				.tempExpenseMetaId(10L)
-				.accountBookId(accountBookId)
-				.build();
+		File file =
+				File.builder()
+						.fileId(1L)
+						.tempExpenseMetaId(10L)
+						.fileType(File.FileType.IMAGE)
+						.s3Key(s3Key)
+						.build();
+		TempExpenseMeta meta =
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(10L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(fileRepository.findByS3Key(s3Key)).thenReturn(Optional.of(file));
 		when(tempExpenseMetaRepository.findById(10L)).thenReturn(Optional.of(meta));
@@ -117,7 +110,7 @@ class TemporaryExpenseParsingServiceTest {
 												null)),
 								null));
 		when(exchangeRateService.getExchangeRate(
-				CurrencyCode.JPY, CurrencyCode.KRW, LocalDateTime.of(2026, 2, 1, 0, 0)))
+						CurrencyCode.JPY, CurrencyCode.KRW, LocalDateTime.of(2026, 2, 1, 0, 0)))
 				.thenReturn(new BigDecimal("9.50"));
 		when(temporaryExpenseRepository.saveAll(anyList()))
 				.thenAnswer(invocation -> invocation.getArgument(0));
@@ -149,16 +142,18 @@ class TemporaryExpenseParsingServiceTest {
 	void parseFile_incompleteItemSkipsExchangeLookup() {
 		Long accountBookId = 1L;
 		String s3Key = "temp/image-2.jpg";
-		File file = File.builder()
-				.fileId(2L)
-				.tempExpenseMetaId(11L)
-				.fileType(File.FileType.IMAGE)
-				.s3Key(s3Key)
-				.build();
-		TempExpenseMeta meta = TempExpenseMeta.builder()
-				.tempExpenseMetaId(11L)
-				.accountBookId(accountBookId)
-				.build();
+		File file =
+				File.builder()
+						.fileId(2L)
+						.tempExpenseMetaId(11L)
+						.fileType(File.FileType.IMAGE)
+						.s3Key(s3Key)
+						.build();
+		TempExpenseMeta meta =
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(11L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(fileRepository.findByS3Key(s3Key)).thenReturn(Optional.of(file));
 		when(tempExpenseMetaRepository.findById(11L)).thenReturn(Optional.of(meta));
@@ -206,16 +201,18 @@ class TemporaryExpenseParsingServiceTest {
 	void parseFile_usesParsedBaseAmountIfPresent() {
 		Long accountBookId = 1L;
 		String s3Key = "temp/image-3.jpg";
-		File file = File.builder()
-				.fileId(3L)
-				.tempExpenseMetaId(12L)
-				.fileType(File.FileType.IMAGE)
-				.s3Key(s3Key)
-				.build();
-		TempExpenseMeta meta = TempExpenseMeta.builder()
-				.tempExpenseMetaId(12L)
-				.accountBookId(accountBookId)
-				.build();
+		File file =
+				File.builder()
+						.fileId(3L)
+						.tempExpenseMetaId(12L)
+						.fileType(File.FileType.IMAGE)
+						.s3Key(s3Key)
+						.build();
+		TempExpenseMeta meta =
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(12L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(fileRepository.findByS3Key(s3Key)).thenReturn(Optional.of(file));
 		when(tempExpenseMetaRepository.findById(12L)).thenReturn(Optional.of(meta));
@@ -266,26 +263,30 @@ class TemporaryExpenseParsingServiceTest {
 	void parseBatchFilesAsync_usesBulkLookups() {
 		Long accountBookId = 1L;
 		List<String> s3Keys = List.of("docs/a.csv", "docs/b.csv");
-		File fileA = File.builder()
-				.fileId(1L)
-				.tempExpenseMetaId(100L)
-				.fileType(File.FileType.CSV)
-				.s3Key("docs/a.csv")
-				.build();
-		File fileB = File.builder()
-				.fileId(2L)
-				.tempExpenseMetaId(101L)
-				.fileType(File.FileType.CSV)
-				.s3Key("docs/b.csv")
-				.build();
-		TempExpenseMeta metaA = TempExpenseMeta.builder()
-				.tempExpenseMetaId(100L)
-				.accountBookId(accountBookId)
-				.build();
-		TempExpenseMeta metaB = TempExpenseMeta.builder()
-				.tempExpenseMetaId(101L)
-				.accountBookId(accountBookId)
-				.build();
+		File fileA =
+				File.builder()
+						.fileId(1L)
+						.tempExpenseMetaId(100L)
+						.fileType(File.FileType.CSV)
+						.s3Key("docs/a.csv")
+						.build();
+		File fileB =
+				File.builder()
+						.fileId(2L)
+						.tempExpenseMetaId(101L)
+						.fileType(File.FileType.CSV)
+						.s3Key("docs/b.csv")
+						.build();
+		TempExpenseMeta metaA =
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(100L)
+						.accountBookId(accountBookId)
+						.build();
+		TempExpenseMeta metaB =
+				TempExpenseMeta.builder()
+						.tempExpenseMetaId(101L)
+						.accountBookId(accountBookId)
+						.build();
 
 		when(accountBookRepository.findById(accountBookId))
 				.thenReturn(
@@ -298,7 +299,8 @@ class TemporaryExpenseParsingServiceTest {
 		when(temporaryExpenseRepository.saveAll(anyList()))
 				.thenAnswer(invocation -> invocation.getArgument(0));
 
-		CompletableFuture<BatchParsingResult> future = service.parseBatchFilesAsync(accountBookId, s3Keys, "task-1");
+		CompletableFuture<BatchParsingResult> future =
+				service.parseBatchFilesAsync(accountBookId, s3Keys, "task-1");
 		BatchParsingResult result = future.join();
 
 		assertThat(result.totalParsed()).isEqualTo(0);

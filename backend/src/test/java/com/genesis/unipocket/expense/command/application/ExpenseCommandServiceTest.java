@@ -36,13 +36,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ExpenseCommandServiceTest {
 
-	@Mock
-	private ExpenseRepository expenseRepository;
-	@Mock
-	private ExchangeRateService exchangeRateService;
+	@Mock private ExpenseRepository expenseRepository;
+	@Mock private ExchangeRateService exchangeRateService;
 
-	@InjectMocks
-	private ExpenseCommandService expenseService;
+	@InjectMocks private ExpenseCommandService expenseService;
 
 	@Test
 	@DisplayName("존재하지 않는 지출내역 삭제 시 EXPENSE_NOT_FOUND 예외 발생")
@@ -119,18 +116,19 @@ class ExpenseCommandServiceTest {
 		when(expenseEntity.getMemo()).thenReturn("메모");
 		when(expenseEntity.getCardNumber()).thenReturn(null);
 
-		ExpenseUpdateCommand command = new ExpenseUpdateCommand(
-				expenseId,
-				accountBookId,
-				"스타벅스",
-				Category.FOOD,
-				null,
-				"메모",
-				LocalDateTime.now(),
-				BigDecimal.valueOf(1500),
-				CurrencyCode.JPY,
-				null,
-				CurrencyCode.KRW);
+		ExpenseUpdateCommand command =
+				new ExpenseUpdateCommand(
+						expenseId,
+						accountBookId,
+						"스타벅스",
+						Category.FOOD,
+						null,
+						"메모",
+						LocalDateTime.now(),
+						BigDecimal.valueOf(1500),
+						CurrencyCode.JPY,
+						null,
+						CurrencyCode.KRW);
 
 		when(expenseRepository.findById(expenseId)).thenReturn(Optional.of(expenseEntity));
 		when(exchangeRateService.convertAmount(any(), any(), any(), any()))
@@ -188,18 +186,19 @@ class ExpenseCommandServiceTest {
 		when(expenseEntity.getMemo()).thenReturn("메모");
 		when(expenseEntity.getCardNumber()).thenReturn(null);
 
-		ExpenseUpdateCommand command = new ExpenseUpdateCommand(
-				expenseId,
-				accountBookId,
-				"스타벅스",
-				Category.FOOD,
-				null,
-				"메모",
-				LocalDateTime.now(),
-				BigDecimal.valueOf(15000),
-				CurrencyCode.KRW,
-				null,
-				CurrencyCode.KRW);
+		ExpenseUpdateCommand command =
+				new ExpenseUpdateCommand(
+						expenseId,
+						accountBookId,
+						"스타벅스",
+						Category.FOOD,
+						null,
+						"메모",
+						LocalDateTime.now(),
+						BigDecimal.valueOf(15000),
+						CurrencyCode.KRW,
+						null,
+						CurrencyCode.KRW);
 
 		when(expenseRepository.findById(expenseId)).thenReturn(Optional.of(expenseEntity));
 		when(exchangeRateService.convertAmount(any(), any(), any(), any()))
@@ -255,16 +254,12 @@ class ExpenseCommandServiceTest {
 		// Mock Exchange Rates
 		// KRW -> USD: 0.00077 (approx 1/1300)
 		when(exchangeRateService.getExchangeRate(
-				CurrencyCode.KRW,
-				CurrencyCode.USD,
-				LocalDateTime.of(2026, 2, 1, 0, 0)))
+						CurrencyCode.KRW, CurrencyCode.USD, LocalDateTime.of(2026, 2, 1, 0, 0)))
 				.thenReturn(new BigDecimal("0.00077"));
 
 		// JPY -> USD: 0.0075 (approx 1/133)
 		when(exchangeRateService.getExchangeRate(
-				CurrencyCode.JPY,
-				CurrencyCode.USD,
-				LocalDateTime.of(2026, 2, 1, 0, 0)))
+						CurrencyCode.JPY, CurrencyCode.USD, LocalDateTime.of(2026, 2, 1, 0, 0)))
 				.thenReturn(new BigDecimal("0.0075"));
 
 		// when

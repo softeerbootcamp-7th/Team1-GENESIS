@@ -32,7 +32,8 @@ public class AccountBookCommandFacade {
 	public Long createAccountBook(UUID userId, AccountBookCreateRequest req) {
 		UserQueryResponse userResponse = userQueryService.getUserInfo(userId);
 
-		CreateAccountBookCommand command = CreateAccountBookCommand.of(userId, userResponse.name(), req);
+		CreateAccountBookCommand command =
+				CreateAccountBookCommand.of(userId, userResponse.name(), req);
 
 		return accountBookCommandService.create(command);
 	}
@@ -40,8 +41,8 @@ public class AccountBookCommandFacade {
 	@Transactional
 	public Long updateAccountBook(UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
 		// 변경 전 상태 조회 (베이스 국가 변경 확인용)
-		AccountBookDetailResponse currentInfo = accountBookQueryService.getAccountBookDetail(userId.toString(),
-				accountBookId);
+		AccountBookDetailResponse currentInfo =
+				accountBookQueryService.getAccountBookDetail(userId.toString(), accountBookId);
 		CountryCode oldBaseCountryCode = currentInfo.baseCountryCode();
 
 		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);

@@ -7,9 +7,9 @@ import com.genesis.unipocket.expense.command.application.result.ExpenseResult;
 import com.genesis.unipocket.expense.command.persistence.entity.ExpenseEntity;
 import com.genesis.unipocket.expense.command.persistence.entity.dto.ExpenseManualCreateArgs;
 import com.genesis.unipocket.expense.command.persistence.repository.ExpenseRepository;
+import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
-import com.genesis.unipocket.global.common.enums.CurrencyCode;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -38,13 +38,15 @@ public class ExpenseCommandService {
 	public ExpenseResult createExpenseManual(ExpenseCreateCommand command) {
 
 		// TODO: 환율 정보 바탕으로 기준 환율 값 계산
-		BigDecimal baseCurrencyAmount = exchangeRateService.convertAmount(
-				command.localCurrencyAmount(),
-				command.localCurrencyCode(),
-				command.baseCurrencyCode(),
-				command.occurredAt());
+		BigDecimal baseCurrencyAmount =
+				exchangeRateService.convertAmount(
+						command.localCurrencyAmount(),
+						command.localCurrencyCode(),
+						command.baseCurrencyCode(),
+						command.occurredAt());
 
-		ExpenseEntity expenseEntity = ExpenseEntity.manual(ExpenseManualCreateArgs.of(command, baseCurrencyAmount));
+		ExpenseEntity expenseEntity =
+				ExpenseEntity.manual(ExpenseManualCreateArgs.of(command, baseCurrencyAmount));
 
 		var savedEntity = expenseRepository.save(expenseEntity);
 
@@ -65,14 +67,16 @@ public class ExpenseCommandService {
 
 		// 통화/금액 변경 시 환율 재계산
 		boolean currencyChanged = !entity.getLocalCurrency().equals(command.localCurrencyCode());
-		boolean amountChanged = entity.getLocalAmount().compareTo(command.localCurrencyAmount()) != 0;
+		boolean amountChanged =
+				entity.getLocalAmount().compareTo(command.localCurrencyAmount()) != 0;
 
 		if (currencyChanged || amountChanged) {
-			BigDecimal baseCurrencyAmount = exchangeRateService.convertAmount(
-					command.localCurrencyAmount(),
-					command.localCurrencyCode(),
-					command.baseCurrencyCode(),
-					command.occurredAt());
+			BigDecimal baseCurrencyAmount =
+					exchangeRateService.convertAmount(
+							command.localCurrencyAmount(),
+							command.localCurrencyCode(),
+							command.baseCurrencyCode(),
+							command.occurredAt());
 
 			entity.updateExchangeInfo(
 					command.localCurrencyCode(),
@@ -109,23 +113,25 @@ public class ExpenseCommandService {
 			if (key.currencyCode == newBaseCurrencyCode) {
 				rateMap.put(key, BigDecimal.ONE);
 			} else {
-				BigDecimal rate = exchangeRateService.getExchangeRate(
-						key.currencyCode,
-						newBaseCurrencyCode,
-						key.date.atStartOfDay());
+				BigDecimal rate =
+						exchangeRateService.getExchangeRate(
+								key.currencyCode, newBaseCurrencyCode, key.date.atStartOfDay());
 				rateMap.put(key, rate);
 			}
 		}
 
 		// 3. 지출 내역 업데이트
 		for (ExpenseEntity expense : expenses) {
-			ExchangeRateKey key = new ExchangeRateKey(
-					expense.getLocalCurrency(), expense.getOccurredAt().toLocalDate());
+			ExchangeRateKey key =
+					new ExchangeRateKey(
+							expense.getLocalCurrency(), expense.getOccurredAt().toLocalDate());
 			BigDecimal rate = rateMap.get(key);
 
 			// BaseAmount 재계산
-			BigDecimal newBaseAmount = expense.getLocalAmount().multiply(rate).setScale(2,
-					java.math.RoundingMode.HALF_UP);
+			BigDecimal newBaseAmount =
+					expense.getLocalAmount()
+							.multiply(rate)
+							.setScale(2, java.math.RoundingMode.HALF_UP);
 
 			expense.updateExchangeInfo(
 					expense.getLocalCurrency(),
@@ -138,9 +144,10 @@ public class ExpenseCommandService {
 	}
 
 	private ExpenseEntity findAndVerifyOwnership(Long expenseId, Long accountBookId) {
-		ExpenseEntity entity = expenseRepository
-				.findById(expenseId)
-				.orElseThrow(() -> new BusinessException(ErrorCode.EXPENSE_NOT_FOUND));
+		ExpenseEntity entity =
+				expenseRepository
+						.findById(expenseId)
+						.orElseThrow(() -> new BusinessException(ErrorCode.EXPENSE_NOT_FOUND));
 
 		if (!entity.getAccountBookId().equals(accountBookId)) {
 			throw new BusinessException(ErrorCode.EXPENSE_UNAUTHORIZED_ACCESS);
@@ -149,6 +156,5 @@ public class ExpenseCommandService {
 		return entity;
 	}
 
-	private record ExchangeRateKey(CurrencyCode currencyCode, LocalDate date) {
-	}
+	private record ExchangeRateKey(CurrencyCode currencyCode, LocalDate date) {}
 }
