@@ -9,6 +9,9 @@ import com.genesis.unipocket.accountbook.command.facade.port.AccountBookDefaultW
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookBudgetUpdateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookCreateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookUpdateRequest;
+import com.genesis.unipocket.accountbook.command.presentation.response.AccountBookResponse;
+import com.genesis.unipocket.accountbook.query.service.AccountBookQueryService;
+import com.genesis.unipocket.expense.command.application.ExpenseCommandService;
 import com.genesis.unipocket.user.query.persistence.response.UserQueryResponse;
 import com.genesis.unipocket.user.query.service.UserQueryService;
 import java.util.UUID;
@@ -23,38 +26,38 @@ public class AccountBookCommandFacade {
 	private final AccountBookCommandService accountBookCommandService;
 	private final UserQueryService userQueryService;
 	private final AccountBookDefaultWidgetPort accountBookDefaultWidgetPort;
-	private final com.genesis.unipocket.expense.command.application.ExpenseCommandService
-			expenseCommandService;
-	private final com.genesis.unipocket.accountbook.query.service.AccountBookQueryService
-			accountBookQueryService;
+	private final ExpenseCommandService expenseCommandService;
+	private final AccountBookQueryService accountBookQueryService;
 
 	@Transactional
-	public Long createAccountBook(UUID userId, AccountBookCreateRequest req) {
+	public AccountBookResponse createAccountBook(UUID userId, AccountBookCreateRequest req) {
 		UserQueryResponse userResponse = userQueryService.getUserInfo(userId);
 
 		CreateAccountBookCommand command =
 				CreateAccountBookCommand.of(userId, userResponse.name(), req);
 
-		Long accountBookId = accountBookCommandService.create(command);
-		accountBookDefaultWidgetPort.setDefaultWidget(accountBookId);
-		return accountBookId;
+		var result = accountBookCommandService.create(command);
+		accountBookDefaultWidgetPort.setDefaultWidget(result.accountBookId());
+		return AccountBookResponse.of(result);
 	}
 
 	@Transactional
-	public Long updateAccountBook(UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
+	public AccountBookResponse updateAccountBook(
+			UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
+
 		var currentAccountBook = accountBookQueryService.getAccountBook(accountBookId);
 		boolean baseCountryChanged =
 				!currentAccountBook.baseCountryCode().equals(req.baseCountryCode());
 
 		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
-		Long updatedId = accountBookCommandService.update(command);
+		var result = accountBookCommandService.update(command);
 
 		if (baseCountryChanged) {
 			expenseCommandService.updateBaseCurrency(
 					accountBookId, req.baseCountryCode().getCurrencyCode());
 		}
 
-		return updatedId;
+		return AccountBookResponse.of(result);
 	}
 
 	@Transactional
