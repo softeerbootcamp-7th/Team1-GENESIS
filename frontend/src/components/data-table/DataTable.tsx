@@ -16,12 +16,14 @@ interface DataTableProps<TData> {
   groupBy?: (row: TData) => string;
   enableGroupSelection?: boolean;
   height?: number;
+  blankFallbackText?: string;
 }
 
 const DataTable = <TData,>({
   groupBy,
   height,
   enableGroupSelection = true,
+  blankFallbackText,
 }: DataTableProps<TData>) => {
   const { table, dispatch } = useDataTable();
   const rows = table.getRowModel().rows as Row<TData>[];
@@ -151,12 +153,14 @@ const DataTable = <TData,>({
             );
           })
         ) : (
-          <TableRow>
+          <TableRow className="hover:bg-background-normal!">
             <TableCell
               colSpan={table.getVisibleLeafColumns().length}
-              className="h-24 text-center"
+              className="h-[50vh] text-center"
             >
-              No results.
+              <h1 className="headline1-medium text-label-alternative">
+                {blankFallbackText || '데이터가 없습니다'}
+              </h1>
             </TableCell>
           </TableRow>
         )}
