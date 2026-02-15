@@ -40,14 +40,13 @@ public class AccountBookQueryService {
 	}
 
 	public AccountBookExchangeRateResponse getAccountBookExchangeRate(
-			String userId, Long accountBookId) {
+			String userId, Long accountBookId, LocalDateTime occurredAt) {
 		AccountBookDetailResponse accountBookDetail = getAccountBookDetail(userId, accountBookId);
 
 		CurrencyCode baseCurrencyCode = accountBookDetail.baseCountryCode().getCurrencyCode();
 		CurrencyCode localCurrencyCode = accountBookDetail.localCountryCode().getCurrencyCode();
-		LocalDateTime quotedAt = LocalDateTime.now();
-		var exchangeRate =
-				exchangeRateService.getExchangeRate(baseCurrencyCode, localCurrencyCode, quotedAt);
+		LocalDateTime quotedAt = occurredAt != null ? occurredAt : LocalDateTime.now();
+		var exchangeRate = exchangeRateService.getExchangeRate(baseCurrencyCode, localCurrencyCode, quotedAt);
 
 		return new AccountBookExchangeRateResponse(
 				accountBookDetail.baseCountryCode(),
@@ -58,8 +57,7 @@ public class AccountBookQueryService {
 
 	public List<AccountBookSummaryResponse> getAccountBooks(String userId) {
 		UUID userUuid = UUID.fromString(userId);
-		Long mainAccountBookId =
-				userRepository.findById(userUuid).map(user -> user.getMainBucketId()).orElse(0L);
+		Long mainAccountBookId = userRepository.findById(userUuid).map(user -> user.getMainBucketId()).orElse(0L);
 		return repository.findAllByUserId(userUuid, mainAccountBookId);
 	}
 }

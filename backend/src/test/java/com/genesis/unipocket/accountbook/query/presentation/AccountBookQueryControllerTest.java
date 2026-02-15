@@ -29,11 +29,15 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(AccountBookQueryController.class)
 class AccountBookQueryControllerTest {
 
-	@Autowired private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-	@MockitoBean private AccountBookQueryService accountBookQueryService;
-	@MockitoBean private JwtProvider jwtProvider;
-	@MockitoBean private TokenBlacklistService tokenBlacklistService;
+	@MockitoBean
+	private AccountBookQueryService accountBookQueryService;
+	@MockitoBean
+	private JwtProvider jwtProvider;
+	@MockitoBean
+	private TokenBlacklistService tokenBlacklistService;
 
 	@SuppressWarnings("unused")
 	@MockitoBean
@@ -82,8 +86,8 @@ class AccountBookQueryControllerTest {
 		mockAuthentication(accessToken, userId);
 
 		mockMvc.perform(
-						get("/account-books/{accountBookId}", accountBookId)
-								.cookie(new Cookie("access_token", accessToken)))
+				get("/account-books/{accountBookId}", accountBookId)
+						.cookie(new Cookie("access_token", accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(accountBookId))
 				.andExpect(jsonPath("$.title").value("메인 가계부"))
@@ -98,7 +102,9 @@ class AccountBookQueryControllerTest {
 		String accessToken = "valid_token";
 		Long accountBookId = 1L;
 
-		given(accountBookQueryService.getAccountBookExchangeRate(userId.toString(), accountBookId))
+		given(
+				accountBookQueryService.getAccountBookExchangeRate(
+						userId.toString(), accountBookId, null))
 				.willReturn(
 						new AccountBookExchangeRateResponse(
 								CountryCode.KR,
@@ -108,8 +114,8 @@ class AccountBookQueryControllerTest {
 		mockAuthentication(accessToken, userId);
 
 		mockMvc.perform(
-						get("/account-books/{accountBookId}/exchange-rate", accountBookId)
-								.cookie(new Cookie("access_token", accessToken)))
+				get("/account-books/{accountBookId}/exchange-rate", accountBookId)
+						.cookie(new Cookie("access_token", accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.baseCountryCode").value("KR"))
 				.andExpect(jsonPath("$.localCountryCode").value("JP"))
