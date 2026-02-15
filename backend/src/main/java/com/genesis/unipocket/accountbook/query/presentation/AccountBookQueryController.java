@@ -43,7 +43,9 @@ public class AccountBookQueryController {
 
 	@Operation(
 			summary = "가계부 환율 조회",
-			description = "Exchange 도메인을 통해 가계부의 기준/현지 통화 환율을 조회합니다. 쿼리파라미터로 시점을 넣지 않으면 현재 시점의 환율을 조회합니다.")
+			description =
+					"Exchange 도메인을 통해 가계부의 기준/현지 통화 환율을 조회합니다. 쿼리파라미터로 시점을 넣지 않으면 현재 시점의 환율을"
+							+ " 조회합니다.")
 	@GetMapping("/{accountBookId}/exchange-rate")
 	public ResponseEntity<AccountBookExchangeRateResponse> getAccountBookExchangeRate(
 			@LoginUser UUID userId,
