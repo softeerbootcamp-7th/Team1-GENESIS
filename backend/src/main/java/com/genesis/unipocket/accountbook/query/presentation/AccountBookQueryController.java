@@ -40,7 +40,8 @@ public class AccountBookQueryController {
 	public ResponseEntity<AccountBookExchangeRateResponse> getAccountBookExchangeRate(
 			@LoginUser UUID userId,
 			@PathVariable Long accountBookId,
-			@org.springframework.web.bind.annotation.RequestParam(required = false) java.time.LocalDateTime occurredAt) {
+			@org.springframework.web.bind.annotation.RequestParam(required = false)
+					java.time.LocalDateTime occurredAt) {
 		return ResponseEntity.ok(
 				accountBookQueryService.getAccountBookExchangeRate(
 						userId.toString(), accountBookId, occurredAt));
