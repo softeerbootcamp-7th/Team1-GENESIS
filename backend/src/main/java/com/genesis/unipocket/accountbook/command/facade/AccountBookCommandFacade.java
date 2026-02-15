@@ -43,7 +43,8 @@ public class AccountBookCommandFacade {
 	@Transactional
 	public Long updateAccountBook(UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
 		var currentAccountBook = accountBookQueryService.getAccountBook(accountBookId);
-		boolean baseCountryChanged = currentAccountBook.baseCountryCode() != req.baseCountryCode();
+		boolean baseCountryChanged =
+				!currentAccountBook.baseCountryCode().equals(req.baseCountryCode());
 
 		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 		Long updatedId = accountBookCommandService.update(command);
