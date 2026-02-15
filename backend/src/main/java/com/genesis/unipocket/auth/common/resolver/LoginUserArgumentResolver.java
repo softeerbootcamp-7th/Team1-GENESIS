@@ -3,6 +3,7 @@ package com.genesis.unipocket.auth.common.resolver;
 import com.genesis.unipocket.auth.command.application.JwtProvider;
 import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
 import com.genesis.unipocket.auth.common.annotation.LoginUser;
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
 import jakarta.servlet.http.Cookie;
@@ -69,7 +70,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 		if (request.getCookies() == null) return null;
 
 		return Arrays.stream(request.getCookies())
-				.filter(cookie -> "access_token".equals(cookie.getName()))
+				.filter(cookie -> AuthCookieConstants.ACCESS_TOKEN.equals(cookie.getName()))
 				.map(Cookie::getValue)
 				.findFirst()
 				.orElse(null);

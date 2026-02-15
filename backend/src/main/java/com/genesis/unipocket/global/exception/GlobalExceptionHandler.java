@@ -1,5 +1,6 @@
 package com.genesis.unipocket.global.exception;
 
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.global.common.dto.CustomErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +105,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<CustomErrorResponse> handleMissingRequestCookie(
 			MissingRequestCookieException e) {
 		ErrorCode errorCode =
-				"refresh_token".equals(e.getCookieName())
+				AuthCookieConstants.REFRESH_TOKEN.equals(e.getCookieName())
 						? ErrorCode.REFRESH_TOKEN_REQUIRED
 						: ErrorCode.TOKEN_REQUIRED;
 		return createErrorResponse(errorCode);

@@ -12,6 +12,7 @@ import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
 import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
 import com.genesis.unipocket.auth.common.config.JwtProperties;
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
 import com.genesis.unipocket.auth.common.dto.LoginResult;
 import com.genesis.unipocket.global.config.OAuth2Properties;
@@ -54,21 +55,25 @@ class AuthCommandControllerTest {
 		given(authService.reissue(refreshToken)).willReturn(tokenPair);
 
 		// when & then
-		mockMvc.perform(post("/auth/reissue").cookie(new Cookie("refresh_token", refreshToken)))
+		mockMvc.perform(
+						post("/auth/reissue")
+								.cookie(
+										new Cookie(
+												AuthCookieConstants.REFRESH_TOKEN, refreshToken)))
 				.andExpect(status().isOk());
 
 		verify(authService).reissue(refreshToken);
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
-						eq("access_token"),
+						eq(AuthCookieConstants.ACCESS_TOKEN),
 						eq(newAccessToken),
 						anyInt(),
 						eq("/"));
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
-						eq("refresh_token"),
+						eq(AuthCookieConstants.REFRESH_TOKEN),
 						eq(newRefreshToken),
 						anyInt(),
 						eq("/"));
@@ -94,15 +99,23 @@ class AuthCommandControllerTest {
 		// when & then
 		mockMvc.perform(
 						post("/auth/logout")
-								.cookie(new Cookie("access_token", accessToken))
-								.cookie(new Cookie("refresh_token", refreshToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken))
+								.cookie(
+										new Cookie(
+												AuthCookieConstants.REFRESH_TOKEN, refreshToken)))
 				.andExpect(status().isOk());
 
 		verify(authService).logout(accessToken, refreshToken);
 		verify(cookieUtil)
-				.deleteCookie(any(HttpServletResponse.class), eq("access_token"), eq("/"));
+				.deleteCookie(
+						any(HttpServletResponse.class),
+						eq(AuthCookieConstants.ACCESS_TOKEN),
+						eq("/"));
 		verify(cookieUtil)
-				.deleteCookie(any(HttpServletResponse.class), eq("refresh_token"), eq("/"));
+				.deleteCookie(
+						any(HttpServletResponse.class),
+						eq(AuthCookieConstants.REFRESH_TOKEN),
+						eq("/"));
 	}
 
 	@Test
@@ -112,9 +125,15 @@ class AuthCommandControllerTest {
 
 		verify(authService, never()).logout(anyString(), anyString());
 		verify(cookieUtil)
-				.deleteCookie(any(HttpServletResponse.class), eq("access_token"), eq("/"));
+				.deleteCookie(
+						any(HttpServletResponse.class),
+						eq(AuthCookieConstants.ACCESS_TOKEN),
+						eq("/"));
 		verify(cookieUtil)
-				.deleteCookie(any(HttpServletResponse.class), eq("refresh_token"), eq("/"));
+				.deleteCookie(
+						any(HttpServletResponse.class),
+						eq(AuthCookieConstants.REFRESH_TOKEN),
+						eq("/"));
 	}
 
 	@Test
@@ -171,7 +190,7 @@ class AuthCommandControllerTest {
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
-						eq("access_token"),
+						eq(AuthCookieConstants.ACCESS_TOKEN),
 						eq(accessToken),
 						eq(expiresIn.intValue()),
 						eq("/"));
@@ -179,7 +198,7 @@ class AuthCommandControllerTest {
 		verify(cookieUtil)
 				.addCookie(
 						any(HttpServletResponse.class),
-						eq("refresh_token"),
+						eq(AuthCookieConstants.REFRESH_TOKEN),
 						eq(refreshToken),
 						anyInt(),
 						eq("/"));
