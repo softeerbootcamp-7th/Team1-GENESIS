@@ -12,6 +12,7 @@ import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookS
 import com.genesis.unipocket.accountbook.query.service.AccountBookQueryService;
 import com.genesis.unipocket.auth.command.application.JwtProvider;
 import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.global.common.enums.CountryCode;
 import jakarta.servlet.http.Cookie;
 import java.math.BigDecimal;
@@ -53,7 +54,9 @@ class AccountBookQueryControllerTest {
 								new AccountBookSummaryResponse(2L, "보조 가계부", false)));
 		mockAuthentication(accessToken, userId);
 
-		mockMvc.perform(get("/account-books").cookie(new Cookie("access_token", accessToken)))
+		mockMvc.perform(
+						get("/account-books")
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(1L))
 				.andExpect(jsonPath("$[0].title").value("메인 가계부"))
@@ -84,7 +87,7 @@ class AccountBookQueryControllerTest {
 
 		mockMvc.perform(
 						get("/account-books/{accountBookId}", accountBookId)
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(accountBookId))
 				.andExpect(jsonPath("$.title").value("메인 가계부"))
@@ -112,7 +115,7 @@ class AccountBookQueryControllerTest {
 
 		mockMvc.perform(
 						get("/account-books/{accountBookId}/exchange-rate", accountBookId)
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.baseCountryCode").value("KR"))
 				.andExpect(jsonPath("$.localCountryCode").value("JP"))

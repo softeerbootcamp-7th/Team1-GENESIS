@@ -21,6 +21,7 @@ import com.genesis.unipocket.accountbook.command.presentation.request.AccountBoo
 import com.genesis.unipocket.accountbook.command.presentation.response.AccountBookResponse;
 import com.genesis.unipocket.auth.command.application.JwtProvider;
 import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.global.common.enums.CountryCode;
 import jakarta.servlet.http.Cookie;
 import java.math.BigDecimal;
@@ -76,7 +77,7 @@ class AccountBookCommandControllerTest {
 						post("/account-books")
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(request))
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").value(accountBookId));
 	}
@@ -114,7 +115,7 @@ class AccountBookCommandControllerTest {
 						patch("/account-books/{accountBookId}", accountBookId)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(request))
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(accountBookId));
 	}
@@ -131,7 +132,7 @@ class AccountBookCommandControllerTest {
 
 		mockMvc.perform(
 						delete("/account-books/{accountBookId}", accountBookId)
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isNoContent());
 	}
 
@@ -148,7 +149,7 @@ class AccountBookCommandControllerTest {
 						post("/account-books")
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(invalidBody)
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.code").value("400_INVALID_INPUT_VALUE"))
 				.andExpect(
@@ -178,7 +179,7 @@ class AccountBookCommandControllerTest {
 						patch("/account-books/{accountBookId}", accountBookId)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(request))
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.code").value("400_INVALID_INPUT_VALUE"))
 				.andExpect(
@@ -212,7 +213,7 @@ class AccountBookCommandControllerTest {
 						patch("/account-books/{accountBookId}/budget", accountBookId)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(request))
-								.cookie(new Cookie("access_token", accessToken)))
+								.cookie(new Cookie(AuthCookieConstants.ACCESS_TOKEN, accessToken)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.accountBookId").value(accountBookId))
 				.andExpect(jsonPath("$.baseCountryCode").value("KR"))

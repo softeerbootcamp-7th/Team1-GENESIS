@@ -4,6 +4,7 @@ import com.genesis.unipocket.auth.command.application.AuthService;
 import com.genesis.unipocket.auth.command.facade.OAuthAuthorizeFacade;
 import com.genesis.unipocket.auth.command.facade.UserLoginFacade;
 import com.genesis.unipocket.auth.common.config.JwtProperties;
+import com.genesis.unipocket.auth.common.constant.AuthCookieConstants;
 import com.genesis.unipocket.auth.common.dto.AuthorizeResult;
 import com.genesis.unipocket.auth.common.dto.LoginResult;
 import com.genesis.unipocket.global.config.OAuth2Properties;
@@ -61,7 +62,8 @@ public class AuthCommandController {
 			description = "refresh_token 쿠키를 검증해 access/refresh 토큰을 회전 발급하고 쿠키를 갱신합니다.")
 	@PostMapping("/reissue")
 	public ResponseEntity<Void> reissue(
-			@Parameter(hidden = true) @CookieValue(value = "refresh_token", required = false)
+			@Parameter(hidden = true)
+					@CookieValue(value = AuthCookieConstants.REFRESH_TOKEN, required = false)
 					String refreshToken,
 			HttpServletResponse response) {
 		log.info("토큰 재발급 요청");
@@ -74,7 +76,7 @@ public class AuthCommandController {
 		// Access Token 쿠키 갱신
 		cookieUtil.addCookie(
 				response,
-				"access_token",
+				AuthCookieConstants.ACCESS_TOKEN,
 				tokenPair.accessToken(),
 				jwtProperties.getAccessTokenExpirationSeconds(),
 				ACCESS_TOKEN_COOKIE_PATH);
@@ -82,7 +84,7 @@ public class AuthCommandController {
 		// Refresh Token 쿠키 갱신
 		cookieUtil.addCookie(
 				response,
-				"refresh_token",
+				AuthCookieConstants.REFRESH_TOKEN,
 				tokenPair.refreshToken(),
 				jwtProperties.getRefreshTokenExpirationSeconds(),
 				REFRESH_TOKEN_COOKIE_PATH);
@@ -96,16 +98,27 @@ public class AuthCommandController {
 	@Operation(summary = "로그아웃", description = "access/refresh 토큰을 무효화하고 인증 쿠키를 삭제합니다.")
 	@PostMapping("/logout")
 	public void logout(
-			@Parameter(hidden = true) @CookieValue("access_token") String accessToken,
-			@Parameter(hidden = true) @CookieValue("refresh_token") String refreshToken,
+			@Parameter(hidden = true)
+					@CookieValue(value = AuthCookieConstants.ACCESS_TOKEN, required = false)
+					String accessToken,
+			@Parameter(hidden = true)
+					@CookieValue(value = AuthCookieConstants.REFRESH_TOKEN, required = false)
+					String refreshToken,
 			HttpServletResponse response) {
 		log.info("로그아웃 요청");
 
-		authService.logout(accessToken, refreshToken);
+		if (accessToken != null
+				&& !accessToken.isBlank()
+				&& refreshToken != null
+				&& !refreshToken.isBlank()) {
+			authService.logout(accessToken, refreshToken);
+		}
 
 		// 쿠키 삭제
-		cookieUtil.deleteCookie(response, "access_token", ACCESS_TOKEN_COOKIE_PATH);
-		cookieUtil.deleteCookie(response, "refresh_token", REFRESH_TOKEN_COOKIE_PATH);
+		cookieUtil.deleteCookie(
+				response, AuthCookieConstants.ACCESS_TOKEN, ACCESS_TOKEN_COOKIE_PATH);
+		cookieUtil.deleteCookie(
+				response, AuthCookieConstants.REFRESH_TOKEN, REFRESH_TOKEN_COOKIE_PATH);
 	}
 
 	/**
@@ -145,7 +158,7 @@ public class AuthCommandController {
 		// Access Token 쿠키 저장
 		cookieUtil.addCookie(
 				response,
-				"access_token",
+				AuthCookieConstants.ACCESS_TOKEN,
 				loginResponse.getAccessToken(),
 				loginResponse.getExpiresIn().intValue(),
 				ACCESS_TOKEN_COOKIE_PATH);
@@ -153,7 +166,7 @@ public class AuthCommandController {
 		// Refresh Token 쿠키 저장
 		cookieUtil.addCookie(
 				response,
-				"refresh_token",
+				AuthCookieConstants.REFRESH_TOKEN,
 				loginResponse.getRefreshToken(),
 				jwtProperties.getRefreshTokenExpirationSeconds(),
 				REFRESH_TOKEN_COOKIE_PATH);
