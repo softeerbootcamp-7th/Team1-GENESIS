@@ -51,15 +51,18 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 			throw new BusinessException(ErrorCode.TOKEN_INVALID);
 		}
 
-		// 3. 블랙리스트 확인 (로그아웃 여부)
-		String jti = jwtProvider.getJti(token);
-		if (blacklistService.isBlacklisted(jti)) {
-			throw new BusinessException(ErrorCode.TOKEN_BLACKLISTED);
-		}
+		try {
+			// 3. 블랙리스트 확인 (로그아웃 여부)
+			String jti = jwtProvider.getJti(token);
+			if (blacklistService.isBlacklisted(jti)) {
+				throw new BusinessException(ErrorCode.TOKEN_BLACKLISTED);
+			}
 
-		// 4. 토큰에서 User ID(UUID) 추출 및 반환
-		String userId = String.valueOf(jwtProvider.getUserId(token));
-		return UUID.fromString(userId);
+			// 4. 토큰에서 User ID(UUID) 추출 및 반환
+			return jwtProvider.getUserId(token);
+		} catch (IllegalArgumentException e) {
+			throw new BusinessException(ErrorCode.TOKEN_INVALID);
+		}
 	}
 
 	private String extractTokenFromCookie(HttpServletRequest request) {

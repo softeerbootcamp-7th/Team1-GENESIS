@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -94,6 +95,19 @@ public class GlobalExceptionHandler {
 		String message = String.format("필수 요청 파라미터(%s)가 누락되었습니다.", e.getParameterName());
 		return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getStatus())
 				.body(new CustomErrorResponse(ErrorCode.INVALID_INPUT_VALUE.getCode(), message));
+	}
+
+	/**
+	 * 필수 쿠키 누락 시 발생 (400/401)
+	 */
+	@ExceptionHandler(MissingRequestCookieException.class)
+	public ResponseEntity<CustomErrorResponse> handleMissingRequestCookie(
+			MissingRequestCookieException e) {
+		ErrorCode errorCode =
+				"refresh_token".equals(e.getCookieName())
+						? ErrorCode.REFRESH_TOKEN_REQUIRED
+						: ErrorCode.TOKEN_REQUIRED;
+		return createErrorResponse(errorCode);
 	}
 
 	/**
