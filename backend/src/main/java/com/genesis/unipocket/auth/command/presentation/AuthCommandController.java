@@ -57,8 +57,7 @@ public class AuthCommandController {
 	 */
 	@PostMapping("/reissue")
 	public ResponseEntity<Void> reissue(
-			@Parameter(hidden = true)
-					@CookieValue(value = "refresh_token", required = false)
+			@Parameter(hidden = true) @CookieValue(value = "refresh_token", required = false)
 					String refreshToken,
 			HttpServletResponse response) {
 		log.info("토큰 재발급 요청");
