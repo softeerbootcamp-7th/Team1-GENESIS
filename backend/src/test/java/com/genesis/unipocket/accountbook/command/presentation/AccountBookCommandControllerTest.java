@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,6 +18,7 @@ import com.genesis.unipocket.accountbook.command.facade.AccountBookCommandFacade
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookBudgetUpdateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookCreateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookUpdateRequest;
+import com.genesis.unipocket.accountbook.command.presentation.response.AccountBookResponse;
 import com.genesis.unipocket.auth.command.application.JwtProvider;
 import com.genesis.unipocket.auth.command.application.TokenBlacklistService;
 import com.genesis.unipocket.global.common.enums.CountryCode;
@@ -61,8 +61,16 @@ class AccountBookCommandControllerTest {
 						CountryCode.US, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31));
 
 		mockAuthentication(accessToken, userId);
+		AccountBookResponse response =
+				new AccountBookResponse(
+						accountBookId,
+						"테스트 가계부",
+						CountryCode.US,
+						CountryCode.KR,
+						LocalDate.of(2026, 1, 1),
+						LocalDate.of(2026, 1, 31));
 		given(accountBookCommandFacade.createAccountBook(eq(userId), eq(request)))
-				.willReturn(accountBookId);
+				.willReturn(response);
 
 		mockMvc.perform(
 						post("/account-books")
@@ -70,7 +78,7 @@ class AccountBookCommandControllerTest {
 								.content(objectMapper.writeValueAsString(request))
 								.cookie(new Cookie("access_token", accessToken)))
 				.andExpect(status().isCreated())
-				.andExpect(header().string("Location", "/account-books/" + accountBookId));
+				.andExpect(jsonPath("$.id").value(accountBookId));
 	}
 
 	@Test
@@ -89,17 +97,26 @@ class AccountBookCommandControllerTest {
 						LocalDate.of(2026, 2, 28));
 
 		mockAuthentication(accessToken, userId);
+		AccountBookResponse response =
+				new AccountBookResponse(
+						accountBookId,
+						"제목 수정",
+						CountryCode.JP,
+						CountryCode.KR,
+						LocalDate.of(2026, 2, 1),
+						LocalDate.of(2026, 2, 28));
 		given(
 						accountBookCommandFacade.updateAccountBook(
 								eq(userId), eq(accountBookId), eq(request)))
-				.willReturn(accountBookId);
+				.willReturn(response);
 
 		mockMvc.perform(
 						patch("/account-books/{accountBookId}", accountBookId)
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(request))
 								.cookie(new Cookie("access_token", accessToken)))
-				.andExpect(status().isNoContent());
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(accountBookId));
 	}
 
 	@Test
