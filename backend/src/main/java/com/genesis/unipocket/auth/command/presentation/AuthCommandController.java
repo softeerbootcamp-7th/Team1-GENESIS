@@ -10,6 +10,7 @@ import com.genesis.unipocket.global.config.OAuth2Properties;
 import com.genesis.unipocket.global.exception.BusinessException;
 import com.genesis.unipocket.global.exception.ErrorCode;
 import com.genesis.unipocket.global.util.CookieUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,6 +56,9 @@ public class AuthCommandController {
 	/**
 	 * 토큰 재발급 (Refresh Token Rotation)
 	 */
+	@Operation(
+			summary = "토큰 재발급",
+			description = "refresh_token 쿠키를 검증해 access/refresh 토큰을 회전 발급하고 쿠키를 갱신합니다.")
 	@PostMapping("/reissue")
 	public ResponseEntity<Void> reissue(
 			@Parameter(hidden = true) @CookieValue(value = "refresh_token", required = false)
@@ -89,6 +93,7 @@ public class AuthCommandController {
 	/**
 	 * 로그아웃 (토큰 블랙리스트 등록)
 	 */
+	@Operation(summary = "로그아웃", description = "access/refresh 토큰을 무효화하고 인증 쿠키를 삭제합니다.")
 	@PostMapping("/logout")
 	public void logout(
 			@Parameter(hidden = true) @CookieValue("access_token") String accessToken,
@@ -106,6 +111,7 @@ public class AuthCommandController {
 	/**
 	 * OAuth 인증 시작: 소셜 로그인 페이지로 리다이렉트
 	 */
+	@Operation(summary = "OAuth 인증 시작", description = "provider별 인가 URL을 생성해 소셜 로그인 페이지로 리다이렉트합니다.")
 	@GetMapping("/oauth2/authorize/{provider}")
 	public void authorize(@PathVariable String provider, HttpServletResponse response)
 			throws IOException {
@@ -120,6 +126,9 @@ public class AuthCommandController {
 	/**
 	 * OAuth 콜백 처리: 로그인 완료 후 JSON 응답 반환 (SPA 방식)
 	 */
+	@Operation(
+			summary = "OAuth 콜백 처리",
+			description = "인가 코드를 교환해 로그인 처리 후 토큰 쿠키를 저장하고 프론트 URL로 리다이렉트합니다.")
 	@GetMapping("/oauth2/callback/{provider}")
 	public void callback(
 			@PathVariable String provider,
