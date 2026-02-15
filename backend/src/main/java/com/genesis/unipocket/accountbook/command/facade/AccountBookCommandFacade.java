@@ -9,6 +9,7 @@ import com.genesis.unipocket.accountbook.command.facade.port.AccountBookDefaultW
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookBudgetUpdateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookCreateRequest;
 import com.genesis.unipocket.accountbook.command.presentation.request.AccountBookUpdateRequest;
+import com.genesis.unipocket.accountbook.command.presentation.response.AccountBookResponse;
 import com.genesis.unipocket.user.query.persistence.response.UserQueryResponse;
 import com.genesis.unipocket.user.query.service.UserQueryService;
 import java.util.UUID;
@@ -25,22 +26,23 @@ public class AccountBookCommandFacade {
 	private final AccountBookDefaultWidgetPort accountBookDefaultWidgetPort;
 
 	@Transactional
-	public Long createAccountBook(UUID userId, AccountBookCreateRequest req) {
+	public AccountBookResponse createAccountBook(UUID userId, AccountBookCreateRequest req) {
 		UserQueryResponse userResponse = userQueryService.getUserInfo(userId);
 
 		CreateAccountBookCommand command =
 				CreateAccountBookCommand.of(userId, userResponse.name(), req);
 
-		Long accountBookId = accountBookCommandService.create(command);
-		accountBookDefaultWidgetPort.setDefaultWidget(accountBookId);
-		return accountBookId;
+		var result = accountBookCommandService.create(command);
+		accountBookDefaultWidgetPort.setDefaultWidget(result.accountBookId());
+		return AccountBookResponse.of(result);
 	}
 
 	@Transactional
-	public Long updateAccountBook(UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
+	public AccountBookResponse updateAccountBook(
+			UUID userId, Long accountBookId, AccountBookUpdateRequest req) {
 		UpdateAccountBookCommand command = UpdateAccountBookCommand.of(accountBookId, userId, req);
 
-		return accountBookCommandService.update(command);
+		return AccountBookResponse.of(accountBookCommandService.update(command));
 	}
 
 	@Transactional
