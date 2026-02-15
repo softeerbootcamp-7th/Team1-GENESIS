@@ -30,8 +30,10 @@ const VARIANT_STYLES = {
 
 const ReportBar = ({ value, variant, maxValue }: ReportBarProps) => {
   const { currencyType } = useReportContext();
-  const countryCode = useAccountBookStore((state) => state.accountBook?.localCountryCode) as CountryCode;
-  
+  const countryCode = useAccountBookStore(
+    (state) => state.accountBook?.localCountryCode,
+  ) as CountryCode;
+
   const styles = VARIANT_STYLES[variant];
   const percentage = (value / maxValue) * 100;
   const [showAmount, setShowAmount] = useState(false);
