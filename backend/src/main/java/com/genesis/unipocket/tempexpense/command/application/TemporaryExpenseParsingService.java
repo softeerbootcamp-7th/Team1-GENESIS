@@ -110,6 +110,31 @@ public class TemporaryExpenseParsingService {
 				incompleteCount++;
 			}
 
+			BigDecimal baseAmount = null;
+			BigDecimal exchangeRate = null;
+
+			if (item.baseAmount() != null
+					&& item.baseCurrencyCode() == rateContext.baseCurrencyCode()) {
+				baseAmount = item.baseAmount();
+				if (item.localAmount() != null
+						&& item.localAmount().compareTo(BigDecimal.ZERO) > 0) {
+					exchangeRate = baseAmount.divide(item.localAmount(), 4, RoundingMode.HALF_UP);
+				}
+			} else if (item.localAmount() != null && item.occurredAt() != null) {
+				ExchangeRateKey key =
+						new ExchangeRateKey(
+								item.localCurrencyCode(),
+								rateContext.baseCurrencyCode(),
+								item.occurredAt().toLocalDate());
+				exchangeRate = exchangeRateMap.get(key);
+				if (exchangeRate != null) {
+					baseAmount =
+							item.localAmount()
+									.multiply(exchangeRate)
+									.setScale(2, RoundingMode.HALF_UP);
+				}
+			}
+
 			TemporaryExpense expense =
 					TemporaryExpense.builder()
 							.tempExpenseMetaId(meta.getTempExpenseMetaId())
@@ -118,9 +143,8 @@ public class TemporaryExpenseParsingService {
 							.localCountryCode(item.localCurrencyCode())
 							.localCurrencyAmount(item.localAmount())
 							.baseCountryCode(rateContext.baseCurrencyCode())
-							.baseCurrencyAmount(
-									calculateBaseAmount(
-											item, rateContext.baseCurrencyCode(), exchangeRateMap))
+							.baseCurrencyAmount(baseAmount)
+							.exchangeRate(exchangeRate)
 							.paymentsMethod("카드")
 							.memo(item.memo())
 							.occurredAt(item.occurredAt())
