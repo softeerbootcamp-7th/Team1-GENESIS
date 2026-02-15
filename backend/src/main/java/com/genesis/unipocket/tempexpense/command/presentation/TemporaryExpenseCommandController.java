@@ -75,9 +75,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * S3 업로드 파일 등록 (s3Key 기반)
 	 */
-	@Operation(
-			summary = "임시지출 업로드 파일 등록",
-			description = "업로드된 파일의 s3Key를 등록하고 파싱 대상 메타를 생성합니다.")
+	@Operation(summary = "임시지출 업로드 파일 등록", description = "업로드된 파일의 s3Key를 등록하고 파싱 대상 메타를 생성합니다.")
 	@PostMapping("/account-books/{accountBookId}/temporary-expenses/uploads/register")
 	public ResponseEntity<ApiResponse<RegisterUploadedFileResponse>> registerUploadedFile(
 			@PathVariable Long accountBookId,
@@ -96,9 +94,7 @@ public class TemporaryExpenseCommandController {
 	/**
 	 * 단일 임시지출내역 변환
 	 */
-	@Operation(
-			summary = "임시지출 단건 변환",
-			description = "임시지출 1건을 검증 후 expense 도메인의 정식 지출내역으로 변환합니다.")
+	@Operation(summary = "임시지출 단건 변환", description = "임시지출 1건을 검증 후 expense 도메인의 정식 지출내역으로 변환합니다.")
 	@PostMapping("/account-books/{accountBookId}/temporary-expenses/{tempExpenseId}/convert")
 	public ResponseEntity<ApiResponse<ConvertTemporaryExpenseResponse>> convertToExpense(
 			@PathVariable Long accountBookId,

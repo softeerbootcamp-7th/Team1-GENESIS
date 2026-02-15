@@ -111,9 +111,7 @@ public class AuthCommandController {
 	/**
 	 * OAuth 인증 시작: 소셜 로그인 페이지로 리다이렉트
 	 */
-	@Operation(
-			summary = "OAuth 인증 시작",
-			description = "provider별 인가 URL을 생성해 소셜 로그인 페이지로 리다이렉트합니다.")
+	@Operation(summary = "OAuth 인증 시작", description = "provider별 인가 URL을 생성해 소셜 로그인 페이지로 리다이렉트합니다.")
 	@GetMapping("/oauth2/authorize/{provider}")
 	public void authorize(@PathVariable String provider, HttpServletResponse response)
 			throws IOException {

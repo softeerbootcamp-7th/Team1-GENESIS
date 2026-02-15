@@ -40,9 +40,7 @@ class LocalImageTestController {
 						response.presignedUrl(), response.imageKey(), null));
 	}
 
-	@Operation(
-			summary = "로컬 객체 존재 확인",
-			description = "전달한 object key가 스토리지에 존재하는지 검사합니다.")
+	@Operation(summary = "로컬 객체 존재 확인", description = "전달한 object key가 스토리지에 존재하는지 검사합니다.")
 	@GetMapping("/exists")
 	public ResponseEntity<LocalObjectExistsResponse> checkObjectExists(@RequestParam String key) {
 		if (key == null || key.isBlank()) {

@@ -21,9 +21,7 @@ public class AnalysisQueryController {
 
 	private final AnalysisQueryService analysisQueryService;
 
-	@Operation(
-			summary = "가계부 분석 조회",
-			description = "연/월 및 통화 기준으로 가계부 분석 데이터를 조회합니다.")
+	@Operation(summary = "가계부 분석 조회", description = "연/월 및 통화 기준으로 가계부 분석 데이터를 조회합니다.")
 	@GetMapping("/account-books/{accountBookId}/analysis")
 	public ResponseEntity<AccountBookAnalysisRes> getAnalysis(
 			@LoginUser UUID userId,
