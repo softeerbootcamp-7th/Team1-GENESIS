@@ -40,12 +40,12 @@ public class AccountBookQueryService {
 	}
 
 	public AccountBookExchangeRateResponse getAccountBookExchangeRate(
-			String userId, Long accountBookId) {
+			String userId, Long accountBookId, LocalDateTime occurredAt) {
 		AccountBookDetailResponse accountBookDetail = getAccountBookDetail(userId, accountBookId);
 
 		CurrencyCode baseCurrencyCode = accountBookDetail.baseCountryCode().getCurrencyCode();
 		CurrencyCode localCurrencyCode = accountBookDetail.localCountryCode().getCurrencyCode();
-		LocalDateTime quotedAt = LocalDateTime.now();
+		LocalDateTime quotedAt = occurredAt != null ? occurredAt : LocalDateTime.now();
 		var exchangeRate =
 				exchangeRateService.getExchangeRate(baseCurrencyCode, localCurrencyCode, quotedAt);
 
