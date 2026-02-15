@@ -5,6 +5,7 @@ import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookE
 import com.genesis.unipocket.accountbook.query.persistence.response.AccountBookSummaryResponse;
 import com.genesis.unipocket.accountbook.query.service.AccountBookQueryService;
 import com.genesis.unipocket.auth.common.annotation.LoginUser;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
@@ -23,12 +24,14 @@ public class AccountBookQueryController {
 
 	private final AccountBookQueryService accountBookQueryService;
 
+	@Operation(summary = "가계부 목록 조회", description = "사용자가 접근 가능한 가계부 목록을 조회합니다.")
 	@GetMapping
 	public ResponseEntity<List<AccountBookSummaryResponse>> getAccountBooks(
 			@LoginUser UUID userId) {
 		return ResponseEntity.ok(accountBookQueryService.getAccountBooks(userId.toString()));
 	}
 
+	@Operation(summary = "가계부 상세 조회", description = "가계부 단건 상세 정보를 조회합니다.")
 	@GetMapping("/{accountBookId}")
 	public ResponseEntity<AccountBookDetailResponse> getAccountBook(
 			@LoginUser UUID userId, @PathVariable Long accountBookId) {
@@ -36,6 +39,9 @@ public class AccountBookQueryController {
 				accountBookQueryService.getAccountBookDetail(userId.toString(), accountBookId));
 	}
 
+	@Operation(
+			summary = "가계부 환율 조회",
+			description = "Exchange 도메인을 통해 가계부의 기준/현지 통화 환율과 예산 기준 시점을 조회합니다.")
 	@GetMapping("/{accountBookId}/exchange-rate")
 	public ResponseEntity<AccountBookExchangeRateResponse> getAccountBookExchangeRate(
 			@LoginUser UUID userId, @PathVariable Long accountBookId) {
